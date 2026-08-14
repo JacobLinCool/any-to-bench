@@ -64,6 +64,24 @@ string (e.g. `codex:gpt-5.6-sol`, `claude:opus`) to run a phase **agentically** 
 that CLI instead of direct LLM calls — same commands, same outputs. All commands accept `--effort` and
 report token usage.
 
+## Example dataset
+
+[**JacobLinCool/taiwan-exams**](https://huggingface.co/datasets/JacobLinCool/taiwan-exams)
+is a corpus built with this tool: 44 Taiwanese university-entrance exams — every
+subject of the 學測 (GSAT) and 分科測驗 (AST) for three years — 1,589 questions
+ingested from the official papers, answer keys, and marking schemes with
+`codex:gpt-5.6-sol`. One subset per exam, named `gsat-<year>-<subject>` /
+`ast-<year>-<subject>`, where the year is the ROC academic year (113–115 = 2024–2026).
+
+The dataset viewer shows the extracted questions with their figures embedded;
+`<subset>/bundle/` holds the bundle itself. Benchmark against any of them:
+
+```bash
+a2b download JacobLinCool/taiwan-exams --name gsat-115-math-a -o bundle
+a2b solve bundle --model google:gemini-3.7-flash -o answers.json
+a2b grade bundle answers.json -o report.json
+```
+
 ## Design principles
 
 The three phases have deliberately **asymmetric goals**:
