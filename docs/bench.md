@@ -7,16 +7,34 @@ a2b bench out/bundle -o out/bench \
     --judge-model google:gemini-3.7-flash
 ```
 
-`bench` runs every `--model` (repeatable; the same model twice is a variance run)
-through solve + grade on one bundle, sequentially, and writes into the output
-directory:
+`bench` runs every `--model` (repeatable) through solve + grade on one bundle,
+sequentially, and writes into the output directory:
 
-- `<model-slug>-answers.json` and `<model-slug>-report.json` per model
-- `bench.json` — the full comparison report, **rewritten after every model** so an
-  interrupted run keeps its completed rows
+- `<model-slug>-answers.json` and `<model-slug>-report.json` per run
+- `bench.json` — the full comparison report, **rewritten after every run** so an
+  interrupted run keeps its completed rows and their aggregates
 
 and prints a Markdown comparison table. One failing model records its error in the
 row and never sinks the rest; the exit code is 1 only when every model failed.
+
+## Repeats and variance
+
+One run of a model gives a score with unknown noise, which is exactly what makes a
+one-shot matrix hard to read: you cannot tell a real gap between two models from
+run-to-run wobble. `--repeat N` runs each taker N times and reports `mean ± std`
+(sample standard deviation; omitted below two successful runs).
+
+Runs are **repeat-major** — every model is sampled once, then again — so an
+interrupted run leaves you one sample of everything rather than N samples of half the
+matrix. `bench.json` keeps every individual run in `rows` (each with its `run_index`)
+plus per-model aggregates in `summaries`, recomputed at every checkpoint.
+
+With `N > 1` the table collapses to one row per model; with `N == 1` it is unchanged.
+Token and time figures in the repeat table are **per run**, so they stay comparable
+against a single-run baseline; clearly-named `*_total` sums live in `bench.json`.
+
+Passing the same model twice *and* `--repeat 2` gives four samples of it: rows are
+distinguished by slug, and summaries group by model string.
 
 ## Metric definitions
 

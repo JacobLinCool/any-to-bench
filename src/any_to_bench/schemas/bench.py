@@ -15,6 +15,7 @@ class BenchRow(BaseModel):
 
     model: str
     slug: str
+    run_index: int = Field(default=1, description="1-based repeat number for this model")
     status: Literal["ok", "solve_error", "grade_error"] = "ok"
     error: str | None = None
     awarded: float | None = None
@@ -57,6 +58,34 @@ class BenchRow(BaseModel):
     grade_secs: float | None = None
 
 
+class BenchModelSummary(BaseModel):
+    """One model across its repeat runs.
+
+    A single run gives a score with unknown noise; the spread across repeats is
+    what tells you whether a gap between two models is real.
+    """
+
+    model: str
+    runs: int = Field(description="Invocations attempted")
+    ok_runs: int = 0
+    max_points: float | None = None
+    awarded: list[float] = Field(default_factory=list, description="One per successful run")
+    percentages: list[float] = Field(default_factory=list, description="Coverage-relative")
+    awarded_mean: float | None = None
+    awarded_std: float | None = Field(default=None, description="Sample stdev; None below 2 runs")
+    percentage_mean: float | None = None
+    percentage_std: float | None = None
+    covered_max_mean: float | None = None
+    deterministic_full_credit_mean: float | None = None
+    judge_disagreements_mean: float | None = None
+    solve_secs_mean: float | None = None
+    grade_secs_mean: float | None = None
+    input_tokens_mean: float = Field(default=0.0, description="Per run, not summed")
+    output_tokens_mean: float = 0.0
+    input_tokens_total: int = 0
+    output_tokens_total: int = 0
+
+
 class BenchReport(BaseModel):
     schema_version: str = "1"
     tool_version: str
@@ -71,7 +100,11 @@ class BenchReport(BaseModel):
     judge_models: list[str] = Field(description="Effective judge models used for every row")
     effort: str | None = None
     judge_questions: int
+    repeat: int = Field(default=1, description="Runs per taker model")
     started_at: datetime
     finished_at: datetime | None = None
-    rows: list[BenchRow] = Field(default_factory=list)
+    rows: list[BenchRow] = Field(
+        default_factory=list, description="One per taker invocation, flat across repeats"
+    )
+    summaries: list[BenchModelSummary] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)

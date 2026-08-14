@@ -204,6 +204,12 @@ def bench(
             "image questions and score over the rest"
         ),
     ] = None,
+    repeat: Annotated[
+        int,
+        typer.Option(
+            min=1, help="Runs per taker model; >1 reports mean ± std instead of one sample"
+        ),
+    ] = 1,
 ) -> None:
     """Benchmark multiple taker models on one bundle and compare the results."""
     from any_to_bench.bench import BENCH_FILE, format_table, run_bench
@@ -217,6 +223,7 @@ def bench(
         judge_models=judge_model or None,
         effort=effort,
         text_only_models=text_only_model or None,
+        repeat=repeat,
     )
     typer.echo(format_table(report))
     typer.echo(f"Bench report written to {output / BENCH_FILE}")
