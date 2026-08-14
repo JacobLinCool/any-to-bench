@@ -28,7 +28,7 @@ class JudgeVerdict(BaseModel):
 
 class QuestionResult(BaseModel):
     question_id: str
-    mode: Literal["deterministic", "judge", "unanswered", "error"]
+    mode: Literal["deterministic", "judge", "unanswered", "error", "skipped"]
     max_points: float
     awarded: float
     detail: dict[str, Any] = Field(
@@ -77,7 +77,15 @@ class GradeReport(BaseModel):
     section_totals: dict[str, SectionTotal] = Field(default_factory=dict)
     total_awarded: float
     total_max: float
-    percentage: float
+    percentage: float = Field(description="Over the whole exam, skipped questions included")
+    skipped_count: int = 0
+    skipped_points: float = Field(
+        default=0.0, description="Max points of questions the taker could not attempt"
+    )
+    covered_max: float = Field(default=0.0, description="total_max minus skipped_points")
+    covered_percentage: float = Field(
+        default=0.0, description="Over what the taker was actually asked; the headline score"
+    )
     warnings: list[str] = Field(default_factory=list)
     judge_agreement: JudgeAgreement | None = Field(
         default=None, description="None when the exam has no judged questions"

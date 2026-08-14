@@ -13,6 +13,7 @@ from pydantic import BaseModel, Field
 from any_to_bench.agentic.runner import parse_agentic_model
 from any_to_bench.bundle import ExamBundle
 from any_to_bench.llm import UsageTracker, build_agent
+from any_to_bench.modality import Modality, ModalityRequirement, exam_modalities
 from any_to_bench.schemas.answers import (
     AnswerSheet,
     AnswerValue,
@@ -141,16 +142,40 @@ def solve_question(
     return answer
 
 
-def run_solve(bundle: ExamBundle, model: str, effort: Effort | str | None = None) -> AnswerSheet:
+def run_solve(
+    bundle: ExamBundle,
+    model: str,
+    effort: Effort | str | None = None,
+    *,
+    capabilities: frozenset[Modality] | None = None,
+    skipped: list[str] | None = None,
+) -> AnswerSheet:
+    """Solve every leaf question the taker is equipped to attempt.
+
+    capabilities declares what the taker can consume; None means assume it can
+    consume anything, which is the historical behaviour. Questions demanding
+    more are appended to `skipped` and left out of the sheet entirely, rather
+    than answered badly or allowed to error the whole run — an out-parameter
+    list, matching how warnings are already threaded through grading.
+    """
     if parse_agentic_model(model) is not None:
+        # Agentic takers read assets as files from their workspace, never as
+        # inline content, so there is no modality to gate on.
         from any_to_bench.agentic.solve import agentic_solve
 
         return agentic_solve(bundle, model, effort=effort)
     tracker = UsageTracker()
     answers: dict[str, AnswerValue] = {}
+    requirements = exam_modalities(bundle.exam) if capabilities is not None else {}
     for section in bundle.exam.sections:
         for top in section.questions:
             for leaf in top.iter_leaves():
+                if capabilities is not None:
+                    requirement = requirements.get(leaf.id, ModalityRequirement())
+                    if requirement.missing_from(capabilities):
+                        if skipped is not None:
+                            skipped.append(leaf.id)
+                        continue
                 context = leaf_context(top, leaf.id)
                 parts = render_question_parts(bundle, leaf, section, context)
                 answers[leaf.id] = solve_question(bundle, leaf, parts, model, tracker, effort)

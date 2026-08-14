@@ -19,7 +19,17 @@ class BenchRow(BaseModel):
     error: str | None = None
     awarded: float | None = None
     max_points: float | None = None
-    percentage: float | None = None
+    percentage: float | None = Field(
+        default=None, description="Over the whole exam, skipped questions included"
+    )
+    skipped_count: int | None = None
+    skipped_points: float | None = None
+    covered_max: float | None = Field(
+        default=None, description="max_points minus what the taker could not attempt"
+    )
+    covered_percentage: float | None = Field(
+        default=None, description="Over what the taker was actually asked; the headline score"
+    )
     deterministic_full_credit: int | None = Field(
         default=None, description="Deterministic questions answered for full credit"
     )

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import copy
+from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -87,9 +89,23 @@ class ExamBundle:
     def read_asset(self, asset: str) -> bytes:
         return self.asset_path(asset).read_bytes()
 
-    def validate_answer_sheet(self, sheet: AnswerSheet) -> list[str]:
-        """Validate a filled answer sheet against the bundle's answer schema."""
-        validator = jsonschema.Draft202012Validator(self.answer_schema)
+    def validate_answer_sheet(
+        self, sheet: AnswerSheet, allow_missing: Iterable[str] = ()
+    ) -> list[str]:
+        """Validate a filled answer sheet against the bundle's answer schema.
+
+        allow_missing drops those question ids from `required` for this check
+        only — a taker that was never asked a question has not violated the
+        schema. The stored answer_schema.json is untouched, which matters
+        because validate_bundle compares it byte-for-byte against a freshly
+        generated one, and every published bundle carries the strict version.
+        """
+        schema = self.answer_schema
+        if missing := set(allow_missing):
+            schema = copy.deepcopy(schema)
+            answers = schema["properties"]["answers"]
+            answers["required"] = [q for q in answers["required"] if q not in missing]
+        validator = jsonschema.Draft202012Validator(schema)
         errors = sorted(validator.iter_errors(sheet.model_dump(mode="json")), key=str)
         return [
             f"{'/'.join(str(p) for p in e.absolute_path) or '<root>'}: {e.message}" for e in errors
