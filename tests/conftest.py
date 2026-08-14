@@ -308,11 +308,12 @@ FAKE_CODEX_USAGE = CodexUsage(
 )
 
 
-class FakeCodex:
-    """Stands in for agentic.runner.run_codex; each round runs a writer(workspace).
+class FakeAgenticRun:
+    """Stands in for any agentic runner; each round runs a writer(workspace).
 
-    Rounds beyond the provided writers are no-ops (earlier files persist), so a
-    single bad writer naturally exercises fix-loop exhaustion.
+    The signature mirrors run_codex/run_claude exactly, so one double serves
+    every backend. Rounds beyond the provided writers are no-ops (earlier files
+    persist), so a single bad writer naturally exercises fix-loop exhaustion.
     """
 
     def __init__(self, rounds: list[Any]) -> None:
@@ -349,6 +350,9 @@ class FakeCodex:
         )
 
 
+FakeCodex = FakeAgenticRun  # the name the codex-era tests already use
+
+
 # Every FakeAgent call reports this usage, so tests can assert accumulation.
 FAKE_CALL_USAGE = SimpleNamespace(
     requests=1,
@@ -373,11 +377,22 @@ class FakeAgent:
         return SimpleNamespace(output=output, usage=FAKE_CALL_USAGE)
 
 
-def fake_build_agent(outputs_by_type: dict[type, Any], calls: list | None = None):
-    """A build_agent replacement dispatching canned outputs on output_type."""
+def fake_build_agent(
+    outputs_by_type: dict[type, Any],
+    calls: list | None = None,
+    by_model: dict[str, Any] | None = None,
+):
+    """A build_agent replacement dispatching canned outputs on output_type.
+
+    by_model takes precedence when the model string matches, so a test can give
+    two judge models different behaviour (including raising) for the same type.
+    """
 
     def _build(model: str, output_type: type, instructions: str, **kwargs: Any) -> FakeAgent:
-        produce = outputs_by_type[output_type]
+        if by_model is not None and model in by_model:
+            produce = by_model[model]
+        else:
+            produce = outputs_by_type[output_type]
         agent = FakeAgent(produce)
         if calls is not None:
             calls.append((model, output_type, agent))

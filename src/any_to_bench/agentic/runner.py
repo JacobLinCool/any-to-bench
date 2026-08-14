@@ -1,25 +1,37 @@
-"""Codex CLI subprocess runner: the single seam for agentic (codex:) models.
+"""Agentic backend dispatch, and the Codex CLI subprocess runner.
 
-Everything that spawns the codex binary goes through run_codex(), so tests can
-monkeypatch this module to stay fully offline, mirroring how llm.build_agent is
-the single seam for direct LLM calls.
+Everything that spawns an agentic CLI goes through a runner function that lives
+as a module global *here* (run_codex, run_claude), so tests can monkeypatch this
+module to stay fully offline, mirroring how llm.build_agent is the single seam
+for direct LLM calls. run_codex stays in this module rather than moving to a
+sibling for symmetry with claude.py, because the Codex tests patch this module's
+`shutil` and `subprocess` globals too.
 """
 
 from __future__ import annotations
 
 import json
-import os
 import shutil
 import subprocess
 from collections.abc import Callable
-from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+# run_claude is imported to exist as a module global here, not to be called by
+# name: _resolve_runner looks it up through globals(), which is also what lets
+# tests swap it out. Hence the noqa — it is used, just not lexically.
+from any_to_bench.agentic.claude import CLAUDE_EFFORT, run_claude  # noqa: F401
+from any_to_bench.agentic.types import (
+    AgenticBackend,
+    AgenticError,
+    AgenticModel,
+    AgentRunResult,
+    AgentUsage,
+    FixLoopOutcome,
+    resolve_timeout,
+)
 from any_to_bench.schemas.usage import Effort
 
-AGENTIC_PREFIX = "codex:"
-DEFAULT_TIMEOUT_S = 3600.0
 MAX_FIX_ROUNDS = 3  # one initial run + up to two fix rounds
 
 # Codex has no dedicated max level — collapse to its ceiling.
@@ -32,51 +44,62 @@ _CODEX_EFFORT: dict[Effort, str] = {
     Effort.max: "xhigh",
 }
 
+CODEX = AgenticBackend(
+    name="codex",
+    prefix="codex:",
+    runner_name="run_codex",
+    binary="codex",
+    install_hint="npm install -g @openai/codex",
+    effort_map=_CODEX_EFFORT,
+)
+CLAUDE = AgenticBackend(
+    name="claude",
+    prefix="claude:",
+    runner_name="run_claude",
+    binary="claude",
+    install_hint="npm install -g @anthropic-ai/claude-code",
+    effort_map=CLAUDE_EFFORT,
+)
+BACKENDS: dict[str, AgenticBackend] = {b.prefix: b for b in (CODEX, CLAUDE)}
 
-class CodexError(RuntimeError):
-    """The codex CLI is missing, failed, or timed out."""
+AGENTIC_PREFIX = CODEX.prefix  # back-compat for the codex-only era
+
+# The original Codex-only names, kept as aliases (the same class objects, not
+# subclasses) so `except CodexError` still catches a Claude failure.
+CodexError = AgenticError
+CodexUsage = AgentUsage
+CodexRunResult = AgentRunResult
 
 
-@dataclass
-class CodexUsage:
-    """Duck-types pydantic-ai RunUsage so UsageTracker.add() accepts it."""
-
-    requests: int = 0
-    input_tokens: int = 0
-    output_tokens: int = 0
-    cache_read_tokens: int = 0
-    cache_write_tokens: int = 0
-    details: dict[str, int] = field(default_factory=dict)
-
-
-@dataclass
-class CodexRunResult:
-    session_id: str | None
-    final_message: str
-    usage: CodexUsage
-    events: list[dict[str, Any]]
-
-
-@dataclass
-class FixLoopOutcome:
-    problems: list[str]  # remaining after the last round; empty = success
-    round_counts: list[int]  # problems found after each round
-    rounds_run: int
-    final_message: str
+def parse_agentic(model: str) -> AgenticModel | None:
+    """'claude:opus' -> (CLAUDE, 'opus'); None for direct-LLM model strings."""
+    for prefix, backend in BACKENDS.items():
+        if model.startswith(prefix) and len(model) > len(prefix):
+            return AgenticModel(backend=backend, cli_model=model[len(prefix) :])
+    return None
 
 
 def parse_agentic_model(model: str) -> str | None:
-    """'codex:gpt-5.6-sol' -> 'gpt-5.6-sol'; None for direct-LLM model strings."""
-    if model.startswith(AGENTIC_PREFIX) and len(model) > len(AGENTIC_PREFIX):
-        return model[len(AGENTIC_PREFIX) :]
-    return None
+    """The CLI-side model name for any agentic prefix; None for direct-LLM strings."""
+    parsed = parse_agentic(model)
+    return parsed.cli_model if parsed is not None else None
+
+
+def _resolve_runner(backend: AgenticBackend) -> Callable[..., AgentRunResult]:
+    """Look the backend's runner up as a module global, deliberately late.
+
+    Binding the function object at registry-construction time would escape
+    `monkeypatch.setattr(<this module>, "run_codex", fake)`, which is how the
+    entire suite stays offline.
+    """
+    return globals()[backend.runner_name]
 
 
 def codex_effort(effort: Effort | str | None) -> str | None:
     """Map the generic effort level to codex's model_reasoning_effort."""
     if effort is None:
         return None
-    return _CODEX_EFFORT[Effort(effort)]
+    return CODEX.effort_map[Effort(effort)]
 
 
 def summarize_events(events: list[dict[str, Any]]) -> tuple[str | None, CodexUsage]:
@@ -141,11 +164,9 @@ def run_codex(
             "codex CLI not found on PATH; install it (npm install -g @openai/codex) "
             "or use a direct-LLM model string such as 'openai:gpt-5.6-sol'"
         )
-    if timeout_s is None:
-        try:
-            timeout_s = float(os.environ.get("ANY_TO_BENCH_CODEX_TIMEOUT", ""))
-        except ValueError:
-            timeout_s = DEFAULT_TIMEOUT_S
+    timeout_s = resolve_timeout(
+        timeout_s, "ANY_TO_BENCH_CODEX_TIMEOUT", "ANY_TO_BENCH_AGENTIC_TIMEOUT"
+    )
 
     control = workspace.parent / "control"
     control.mkdir(parents=True, exist_ok=True)
@@ -206,18 +227,26 @@ def run_fix_loop(
     task_prompt: str,
     cli_model: str,
     oracle: Callable[[], list[str]],
-    on_usage: Callable[[CodexUsage], None],
+    on_usage: Callable[[AgentUsage], None],
     effort: Effort | str | None = None,
     max_rounds: int = MAX_FIX_ROUNDS,
+    *,
+    backend: AgenticBackend = CODEX,
 ) -> FixLoopOutcome:
-    """Run codex, validate with oracle(), and feed problems back until clean.
+    """Run the agent, validate with oracle(), and feed problems back until clean.
 
     Round 1 sends task_prompt; later rounds resume the session with the problem
     list. If a resume invocation fails, the session is abandoned and retried
     once as a fresh run carrying the full context.
+
+    The two `run(...)` calls below must keep their exact argument lists: the
+    offline test doubles mirror them positionally, so a per-call kwarg here
+    would break every agentic test at once. Backend-specific behaviour belongs
+    inside the runner, not in this call.
     """
     from any_to_bench.agentic.prompts import format_problems
 
+    run = _resolve_runner(backend)
     session_id: str | None = None
     problems: list[str] = []
     round_counts: list[int] = []
@@ -227,15 +256,13 @@ def run_fix_loop(
         rounds_run = round_no
         prompt = task_prompt if round_no == 1 else format_problems(problems)
         try:
-            result = run_codex(
-                workspace, prompt, cli_model, effort=effort, resume_session_id=session_id
-            )
-        except CodexError:
+            result = run(workspace, prompt, cli_model, effort=effort, resume_session_id=session_id)
+        except AgenticError:
             if session_id is None:
                 raise
             session_id = None  # dead session; retry statelessly with full context
             prompt = f"{task_prompt}\n\n{format_problems(problems)}"
-            result = run_codex(workspace, prompt, cli_model, effort=effort)
+            result = run(workspace, prompt, cli_model, effort=effort)
         on_usage(result.usage)
         session_id = session_id or result.session_id
         final_message = result.final_message

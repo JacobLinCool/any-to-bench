@@ -42,17 +42,17 @@ def test_bench_matrix_happy_path(tiny_bundle, tmp_path, monkeypatch):
     assert on_disk["finished_at"] is not None
 
     table = format_table(report)
-    assert "| test:solver | 10/17 | 58.8% | 5/5 |" in table
+    assert "| test:solver | 10/17 | 58.8% | 17/17 | 5/5 |" in table
 
 
 def test_bench_isolates_a_failing_model(tiny_bundle, tmp_path, monkeypatch):
     monkeypatch.setattr(runner_module, "build_agent", fake_build_agent(PERFECT_OUTPUTS))
     real_run_solve = bench_module.run_solve
 
-    def flaky_run_solve(bundle, model, effort=None):
+    def flaky_run_solve(bundle, model, effort=None, **kwargs):
         if model == "test:broken":
             raise RuntimeError("provider down")
-        return real_run_solve(bundle, model, effort=effort)
+        return real_run_solve(bundle, model, effort=effort, **kwargs)
 
     monkeypatch.setattr(bench_module, "run_solve", flaky_run_solve)
     report = run_bench(tiny_bundle, ["test:broken", "test:solver"], tmp_path / "bench")
@@ -88,7 +88,7 @@ def test_bench_cli(tiny_bundle, tmp_path, monkeypatch):
 
 
 def test_bench_cli_exits_1_when_all_fail(tiny_bundle, tmp_path, monkeypatch):
-    def explode(bundle, model, effort=None):
+    def explode(bundle, model, effort=None, **kwargs):
         raise RuntimeError("no provider")
 
     monkeypatch.setattr(bench_module, "run_solve", explode)

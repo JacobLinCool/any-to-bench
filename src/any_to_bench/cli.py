@@ -30,7 +30,7 @@ EffortOption = Annotated[
     Effort | None,
     typer.Option(
         help="Reasoning effort (OpenAI: reasoning.effort; Google: thinking_level; "
-        "codex: model_reasoning_effort). Default: provider default."
+        "codex: model_reasoning_effort; claude: --effort). Default: provider default."
     ),
 ]
 
@@ -50,8 +50,8 @@ def ingest(
     model: Annotated[
         str,
         typer.Option(
-            help="Extraction model, e.g. openai:gpt-5.6-terra, or codex:gpt-5.6-sol "
-            "for agentic mode (runs the Codex CLI)"
+            help="Extraction model, e.g. openai:gpt-5.6-terra, or codex:gpt-5.6-sol / "
+            "claude:opus for agentic mode (runs that CLI)"
         ),
     ] = DEFAULT_MODEL,
     effort: EffortOption = None,
@@ -80,22 +80,44 @@ def solve(
     model: Annotated[
         str,
         typer.Option(
-            help="Taker model, e.g. google:gemini-3.7-flash, or codex:gpt-5.6-sol "
-            "for agentic mode (runs the Codex CLI)"
+            help="Taker model, e.g. google:gemini-3.7-flash, or codex:gpt-5.6-sol / "
+            "claude:opus for agentic mode (runs that CLI)"
         ),
     ] = DEFAULT_MODEL,
     effort: EffortOption = None,
+    text_only: Annotated[
+        bool,
+        typer.Option(
+            "--text-only",
+            help="The taker cannot read images; questions needing them are skipped "
+            "and the score covers the rest",
+        ),
+    ] = False,
 ) -> None:
     """Have an LLM take the exam, producing an answer sheet."""
     from any_to_bench.bundle import ExamBundle
+    from any_to_bench.modality import parse_capabilities
     from any_to_bench.solve.runner import run_solve
     from any_to_bench.util import write_json
 
     bundle = ExamBundle.load(bundle_dir)
-    sheet = run_solve(bundle, model=model, effort=effort)
-    errors = bundle.validate_answer_sheet(sheet)
+    skipped: list[str] = []
+    sheet = run_solve(
+        bundle,
+        model=model,
+        effort=effort,
+        capabilities=parse_capabilities(text_only),
+        skipped=skipped,
+    )
+    errors = bundle.validate_answer_sheet(sheet, allow_missing=skipped)
     write_json(output, sheet)
     typer.echo(f"Answer sheet written to {output}")
+    if skipped:
+        typer.echo(
+            f"{len(skipped)} question(s) skipped as beyond the taker's modalities: "
+            + ", ".join(skipped),
+            err=True,
+        )
     _echo_usage(sheet.usage)
     if errors:
         typer.echo("Answer sheet does NOT fully satisfy the answer schema:", err=True)
@@ -113,25 +135,45 @@ def grade(
         list[str] | None,
         typer.Option(
             help="Override judge model(s) from grading.json; repeatable. "
-            "codex:* models judge agentically via the Codex CLI"
+            "codex:* and claude:* models judge agentically via that CLI"
         ),
     ] = None,
     effort: EffortOption = None,
+    text_only: Annotated[
+        bool,
+        typer.Option(
+            "--text-only",
+            help="The taker could not read images; unanswered image questions count as "
+            "skipped rather than wrong",
+        ),
+    ] = False,
 ) -> None:
     """Grade a filled answer sheet: deterministic rules + LLM judges."""
     from any_to_bench.bundle import ExamBundle
     from any_to_bench.grade.aggregate import run_grade
+    from any_to_bench.modality import parse_capabilities
     from any_to_bench.schemas.answers import AnswerSheet
     from any_to_bench.util import read_json, write_json
 
     bundle = ExamBundle.load(bundle_dir)
     sheet = AnswerSheet.model_validate(read_json(answers))
-    report = run_grade(bundle, sheet, judge_models=judge_model or None, effort=effort)
+    report = run_grade(
+        bundle,
+        sheet,
+        judge_models=judge_model or None,
+        effort=effort,
+        capabilities=parse_capabilities(text_only),
+    )
     write_json(output, report)
     typer.echo(
-        f"Score: {report.total_awarded:g}/{report.total_max:g} ({report.percentage:.1f}%) "
-        f"-> {output}"
+        f"Score: {report.total_awarded:g}/{report.covered_max:g} "
+        f"({report.covered_percentage:.1f}%) -> {output}"
     )
+    if report.skipped_count:
+        typer.echo(
+            f"  covers {report.covered_max:g} of {report.total_max:g} points; "
+            f"{report.skipped_count} question(s) skipped as beyond the taker's modalities"
+        )
     _echo_usage(report.usage)
     for warning in report.warnings:
         typer.echo(f"  warning: {warning}", err=True)
@@ -143,7 +185,9 @@ def bench(
     output: Annotated[Path, typer.Option("--output", "-o", help="Directory for bench artifacts")],
     model: Annotated[
         list[str],
-        typer.Option(help="Taker model(s) to benchmark; repeatable (codex:* runs agentically)"),
+        typer.Option(
+            help="Taker model(s) to benchmark; repeatable (codex:*/claude:* run agentically)"
+        ),
     ],
     judge_model: Annotated[
         list[str] | None,
@@ -153,13 +197,34 @@ def bench(
         ),
     ] = None,
     effort: EffortOption = None,
+    text_only_model: Annotated[
+        list[str] | None,
+        typer.Option(
+            help="Taker model(s) that cannot read images; repeatable. Those rows skip "
+            "image questions and score over the rest"
+        ),
+    ] = None,
+    repeat: Annotated[
+        int,
+        typer.Option(
+            min=1, help="Runs per taker model; >1 reports mean ± std instead of one sample"
+        ),
+    ] = 1,
 ) -> None:
     """Benchmark multiple taker models on one bundle and compare the results."""
     from any_to_bench.bench import BENCH_FILE, format_table, run_bench
     from any_to_bench.bundle import ExamBundle
 
     bundle = ExamBundle.load(bundle_dir)
-    report = run_bench(bundle, model, output, judge_models=judge_model or None, effort=effort)
+    report = run_bench(
+        bundle,
+        model,
+        output,
+        judge_models=judge_model or None,
+        effort=effort,
+        text_only_models=text_only_model or None,
+        repeat=repeat,
+    )
     typer.echo(format_table(report))
     typer.echo(f"Bench report written to {output / BENCH_FILE}")
     for warning in report.warnings:

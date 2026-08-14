@@ -1,7 +1,7 @@
 """Workspace construction for agentic runs.
 
-Each run gets a fresh temp directory holding `workspace/` (the codex working
-root) and `control/` (files codex writes for us but must not see, e.g. the
+Each run gets a fresh temp directory holding `workspace/` (the agent's working
+root) and `control/` (files the agent writes for us but must not see, e.g. the
 last-message capture).
 """
 
