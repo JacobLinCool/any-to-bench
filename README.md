@@ -13,7 +13,18 @@ tables, and LaTeX math.
 
 ## Install
 
-Requires Python ≥ 3.12 and [uv](https://docs.astral.sh/uv/).
+Requires Python ≥ 3.12.
+
+```bash
+uv tool install any-to-bench   # or: pip install any-to-bench
+a2b --help
+```
+
+Set the API keys for the providers you use as environment variables (or in a
+`.env` file in your working directory): `OPENAI_API_KEY`, `GOOGLE_API_KEY`,
+`HF_TOKEN`, ...
+
+For development, clone the repo and:
 
 ```bash
 uv sync
@@ -24,29 +35,29 @@ cp .env.example .env   # fill in the API keys for the providers you use
 
 ```bash
 # 1. Ingest: any mix of PDFs and photos for ONE exam -> a bundle
-uv run any-to-bench ingest exam.pdf answer-key.jpg rubric.pdf -o out/bundle \
-    --model openai:gpt-5.6-sol
+a2b ingest exam.pdf answer-key.jpg rubric.pdf -o out/bundle --model openai:gpt-5.6-sol
 
 # 2. Check the bundle
-uv run any-to-bench validate out/bundle
+a2b validate out/bundle
 
 # 3. Have an LLM take the exam (any provider — this is the benchmark part)
-uv run any-to-bench solve out/bundle --model google:gemini-3.7-flash -o out/answers.json
+a2b solve out/bundle --model google:gemini-3.7-flash -o out/answers.json
 
 # 4. Grade the answer sheet
-uv run any-to-bench grade out/bundle out/answers.json -o out/report.json
+a2b grade out/bundle out/answers.json -o out/report.json
 # override judge model(s): --judge-model openai:gpt-5.6-sol --judge-model codex:gpt-5.6-sol
 
 # Or benchmark several models at once: solve + grade each, compare in one table
-uv run any-to-bench bench out/bundle -o out/bench \
+a2b bench out/bundle -o out/bench \
     --model openai:gpt-5.6-terra --model google:gemini-3.7-flash
 
 # Share bundles via Hugging Face datasets (viewer-friendly, byte-faithful round trip)
-uv run any-to-bench upload out/bundle user/my-exams --name matha
-uv run any-to-bench download user/my-exams --name matha -o local/bundle
+a2b upload out/bundle user/my-exams --name matha
+a2b download user/my-exams --name matha -o local/bundle
 ```
 
-`a2b` is a shorthand alias for `any-to-bench` — every command works with both.
+`a2b` is a shorthand alias for `any-to-bench` — every command works with both. In a
+cloned repo without installing, prefix commands with `uv run` (e.g. `uv run a2b ...`).
 
 Ingest, solve, and judge models are independent. Use a `codex:` model string (e.g.
 `codex:gpt-5.6-sol`) to run a phase **agentically** via the Codex CLI instead of
