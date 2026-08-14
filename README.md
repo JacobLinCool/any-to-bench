@@ -101,6 +101,7 @@ exactly once, so that grading needs almost none, forever.
 ```bash
 uv run pytest -q        # fully offline — model requests are forbidden in tests
 uv run ruff check .
+uv run ruff format .    # CI enforces this with --check
 ```
 
 The test suite fakes the LLM layer (`any_to_bench.llm.build_agent`) and the codex
