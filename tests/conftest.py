@@ -377,11 +377,22 @@ class FakeAgent:
         return SimpleNamespace(output=output, usage=FAKE_CALL_USAGE)
 
 
-def fake_build_agent(outputs_by_type: dict[type, Any], calls: list | None = None):
-    """A build_agent replacement dispatching canned outputs on output_type."""
+def fake_build_agent(
+    outputs_by_type: dict[type, Any],
+    calls: list | None = None,
+    by_model: dict[str, Any] | None = None,
+):
+    """A build_agent replacement dispatching canned outputs on output_type.
+
+    by_model takes precedence when the model string matches, so a test can give
+    two judge models different behaviour (including raising) for the same type.
+    """
 
     def _build(model: str, output_type: type, instructions: str, **kwargs: Any) -> FakeAgent:
-        produce = outputs_by_type[output_type]
+        if by_model is not None and model in by_model:
+            produce = by_model[model]
+        else:
+            produce = outputs_by_type[output_type]
         agent = FakeAgent(produce)
         if calls is not None:
             calls.append((model, output_type, agent))

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 import statistics
 from typing import Any
 
@@ -20,7 +21,12 @@ from any_to_bench.schemas.answers import (
     TrueFalseAnswer,
 )
 from any_to_bench.schemas.grading import JudgeRule, QuestionGrading, RubricCriterion
-from any_to_bench.schemas.report import CriterionScore, JudgeVerdict
+from any_to_bench.schemas.report import (
+    CriterionScore,
+    JudgeAgreement,
+    JudgeVerdict,
+    QuestionResult,
+)
 from any_to_bench.schemas.usage import Effort
 from any_to_bench.solve.render import Part, asset_content, leaf_context, render_question_parts
 
@@ -247,32 +253,43 @@ def run_judges(
 
     for question_id, grading in judge_rules.items():
         answer = sheet.answers[question_id]
-        verdicts: list[JudgeVerdict] = []
+        # Kept as pairs, not two lists: judges drop out on failure, so anything
+        # zipping a verdict list against the requested model list mis-attributes.
+        scored: list[tuple[str, JudgeVerdict]] = []
         for judge_model in models:
             if judge_model in agentic_verdicts:
                 verdict = agentic_verdicts[judge_model].get(question_id)
                 if verdict is not None:  # missing ones were already warned about
-                    verdicts.append(verdict)
+                    scored.append((judge_model, verdict))
                 continue
             try:
-                verdicts.append(
-                    judge_one(
-                        bundle,
-                        question_id,
-                        grading,
-                        answer,
+                scored.append(
+                    (
                         judge_model,
-                        warnings,
-                        tracker,
-                        effort,
+                        judge_one(
+                            bundle,
+                            question_id,
+                            grading,
+                            answer,
+                            judge_model,
+                            warnings,
+                            tracker,
+                            effort,
+                        ),
                     )
                 )
             except Exception as e:  # noqa: BLE001 — a failing judge must not sink the run
                 warnings.append(f"question {question_id}: judge {judge_model} failed: {e}")
-        if not verdicts:
-            results[question_id] = (0.0, [], {"error": "all judges failed"})
+        if not scored:
+            results[question_id] = (
+                0.0,
+                [],
+                {"error": "all judges failed", "requested_judge_models": models},
+            )
             continue
 
+        scoring_models = [m for m, _ in scored]
+        verdicts = [v for _, v in scored]
         totals = [v.total_points for v in verdicts]
         if aggregation == "median":
             awarded = statistics.median(totals)
@@ -285,6 +302,69 @@ def run_judges(
         results[question_id] = (
             awarded,
             verdicts,
-            {"judge_models": models, "aggregation": aggregation, "totals": totals},
+            {
+                # Only the judges that actually scored, positionally matching
+                # `verdicts` and `totals` by construction.
+                "judge_models": scoring_models,
+                "requested_judge_models": models,
+                "aggregation": aggregation,
+                "totals": totals,
+                "agreement": _question_agreement(totals, grading.max_points),
+            },
         )
     return results
+
+
+def _question_agreement(totals: list[float], max_points: float) -> dict[str, Any]:
+    """How far apart the judges landed on one question."""
+    spread = max(totals) - min(totals)
+    return {
+        "judge_count": len(totals),
+        "spread": spread,
+        "stdev": statistics.stdev(totals) if len(totals) >= 2 else 0.0,
+        "normalized_spread": spread / max_points if max_points else 0.0,
+        "unanimous": math.isclose(spread, 0.0, abs_tol=1e-9),
+    }
+
+
+def summarize_judge_agreement(
+    results: dict[str, QuestionResult], requested_models: list[str]
+) -> JudgeAgreement | None:
+    """Roll per-question agreement up into one report-level summary.
+
+    Pure over the finished results so it is testable without a judge run, and so
+    `run_judges` keeps its return type.
+    """
+    judged = [r for r in results.values() if r.judge_verdicts]
+    if not judged:
+        return None
+
+    spreads: list[float] = []
+    normalized: list[float] = []
+    disagreed = 0
+    multi = 0
+    by_judge: dict[str, list[float]] = {}
+    for result in judged:
+        agreement = result.detail.get("agreement") or {}
+        for model, verdict in zip(
+            result.detail.get("judge_models") or [], result.judge_verdicts, strict=False
+        ):
+            by_judge.setdefault(model, []).append(verdict.total_points)
+        if len(result.judge_verdicts) < 2:
+            continue
+        multi += 1
+        spreads.append(agreement.get("spread", 0.0))
+        normalized.append(agreement.get("normalized_spread", 0.0))
+        if not agreement.get("unanimous", True):
+            disagreed += 1
+
+    return JudgeAgreement(
+        requested_judge_models=list(requested_models),
+        judged_questions=len(judged),
+        multi_judge_questions=multi,
+        disagreed_questions=disagreed,
+        mean_spread=statistics.fmean(spreads) if spreads else 0.0,
+        max_spread=max(spreads) if spreads else 0.0,
+        mean_normalized_spread=statistics.fmean(normalized) if normalized else 0.0,
+        per_judge_mean={m: statistics.fmean(v) for m, v in sorted(by_judge.items())},
+    )

@@ -43,14 +43,34 @@ Post-processing keeps judges honest:
   scores are **snapped** to the nearest level and the total is recomputed. Missing or
   unknown criteria are warned about.
 - Holistic verdicts (no rubric) are clamped to `[min_points, max_points]`.
-- Multiple judges (repeat `--judge-model`, any mix of providers and `codex:` agentic
-  judges) aggregate by `mean` / `median` / `min` / `max`; all raw verdicts are kept in
-  the report.
+- Multiple judges (repeat `--judge-model`, any mix of providers and `codex:`/`claude:`
+  agentic judges) aggregate by `mean` / `median` / `min` / `max`; all raw verdicts are
+  kept in the report, positionally matched to `detail.judge_models` — which lists the
+  judges that actually scored, while `detail.requested_judge_models` records what was
+  asked for.
 - A failing judge never sinks the run — its absence is recorded as a warning, and a
   question with no verdicts at all is reported as an error, not silently zero.
 
 **For serious benchmarks, use judge models different from the taker.** Self-judging
 has a measurable optimism bias (in our GSAT test, a model judging its own English
 essay awarded itself full marks). `--judge-model` is repeatable and accepts any mix of
-providers and `codex:` agentic judges; `bench` warns when a taker also appears in the
-judge list.
+providers and `codex:`/`claude:` agentic judges; `bench` warns when a taker also
+appears in the judge list.
+
+## Judge agreement
+
+With two or more judges, how far apart they land is the available measure of how much
+of a judged score is judge-dependent rather than answer-dependent. Each judged question
+records `detail.agreement` (`spread`, `stdev`, `normalized_spread`, `unanimous`), and
+`report.judge_agreement` rolls that up:
+
+- `multi_judge_questions` — questions that got at least two verdicts, i.e. the ones
+  where agreement is even defined
+- `disagreed_questions` — of those, how many the judges scored differently
+- `mean_spread` / `max_spread` — the max-min gap in points
+- `per_judge_mean` — each judge's mean award, i.e. its leniency relative to the others
+
+`bench` shows this as a `judge Δ` column reading `disagreed/comparable`, or `–` when
+fewer than two judges produced verdicts, and warns when only one judge is configured.
+A score built on unanimous judges and one built on judges who split half the questions
+should not be read the same way.

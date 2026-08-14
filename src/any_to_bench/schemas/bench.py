@@ -27,6 +27,15 @@ class BenchRow(BaseModel):
         default=None, description="Questions with a non-judge grading rule (bundle property)"
     )
     judge_count: int | None = None
+    multi_judge_questions: int | None = Field(
+        default=None, description="Judged questions that got >= 2 verdicts"
+    )
+    judge_disagreements: int | None = Field(
+        default=None, description="Of those, how many the judges scored differently"
+    )
+    judge_mean_spread: float | None = Field(
+        default=None, description="Mean max-min gap between judges, in points"
+    )
     error_count: int | None = None
     unanswered_count: int | None = None
     schema_error_count: int | None = None

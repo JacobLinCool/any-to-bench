@@ -35,13 +35,37 @@ class QuestionResult(BaseModel):
         default_factory=dict, description="Per-blank/per-pair breakdown or error info"
     )
     judge_verdicts: list[JudgeVerdict] = Field(
-        default_factory=list, description="Raw verdicts, one per judge model"
+        default_factory=list,
+        description="Raw verdicts, positionally matching detail['judge_models']",
     )
 
 
 class SectionTotal(BaseModel):
     awarded: float
     max_points: float
+
+
+class JudgeAgreement(BaseModel):
+    """How much the judges disagreed — the available measure of judge reliability.
+
+    A score built on unanimous judges and one built on judges who split are
+    otherwise indistinguishable in the report.
+    """
+
+    requested_judge_models: list[str] = Field(default_factory=list)
+    judged_questions: int = Field(default=0, description="Questions with >= 1 verdict")
+    multi_judge_questions: int = Field(default=0, description="Questions with >= 2 verdicts")
+    disagreed_questions: int = Field(
+        default=0, description="Of the multi-judge ones, those where judges differed"
+    )
+    mean_spread: float = Field(default=0.0, description="Mean max-min gap, in points")
+    max_spread: float = 0.0
+    mean_normalized_spread: float = Field(
+        default=0.0, description="Mean spread as a fraction of each question's max points"
+    )
+    per_judge_mean: dict[str, float] = Field(
+        default_factory=dict, description="Judge -> mean points awarded; its leniency"
+    )
 
 
 class GradeReport(BaseModel):
@@ -55,6 +79,9 @@ class GradeReport(BaseModel):
     total_max: float
     percentage: float
     warnings: list[str] = Field(default_factory=list)
+    judge_agreement: JudgeAgreement | None = Field(
+        default=None, description="None when the exam has no judged questions"
+    )
     usage: UsageSummary | None = Field(
         default=None, description="Token usage spent by LLM judges, if any"
     )

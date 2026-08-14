@@ -64,6 +64,11 @@ def run_bench(
                 f"taker {model} is also a judge model; self-judging tends to be optimistic — "
                 "prefer a different --judge-model"
             )
+    if report.judge_questions and len(effective_judges) < 2:
+        report.warnings.append(
+            "single judge model — inter-judge agreement cannot be measured; pass a second "
+            "--judge-model to see how much of the judged score is judge-dependent"
+        )
 
     used_slugs: set[str] = set()
     for model in models:
@@ -107,6 +112,10 @@ def run_bench(
         row.deterministic_full_credit = full_credit
         row.deterministic_total = deterministic_total
         row.judge_count = modes.get("judge", 0)
+        if (agreement := grade_report.judge_agreement) is not None:
+            row.multi_judge_questions = agreement.multi_judge_questions
+            row.judge_disagreements = agreement.disagreed_questions
+            row.judge_mean_spread = round(agreement.mean_spread, 3)
         row.error_count = modes.get("error", 0)
         row.unanswered_count = modes.get("unanswered", 0)
         write_json(out_dir / BENCH_FILE, report)
@@ -119,12 +128,12 @@ def run_bench(
 def format_table(report: BenchReport) -> str:
     """The bench results as a Markdown comparison table."""
     lines = [
-        "| model | score | % | det full | judge | schema err | tokens in/out | time |",
-        "|---|---|---|---|---|---|---|---|",
+        "| model | score | % | det full | judge | judge Δ | schema err | tokens in/out | time |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
     for row in report.rows:
         if row.status != "ok":
-            lines.append(f"| {row.model} | {row.status} |  |  |  |  |  |  |")
+            lines.append(f"| {row.model} | {row.status} |  |  |  |  |  |  |  |")
             continue
         tokens_in = tokens_out = 0
         for usage in (row.solve_usage, row.grade_usage):
@@ -135,7 +144,14 @@ def format_table(report: BenchReport) -> str:
         lines.append(
             f"| {row.model} | {row.awarded:g}/{row.max_points:g} | {row.percentage:.1f}% "
             f"| {row.deterministic_full_credit}/{row.deterministic_total} "
-            f"| {row.judge_count} | {row.schema_error_count} "
+            f"| {row.judge_count} | {_judge_delta(row)} | {row.schema_error_count} "
             f"| {tokens_in:,} / {tokens_out:,} | {secs:.0f}s |"
         )
     return "\n".join(lines)
+
+
+def _judge_delta(row: BenchRow) -> str:
+    """Judge disagreement as disagreed/comparable, or – when nothing is comparable."""
+    if not row.multi_judge_questions:
+        return "–"
+    return f"{row.judge_disagreements}/{row.multi_judge_questions}"

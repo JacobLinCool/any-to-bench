@@ -26,6 +26,9 @@ row and never sinks the rest; the exit code is 1 only when every model failed.
   so a model that skips questions is penalized rather than flattered.
 - **judge / error / unanswered counts** — per-question grading modes; judge questions
   that no judge could grade count as errors.
+- **judge Δ** — inter-judge disagreement as `disagreed/comparable`, or `–` when fewer
+  than two judges produced verdicts so there is nothing to compare. See
+  [Judge agreement](grading.md#judge-agreement).
 - **schema err** — answer-sheet violations of `answer_schema.json` (the sheet is
   still graded; bad answers degrade to per-question errors).
 - **tokens / time** — solve + grade usage and wall time per model. Agentic-mode

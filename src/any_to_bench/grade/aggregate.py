@@ -35,6 +35,7 @@ def run_grade(
         for qid, qg in grading.questions.items()
         if isinstance(qg.rule, JudgeRule) and sheet.answers.get(qid) is not None
     }
+    effective_judges = list(judge_models or grading.judge.models)
     judge_verdicts = {}
     if judge_rules:
         from any_to_bench.grade.judge import run_judges
@@ -43,7 +44,7 @@ def run_grade(
             bundle,
             sheet,
             judge_rules,
-            models=judge_models or grading.judge.models,
+            models=effective_judges,
             aggregation=grading.judge.aggregation,
             warnings=warnings,
             tracker=tracker,
@@ -120,6 +121,8 @@ def run_grade(
             max_points=sum(results[qid].max_points for qid in leaf_ids if qid in results),
         )
 
+    from any_to_bench.grade.judge import summarize_judge_agreement
+
     total_awarded = sum(r.awarded for r in results.values())
     total_max = sum(r.max_points for r in results.values())
     return GradeReport(
@@ -132,5 +135,6 @@ def run_grade(
         total_max=total_max,
         percentage=(100.0 * total_awarded / total_max) if total_max else 0.0,
         warnings=warnings,
+        judge_agreement=summarize_judge_agreement(results, effective_judges),
         usage=tracker.summary(),
     )
