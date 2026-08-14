@@ -186,3 +186,30 @@ def test_summarize_judge_agreement_is_pure():
     assert summary.disagreed_questions == 1
     assert summary.mean_normalized_spread == 0.5
     assert summary.per_judge_mean == {"a": 2.0, "b": 4.0}
+
+
+def test_grade_warns_on_self_judging(tiny_bundle, monkeypatch):
+    """A model judging itself is exactly the score that looks fine."""
+    monkeypatch.setattr(judge_module, "build_agent", fake_build_agent({JudgeVerdict: verdict(2.0)}))
+    sheet = holistic_sheet()
+    sheet.taker = "test:a"
+
+    report = run_grade(tiny_bundle, sheet, judge_models=["test:a"])
+
+    assert any("judged its own answers" in w for w in report.warnings)
+
+
+def test_grade_warns_on_a_single_judge(tiny_bundle, monkeypatch):
+    monkeypatch.setattr(judge_module, "build_agent", fake_build_agent({JudgeVerdict: verdict(2.0)}))
+
+    report = run_grade(tiny_bundle, holistic_sheet(), judge_models=["test:a"])
+
+    assert any("single judge model" in w for w in report.warnings)
+
+
+def test_grade_stays_quiet_without_judged_questions(tiny_bundle):
+    from tests.conftest import imperfect_sheet
+
+    report = run_grade(tiny_bundle, imperfect_sheet(), judge_models=["test:a"])
+
+    assert not any("single judge" in w or "own answers" in w for w in report.warnings)

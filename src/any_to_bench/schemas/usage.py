@@ -60,6 +60,9 @@ class UsageSummary(BaseModel):
             extras.append(f"reasoning {t.reasoning_tokens:,}")
         if t.cache_read_tokens:
             extras.append(f"cache read {t.cache_read_tokens:,}")
+        if t.cache_write_tokens:
+            # Priced above ordinary input tokens, so hiding it understates cost.
+            extras.append(f"cache write {t.cache_write_tokens:,}")
         extra = f" ({', '.join(extras)})" if extras else ""
         return (
             f"Tokens: {t.input_tokens:,} in / {t.output_tokens:,} out{extra} "

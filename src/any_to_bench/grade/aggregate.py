@@ -41,6 +41,19 @@ def run_grade(
         if isinstance(qg.rule, JudgeRule) and sheet.answers.get(qid) is not None
     }
     effective_judges = list(judge_models or grading.judge.models)
+    if judge_rules:
+        # bench runs these same checks up front; grade is used directly just as
+        # often, and a self-judged score is exactly the one that looks fine.
+        if sheet.taker in effective_judges:
+            warnings.append(
+                f"taker {sheet.taker} judged its own answers; self-judging tends to be "
+                "optimistic — prefer a --judge-model different from the taker"
+            )
+        if len(effective_judges) < 2:
+            warnings.append(
+                "single judge model — inter-judge agreement cannot be measured; pass a "
+                "second --judge-model to see how much of the score is judge-dependent"
+            )
     judge_verdicts = {}
     if judge_rules:
         from any_to_bench.grade.judge import run_judges
