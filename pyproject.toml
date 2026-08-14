@@ -1,0 +1,44 @@
+[project]
+name = "any-to-bench"
+version = "0.1.0"
+description = "Convert any exam materials (photos, PDFs, answer keys, rubrics) into a machine-gradable benchmark"
+readme = "README.md"
+authors = [
+    { name = "JacobLinCool", email = "jacoblincool@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.11",
+    "pydantic-ai-slim[openai,google]>=2.29",
+    "typer>=0.16",
+    "pypdfium2>=5.13",
+    "pillow>=11",
+    "jsonschema>=4.23",
+    "python-dotenv>=1.0",
+]
+
+[project.scripts]
+any-to-bench = "any_to_bench.cli:app"
+a2b = "any_to_bench.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.12",
+    "dirty-equals>=0.9",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.26,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
