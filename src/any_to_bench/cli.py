@@ -173,6 +173,74 @@ def bench(
 
 
 @app.command()
+def upload(
+    bundle_dir: Annotated[Path, typer.Argument(exists=True, file_okay=False, help="Exam bundle")],
+    repo_id: Annotated[str, typer.Argument(help="Hub dataset repo, e.g. 'user/my-exams'")],
+    name: Annotated[
+        str | None,
+        typer.Option(
+            help="Bundle name (= viewer subset and subdirectory in the repo); "
+            "default: the bundle directory's name"
+        ),
+    ] = None,
+    private: Annotated[
+        bool,
+        typer.Option(
+            "--private",
+            help="Create the repo private (default: public — note the bundle "
+            "includes the answer key; ignored if the repo already exists)",
+        ),
+    ] = False,
+    license: Annotated[
+        str | None,
+        typer.Option(
+            help="License identifier for the dataset card (exam content copyright "
+            "stays with the original publisher; unset leaves the card without one)"
+        ),
+    ] = None,
+) -> None:
+    """Publish an exam bundle to a Hugging Face dataset repo (viewer-friendly)."""
+    from any_to_bench.hf import HubError, upload_bundle
+
+    try:
+        url = upload_bundle(bundle_dir, repo_id, name=name, private=private, license=license)
+    except HubError as e:
+        typer.echo(str(e), err=True)
+        raise typer.Exit(code=1) from e
+    typer.echo(f"Bundle uploaded to {url}")
+    typer.echo(f"Viewer: {url}/viewer")
+
+
+@app.command()
+def download(
+    repo_id: Annotated[str, typer.Argument(help="Hub dataset repo, e.g. 'user/my-exams'")],
+    output: Annotated[
+        Path, typer.Option("--output", "-o", help="Directory to write the bundle into")
+    ],
+    name: Annotated[
+        str | None,
+        typer.Option(help="Bundle name; required when the repo holds several"),
+    ] = None,
+) -> None:
+    """Download an exam bundle from a Hugging Face dataset repo."""
+    from any_to_bench.bundle import validate_bundle
+    from any_to_bench.hf import HubError, download_bundle
+
+    try:
+        download_bundle(repo_id, output, name=name)
+    except HubError as e:
+        typer.echo(str(e), err=True)
+        raise typer.Exit(code=1) from e
+    problems = validate_bundle(output)
+    if problems:
+        typer.echo(f"Downloaded bundle has {len(problems)} problem(s):", err=True)
+        for problem in problems:
+            typer.echo(f"  - {problem}", err=True)
+        raise typer.Exit(code=1)
+    typer.echo(f"Bundle downloaded to {output} and is valid.")
+
+
+@app.command()
 def validate(
     bundle_dir: Annotated[Path, typer.Argument(exists=True, file_okay=False, help="Exam bundle")],
 ) -> None:

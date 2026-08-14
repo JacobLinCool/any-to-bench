@@ -6,6 +6,17 @@ readme = "README.md"
 authors = [
     { name = "JacobLinCool", email = "jacoblincool@gmail.com" }
 ]
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["benchmark", "exam", "llm", "evaluation", "grading", "dataset"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 requires-python = ">=3.12"
 dependencies = [
     "pydantic>=2.11",
@@ -15,7 +26,12 @@ dependencies = [
     "pillow>=11",
     "jsonschema>=4.23",
     "python-dotenv>=1.0",
+    "datasets>=4.0",
 ]
+
+[project.urls]
+Repository = "https://github.com/JacobLinCool/any-to-bench"
+Issues = "https://github.com/JacobLinCool/any-to-bench/issues"
 
 [project.scripts]
 any-to-bench = "any_to_bench.cli:app"
