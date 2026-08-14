@@ -91,8 +91,7 @@ class ExamBundle:
         validator = jsonschema.Draft202012Validator(self.answer_schema)
         errors = sorted(validator.iter_errors(sheet.model_dump(mode="json")), key=str)
         return [
-            f"{'/'.join(str(p) for p in e.absolute_path) or '<root>'}: {e.message}"
-            for e in errors
+            f"{'/'.join(str(p) for p in e.absolute_path) or '<root>'}: {e.message}" for e in errors
         ]
 
 

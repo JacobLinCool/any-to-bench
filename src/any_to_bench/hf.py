@@ -117,8 +117,7 @@ def build_question_rows(bundle: ExamBundle) -> list[dict[str, Any]]:
                             for o in (leaf.options or [])
                         ],
                         "blanks": [
-                            b.id + (f" {b.label}" if b.label else "")
-                            for b in (leaf.blanks or [])
+                            b.id + (f" {b.label}" if b.label else "") for b in (leaf.blanks or [])
                         ],
                         "matching": matching,
                         "grading": grading.rule.kind if grading else "",
@@ -187,9 +186,7 @@ def _bundle_block(name: str, bundle: ExamBundle, repo_id: str) -> str:
     start, end = _section_markers(name)
     exam = bundle.exam
     leaves = list(exam.iter_leaves())
-    judge = sum(
-        1 for qg in bundle.grading.questions.values() if qg.rule.kind == "judge"
-    )
+    judge = sum(1 for qg in bundle.grading.questions.values() if qg.rule.kind == "judge")
     types: dict[str, int] = {}
     for leaf in leaves:
         types[leaf.type.value] = types.get(leaf.type.value, 0) + 1
@@ -228,8 +225,9 @@ def _bundle_block(name: str, bundle: ExamBundle, repo_id: str) -> str:
     return "\n".join(lines)
 
 
-def update_card(card: Any, name: str, bundle: ExamBundle, repo_id: str,
-                license: str | None = None) -> Any:
+def update_card(
+    card: Any, name: str, bundle: ExamBundle, repo_id: str, license: str | None = None
+) -> Any:
     """Refresh the header and this bundle's section; other sections and any
     hand-written text outside the markers are preserved, as is the
     push_to_hub-managed configs YAML."""
@@ -238,8 +236,10 @@ def update_card(card: Any, name: str, bundle: ExamBundle, repo_id: str,
         data.pretty_name = bundle.exam.title
     lang = bundle.exam.language.split("-")[0].lower()
     existing_lang = getattr(data, "language", None)
-    languages = existing_lang if isinstance(existing_lang, list) else (
-        [existing_lang] if existing_lang else []
+    languages = (
+        existing_lang
+        if isinstance(existing_lang, list)
+        else ([existing_lang] if existing_lang else [])
     )
     if lang and lang not in languages:
         data.language = [*languages, lang]
@@ -346,8 +346,7 @@ def upload_bundle(
     problems = validate_bundle(bundle_dir)
     if problems:
         raise HubError(
-            "refusing to upload an invalid bundle:\n"
-            + "\n".join(f"- {p}" for p in problems[:10])
+            "refusing to upload an invalid bundle:\n" + "\n".join(f"- {p}" for p in problems[:10])
         )
     name = name or slugify(bundle_dir.resolve().name)
     if not _NAME_RE.match(name) or name in _RESERVED_NAMES:
@@ -356,9 +355,7 @@ def upload_bundle(
             "and avoid the reserved names 'data' and 'default'"
         )
     if _get_token() is None:
-        raise HubError(
-            "no Hugging Face token found; set HF_TOKEN in .env or run `hf auth login`"
-        )
+        raise HubError("no Hugging Face token found; set HF_TOKEN in .env or run `hf auth login`")
 
     bundle = ExamBundle.load(bundle_dir)
     dataset = _build_dataset(bundle)
@@ -388,8 +385,7 @@ def download_bundle(repo_id: str, out_dir: Path, *, name: str | None = None) -> 
             raise HubError(f"no bundles found in {repo_id}")
         if len(available) > 1:
             raise HubError(
-                f"{repo_id} holds several bundles; pass --name, one of: "
-                + ", ".join(available)
+                f"{repo_id} holds several bundles; pass --name, one of: " + ", ".join(available)
             )
         name = available[0]
     elif name not in available:

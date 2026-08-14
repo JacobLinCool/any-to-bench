@@ -84,8 +84,7 @@ class UsageTracker:
             requests=getattr(run_usage, "requests", 0) or 0,
             input_tokens=getattr(run_usage, "input_tokens", 0) or 0,
             output_tokens=getattr(run_usage, "output_tokens", 0) or 0,
-            reasoning_tokens=details.get("reasoning_tokens", 0)
-            + details.get("thoughts_tokens", 0),
+            reasoning_tokens=details.get("reasoning_tokens", 0) + details.get("thoughts_tokens", 0),
             cache_read_tokens=getattr(run_usage, "cache_read_tokens", 0) or 0,
             cache_write_tokens=getattr(run_usage, "cache_write_tokens", 0) or 0,
         )

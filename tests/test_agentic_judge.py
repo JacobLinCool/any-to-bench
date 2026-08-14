@@ -70,8 +70,12 @@ def test_agentic_judge_snaps_and_tracks_usage(tiny_bundle, monkeypatch):
     tracker = UsageTracker()
 
     verdicts = agentic_judge(
-        tiny_bundle, perfect_sheet(), judge_rules_of(tiny_bundle),
-        "codex:test", warnings, tracker,
+        tiny_bundle,
+        perfect_sheet(),
+        judge_rules_of(tiny_bundle),
+        "codex:test",
+        warnings,
+        tracker,
     )
 
     assert set(verdicts) == {"q6.a", "q6.b", "q7"}
@@ -101,8 +105,12 @@ def test_agentic_judge_fix_loop_on_criterion_set(tiny_bundle, monkeypatch):
     monkeypatch.setattr(runner_module, "run_codex", fake)
 
     verdicts = agentic_judge(
-        tiny_bundle, perfect_sheet(), judge_rules_of(tiny_bundle),
-        "codex:test", [], UsageTracker(),
+        tiny_bundle,
+        perfect_sheet(),
+        judge_rules_of(tiny_bundle),
+        "codex:test",
+        [],
+        UsageTracker(),
     )
 
     assert len(fake.calls) == 2
@@ -111,16 +119,18 @@ def test_agentic_judge_fix_loop_on_criterion_set(tiny_bundle, monkeypatch):
 
 
 def test_agentic_judge_salvages_partial_verdicts(tiny_bundle, monkeypatch):
-    partial = {
-        "verdicts": {k: v for k, v in VALID_VERDICTS["verdicts"].items() if k != "q7"}
-    }
+    partial = {"verdicts": {k: v for k, v in VALID_VERDICTS["verdicts"].items() if k != "q7"}}
     fake = FakeCodex([write_verdicts(partial)])
     monkeypatch.setattr(runner_module, "run_codex", fake)
     warnings: list[str] = []
 
     verdicts = agentic_judge(
-        tiny_bundle, perfect_sheet(), judge_rules_of(tiny_bundle),
-        "codex:test", warnings, UsageTracker(),
+        tiny_bundle,
+        perfect_sheet(),
+        judge_rules_of(tiny_bundle),
+        "codex:test",
+        warnings,
+        UsageTracker(),
     )
 
     assert set(verdicts) == {"q6.a", "q6.b"}

@@ -114,9 +114,7 @@ def run_grade(
 
     section_totals: dict[str, SectionTotal] = {}
     for section in exam.sections:
-        leaf_ids = [
-            leaf.id for question in section.questions for leaf in question.iter_leaves()
-        ]
+        leaf_ids = [leaf.id for question in section.questions for leaf in question.iter_leaves()]
         section_totals[section.id] = SectionTotal(
             awarded=sum(results[qid].awarded for qid in leaf_ids if qid in results),
             max_points=sum(results[qid].max_points for qid in leaf_ids if qid in results),

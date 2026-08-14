@@ -140,9 +140,7 @@ def grade(
 @app.command()
 def bench(
     bundle_dir: Annotated[Path, typer.Argument(exists=True, file_okay=False, help="Exam bundle")],
-    output: Annotated[
-        Path, typer.Option("--output", "-o", help="Directory for bench artifacts")
-    ],
+    output: Annotated[Path, typer.Option("--output", "-o", help="Directory for bench artifacts")],
     model: Annotated[
         list[str],
         typer.Option(help="Taker model(s) to benchmark; repeatable (codex:* runs agentically)"),
@@ -161,9 +159,7 @@ def bench(
     from any_to_bench.bundle import ExamBundle
 
     bundle = ExamBundle.load(bundle_dir)
-    report = run_bench(
-        bundle, model, output, judge_models=judge_model or None, effort=effort
-    )
+    report = run_bench(bundle, model, output, judge_models=judge_model or None, effort=effort)
     typer.echo(format_table(report))
     typer.echo(f"Bench report written to {output / BENCH_FILE}")
     for warning in report.warnings:

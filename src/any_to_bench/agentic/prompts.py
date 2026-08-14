@@ -180,8 +180,7 @@ INGEST_TASK_PROMPT = (
 )
 
 SOLVE_TASK_PROMPT = (
-    "Take the exam in exam/exam.json and write output/answers.json, following "
-    "AGENTS.md exactly."
+    "Take the exam in exam/exam.json and write output/answers.json, following AGENTS.md exactly."
 )
 
 JUDGE_TASK_PROMPT = (

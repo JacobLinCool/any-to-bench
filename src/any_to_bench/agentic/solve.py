@@ -73,8 +73,7 @@ def agentic_solve(
     if parsed is None:
         raise CodexError(
             f"agentic solve produced no parseable answers.json in {outcome.rounds_run} "
-            f"round(s) (workspace kept at {workspace}): "
-            + "; ".join(outcome.problems[:5])
+            f"round(s) (workspace kept at {workspace}): " + "; ".join(outcome.problems[:5])
         )
     if not outcome.problems:
         cleanup_workspace(workspace)

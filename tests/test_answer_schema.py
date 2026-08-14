@@ -13,9 +13,7 @@ def schema():
 
 
 def _validate(schema, payload):
-    return sorted(
-        jsonschema.Draft202012Validator(schema).iter_errors(payload), key=str
-    )
+    return sorted(jsonschema.Draft202012Validator(schema).iter_errors(payload), key=str)
 
 
 def test_schema_is_valid_jsonschema(schema):

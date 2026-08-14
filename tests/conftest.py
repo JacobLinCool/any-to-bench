@@ -181,9 +181,7 @@ def build_tiny_grading() -> GradingSpec:
         exam_id="tiny-exam",
         judge=JudgeConfig(models=["test:judge"], aggregation="mean"),
         questions={
-            "q1": QuestionGrading(
-                question_id="q1", max_points=2.0, rule=ChoiceRule(correct=["B"])
-            ),
+            "q1": QuestionGrading(question_id="q1", max_points=2.0, rule=ChoiceRule(correct=["B"])),
             "q2": QuestionGrading(
                 question_id="q2",
                 max_points=3.0,

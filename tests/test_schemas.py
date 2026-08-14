@@ -32,7 +32,14 @@ def test_tiny_exam_is_valid():
     exam = build_tiny_exam()
     assert exam.total_points == 17.0
     assert [q.id for q in exam.iter_leaves()] == [
-        "q1", "q2", "q3", "q4", "q5", "q6.a", "q6.b", "q7",
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6.a",
+        "q6.b",
+        "q7",
     ]
 
 

@@ -47,8 +47,15 @@ class Seams:
             hf_module,
             "_push_dataset",
             lambda dataset, repo_id, config_name, private: self.calls.append(
-                ("push", {"dataset": dataset, "repo_id": repo_id,
-                          "config_name": config_name, "private": private})
+                (
+                    "push",
+                    {
+                        "dataset": dataset,
+                        "repo_id": repo_id,
+                        "config_name": config_name,
+                        "private": private,
+                    },
+                )
             ),
         )
         monkeypatch.setattr(
@@ -184,14 +191,13 @@ def test_download_single_bundle_auto_selects(tmp_path, monkeypatch):
 
 def test_download_round_trip_is_byte_identical(tmp_path, monkeypatch):
     source = build_tiny_bundle(tmp_path / "src")
+
     def snapshot(**kwargs):
         dest = hf_module.Path(kwargs["local_dir"]) / "matha" / "bundle"
         shutil.copytree(source.root, dest)
         return kwargs["local_dir"]
 
-    monkeypatch.setattr(
-        hf_module, "_list_repo_files", lambda repo_id: ["matha/bundle/exam.json"]
-    )
+    monkeypatch.setattr(hf_module, "_list_repo_files", lambda repo_id: ["matha/bundle/exam.json"])
     monkeypatch.setattr(hf_module, "_snapshot_download", snapshot)
     out = tmp_path / "dl"
     download_bundle("user/exams", out)

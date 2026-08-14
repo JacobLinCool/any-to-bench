@@ -264,8 +264,10 @@ def _question_index_text(exam: Exam, leaf_keys: dict[str, list[str]]) -> str:
                     )
                 elif leaf.matching:
                     extras = (
-                        " | left: " + ",".join(i.id for i in leaf.matching.left)
-                        + " | right: " + ",".join(i.id for i in leaf.matching.right)
+                        " | left: "
+                        + ",".join(i.id for i in leaf.matching.left)
+                        + " | right: "
+                        + ",".join(i.id for i in leaf.matching.right)
                     )
                 lines.append(
                     f"- number: {printed[leaf.id]!r} | type: {leaf.type.value} | "
@@ -318,8 +320,7 @@ def _judge_rule_from_key(
                     id=c.id,
                     description=c.description,
                     levels=[
-                        RubricLevel(points=lv.points, descriptor=lv.descriptor)
-                        for lv in c.levels
+                        RubricLevel(points=lv.points, descriptor=lv.descriptor) for lv in c.levels
                     ],
                 )
                 for c in entry.rubric
@@ -390,8 +391,9 @@ def _build_grading_entry(
                     correct=correct, ratio_by_errors=multi_choice_scoring.ratio_by_errors
                 )
             except ValueError as e:
-                warnings.append(f"{qid}: per-option scoring table unusable ({e}); "
-                                "using partial credit")
+                warnings.append(
+                    f"{qid}: per-option scoring table unusable ({e}); using partial credit"
+                )
                 rule = ChoiceRule(correct=correct, partial_credit=True)
         else:
             rule = ChoiceRule(correct=correct, partial_credit=t is QuestionType.multiple_choice)

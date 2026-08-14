@@ -141,9 +141,7 @@ def solve_question(
     return answer
 
 
-def run_solve(
-    bundle: ExamBundle, model: str, effort: Effort | str | None = None
-) -> AnswerSheet:
+def run_solve(bundle: ExamBundle, model: str, effort: Effort | str | None = None) -> AnswerSheet:
     if parse_agentic_model(model) is not None:
         from any_to_bench.agentic.solve import agentic_solve
 

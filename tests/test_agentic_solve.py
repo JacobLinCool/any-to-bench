@@ -77,9 +77,7 @@ def test_solve_fix_loop_feeds_schema_errors_back(tiny_bundle, monkeypatch):
             "q1": {"type": "single_choice", "selected": "Z"},
         },
     }
-    fake = FakeCodex(
-        [lambda ws: write_json(ws / "output" / "answers.json", bad), write_valid]
-    )
+    fake = FakeCodex([lambda ws: write_json(ws / "output" / "answers.json", bad), write_valid])
     monkeypatch.setattr(runner_module, "run_codex", fake)
 
     sheet = run_solve(tiny_bundle, "codex:test")

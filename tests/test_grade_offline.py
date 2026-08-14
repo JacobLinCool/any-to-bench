@@ -33,9 +33,7 @@ def test_judge_grading_with_fake_judges(tiny_bundle, monkeypatch):
         total_points=2.8,
         overall_rationale="good",
     )
-    monkeypatch.setattr(
-        judge_module, "build_agent", fake_build_agent({JudgeVerdict: verdict})
-    )
+    monkeypatch.setattr(judge_module, "build_agent", fake_build_agent({JudgeVerdict: verdict}))
 
     report = run_grade(tiny_bundle, perfect_sheet())
     # Deterministic part is perfect: 2+3+1+2+2 = 10
@@ -60,15 +58,11 @@ def test_multi_judge_aggregation(tiny_bundle, monkeypatch):
     def produce(parts):
         return JudgeVerdict(criteria=[], total_points=next(totals), overall_rationale="ok")
 
-    monkeypatch.setattr(
-        judge_module, "build_agent", fake_build_agent({JudgeVerdict: produce})
-    )
+    monkeypatch.setattr(judge_module, "build_agent", fake_build_agent({JudgeVerdict: produce}))
 
     sheet = perfect_sheet()
     # Keep only holistic judge questions to make expectations simple.
-    sheet.answers = {
-        qid: ans for qid, ans in sheet.answers.items() if qid in ("q6.a", "q7")
-    }
+    sheet.answers = {qid: ans for qid, ans in sheet.answers.items() if qid in ("q6.a", "q7")}
     report = run_grade(tiny_bundle, sheet, judge_models=["test:a", "test:b"])
     assert report.results["q6.a"].awarded == 1.5  # mean(1.0, 2.0)
     assert report.results["q6.a"].detail["totals"] == [1.0, 2.0]
@@ -83,9 +77,7 @@ def test_failing_judge_does_not_sink_run(tiny_bundle, monkeypatch):
     def explode(parts):
         raise RuntimeError("provider down")
 
-    monkeypatch.setattr(
-        judge_module, "build_agent", fake_build_agent({JudgeVerdict: explode})
-    )
+    monkeypatch.setattr(judge_module, "build_agent", fake_build_agent({JudgeVerdict: explode}))
     sheet = perfect_sheet()
     report = run_grade(tiny_bundle, sheet)
     assert report.results["q6.a"].mode == "error"

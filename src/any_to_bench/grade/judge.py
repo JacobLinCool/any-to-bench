@@ -257,8 +257,14 @@ def run_judges(
             try:
                 verdicts.append(
                     judge_one(
-                        bundle, question_id, grading, answer, judge_model,
-                        warnings, tracker, effort,
+                        bundle,
+                        question_id,
+                        grading,
+                        answer,
+                        judge_model,
+                        warnings,
+                        tracker,
+                        effort,
                     )
                 )
             except Exception as e:  # noqa: BLE001 — a failing judge must not sink the run
