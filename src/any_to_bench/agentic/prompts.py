@@ -1,7 +1,9 @@
-"""AGENTS.md templates and task prompts for the agentic (codex) backend.
+"""AGENTS.md templates and task prompts, shared by every agentic backend.
 
-Codex automatically reads AGENTS.md at the working root, so the standing
-contract lives there and the per-run prompt stays short.
+The standing contract lives in AGENTS.md at the working root so the per-run
+prompt stays short. Codex picks that file up automatically; the Claude Code
+backend passes its contents as a system prompt, since it runs with
+auto-discovery disabled. Either way these bodies stay backend-neutral.
 """
 
 from __future__ import annotations

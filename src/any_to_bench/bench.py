@@ -5,9 +5,9 @@ from __future__ import annotations
 import math
 import time
 from datetime import UTC, datetime
-from importlib.metadata import version
 from pathlib import Path
 
+from any_to_bench import tool_version
 from any_to_bench.bundle import ExamBundle
 from any_to_bench.grade.aggregate import run_grade
 from any_to_bench.schemas.bench import BenchReport, BenchRow
@@ -46,7 +46,7 @@ def run_bench(
         1 for qg in bundle.grading.questions.values() if not isinstance(qg.rule, JudgeRule)
     )
     report = BenchReport(
-        tool_version=version("any-to-bench"),
+        tool_version=tool_version(),
         bundle_dir=str(bundle.root),
         exam_id=bundle.exam.exam_id,
         title=bundle.exam.title,

@@ -10,6 +10,7 @@ from typing import Any
 import jsonschema
 from pydantic import BaseModel, Field, ValidationError
 
+from any_to_bench import tool_version as _tool_version
 from any_to_bench.schemas.answers import AnswerSheet, generate_answer_schema
 from any_to_bench.schemas.exam import Exam, QuestionType
 from any_to_bench.schemas.grading import (
@@ -38,7 +39,7 @@ class SourceFile(BaseModel):
 class BundleManifest(BaseModel):
     schema_version: str = "1"
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
-    tool_version: str = "0.1.0"
+    tool_version: str = Field(default_factory=_tool_version)
     ingest_model: str | None = None
     sources: list[SourceFile] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)

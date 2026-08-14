@@ -308,11 +308,12 @@ FAKE_CODEX_USAGE = CodexUsage(
 )
 
 
-class FakeCodex:
-    """Stands in for agentic.runner.run_codex; each round runs a writer(workspace).
+class FakeAgenticRun:
+    """Stands in for any agentic runner; each round runs a writer(workspace).
 
-    Rounds beyond the provided writers are no-ops (earlier files persist), so a
-    single bad writer naturally exercises fix-loop exhaustion.
+    The signature mirrors run_codex/run_claude exactly, so one double serves
+    every backend. Rounds beyond the provided writers are no-ops (earlier files
+    persist), so a single bad writer naturally exercises fix-loop exhaustion.
     """
 
     def __init__(self, rounds: list[Any]) -> None:
@@ -347,6 +348,9 @@ class FakeCodex:
             usage=FAKE_CODEX_USAGE,
             events=[],
         )
+
+
+FakeCodex = FakeAgenticRun  # the name the codex-era tests already use
 
 
 # Every FakeAgent call reports this usage, so tests can assert accumulation.

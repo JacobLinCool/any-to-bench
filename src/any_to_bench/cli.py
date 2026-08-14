@@ -30,7 +30,7 @@ EffortOption = Annotated[
     Effort | None,
     typer.Option(
         help="Reasoning effort (OpenAI: reasoning.effort; Google: thinking_level; "
-        "codex: model_reasoning_effort). Default: provider default."
+        "codex: model_reasoning_effort; claude: --effort). Default: provider default."
     ),
 ]
 
@@ -50,8 +50,8 @@ def ingest(
     model: Annotated[
         str,
         typer.Option(
-            help="Extraction model, e.g. openai:gpt-5.6-terra, or codex:gpt-5.6-sol "
-            "for agentic mode (runs the Codex CLI)"
+            help="Extraction model, e.g. openai:gpt-5.6-terra, or codex:gpt-5.6-sol / "
+            "claude:opus for agentic mode (runs that CLI)"
         ),
     ] = DEFAULT_MODEL,
     effort: EffortOption = None,
@@ -80,8 +80,8 @@ def solve(
     model: Annotated[
         str,
         typer.Option(
-            help="Taker model, e.g. google:gemini-3.7-flash, or codex:gpt-5.6-sol "
-            "for agentic mode (runs the Codex CLI)"
+            help="Taker model, e.g. google:gemini-3.7-flash, or codex:gpt-5.6-sol / "
+            "claude:opus for agentic mode (runs that CLI)"
         ),
     ] = DEFAULT_MODEL,
     effort: EffortOption = None,
@@ -113,7 +113,7 @@ def grade(
         list[str] | None,
         typer.Option(
             help="Override judge model(s) from grading.json; repeatable. "
-            "codex:* models judge agentically via the Codex CLI"
+            "codex:* and claude:* models judge agentically via that CLI"
         ),
     ] = None,
     effort: EffortOption = None,
@@ -143,7 +143,9 @@ def bench(
     output: Annotated[Path, typer.Option("--output", "-o", help="Directory for bench artifacts")],
     model: Annotated[
         list[str],
-        typer.Option(help="Taker model(s) to benchmark; repeatable (codex:* runs agentically)"),
+        typer.Option(
+            help="Taker model(s) to benchmark; repeatable (codex:*/claude:* run agentically)"
+        ),
     ],
     judge_model: Annotated[
         list[str] | None,

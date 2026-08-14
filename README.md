@@ -59,9 +59,9 @@ a2b download user/my-exams --name matha -o local/bundle
 `a2b` is a shorthand alias for `any-to-bench` — every command works with both. In a
 cloned repo without installing, prefix commands with `uv run` (e.g. `uv run a2b ...`).
 
-Ingest, solve, and judge models are independent. Use a `codex:` model string (e.g.
-`codex:gpt-5.6-sol`) to run a phase **agentically** via the Codex CLI instead of
-direct LLM calls — same commands, same outputs. All commands accept `--effort` and
+Ingest, solve, and judge models are independent. Use a `codex:` or `claude:` model
+string (e.g. `codex:gpt-5.6-sol`, `claude:opus`) to run a phase **agentically** via
+that CLI instead of direct LLM calls — same commands, same outputs. All commands accept `--effort` and
 report token usage.
 
 ## Design principles
@@ -90,7 +90,7 @@ exactly once, so that grading needs almost none, forever.
 
 - [The exam bundle](docs/bundle.md) — output format, question model, validation
 - [How ingestion works](docs/ingestion.md) — the LLM-mode extraction pipeline
-- [Agentic mode](docs/agentic-mode.md) — `codex:` models, workspaces, the fix loop
+- [Agentic mode](docs/agentic-mode.md) — `codex:`/`claude:` models, workspaces, the fix loop
 - [Grading semantics](docs/grading.md) — deterministic rules and LLM judges
 - [Benchmarking](docs/bench.md) — the `bench` model matrix and its metrics
 - [Publishing](docs/publish.md) — sharing bundles as Hugging Face datasets
@@ -104,7 +104,7 @@ uv run ruff check .
 uv run ruff format .    # CI enforces this with --check
 ```
 
-The test suite fakes the LLM layer (`any_to_bench.llm.build_agent`) and the codex
-subprocess layer (`any_to_bench.agentic.runner.run_codex`), so the entire
-ingest → solve → grade pipeline runs end-to-end in both modes without network access
-or a codex binary.
+The test suite fakes the LLM layer (`any_to_bench.llm.build_agent`) and the agentic
+subprocess layer (`any_to_bench.agentic.runner.run_codex` / `run_claude`), so the
+entire ingest → solve → grade pipeline runs end-to-end in every mode without network
+access or either CLI binary installed.

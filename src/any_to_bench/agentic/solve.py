@@ -1,11 +1,11 @@
-"""Agentic solve: a codex agent takes the whole exam in one workspace session."""
+"""Agentic solve: a CLI agent takes the whole exam in one workspace session."""
 
 from __future__ import annotations
 
 from pydantic import ValidationError
 
 from any_to_bench.agentic.prompts import SOLVE_AGENTS_MD, SOLVE_TASK_PROMPT
-from any_to_bench.agentic.runner import CodexError, parse_agentic_model, run_fix_loop
+from any_to_bench.agentic.runner import AgenticError, parse_agentic, run_fix_loop
 from any_to_bench.agentic.workspace import (
     cleanup_workspace,
     collect_exam_assets,
@@ -25,8 +25,8 @@ PHASE = "agentic:solve"
 def agentic_solve(
     bundle: ExamBundle, model: str, effort: Effort | str | None = None
 ) -> AnswerSheet:
-    cli_model = parse_agentic_model(model)
-    if cli_model is None:
+    agentic_model = parse_agentic(model)
+    if agentic_model is None:
         raise ValueError(f"not an agentic model string: {model!r}")
     tracker = UsageTracker()
 
@@ -62,16 +62,17 @@ def agentic_solve(
         outcome = run_fix_loop(
             workspace,
             SOLVE_TASK_PROMPT,
-            cli_model,
+            agentic_model.cli_model,
             oracle,
             on_usage=lambda u: tracker.add(PHASE, u),
             effort=effort,
+            backend=agentic_model.backend,
         )
-    except CodexError as e:
-        raise CodexError(f"{e} (workspace kept at {workspace})") from e
+    except AgenticError as e:
+        raise AgenticError(f"{e} (workspace kept at {workspace})") from e
 
     if parsed is None:
-        raise CodexError(
+        raise AgenticError(
             f"agentic solve produced no parseable answers.json in {outcome.rounds_run} "
             f"round(s) (workspace kept at {workspace}): " + "; ".join(outcome.problems[:5])
         )

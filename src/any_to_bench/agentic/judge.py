@@ -1,4 +1,4 @@
-"""Agentic judging: one codex batch session grades all open-ended answers."""
+"""Agentic judging: one batch session per model grades all open-ended answers."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ import jsonschema
 from pydantic import ValidationError
 
 from any_to_bench.agentic.prompts import JUDGE_AGENTS_MD, JUDGE_TASK_PROMPT
-from any_to_bench.agentic.runner import CodexError, parse_agentic_model, run_fix_loop
+from any_to_bench.agentic.runner import AgenticError, parse_agentic, run_fix_loop
 from any_to_bench.agentic.workspace import (
     cleanup_workspace,
     copy_assets,
@@ -158,8 +158,8 @@ def agentic_judge(
     tracker: UsageTracker,
     effort: Effort | str | None = None,
 ) -> dict[str, JudgeVerdict]:
-    cli_model = parse_agentic_model(judge_model)
-    if cli_model is None:
+    agentic_model = parse_agentic(judge_model)
+    if agentic_model is None:
         raise ValueError(f"not an agentic model string: {judge_model!r}")
     if not judge_rules:
         return {}
@@ -212,13 +212,14 @@ def agentic_judge(
         outcome = run_fix_loop(
             workspace,
             JUDGE_TASK_PROMPT,
-            cli_model,
+            agentic_model.cli_model,
             oracle,
             on_usage=lambda u: tracker.add(f"judge:{judge_model}", u),
             effort=effort,
+            backend=agentic_model.backend,
         )
-    except CodexError as e:
-        raise CodexError(f"{e} (workspace kept at {workspace})") from e
+    except AgenticError as e:
+        raise AgenticError(f"{e} (workspace kept at {workspace})") from e
 
     # Salvage per-question: on success everything passes; on exhaustion keep
     # whatever verdicts are individually valid and warn about the rest.
