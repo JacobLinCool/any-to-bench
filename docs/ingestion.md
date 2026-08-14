@@ -1,5 +1,11 @@
 # How ingestion works (LLM mode)
 
+Ingestion is the phase where spending is worth it: the bundle it produces is a
+reusable dataset, so extraction accuracy is amortized across every future solve and
+grade run. Prefer strong models (or [agentic mode](agentic-mode.md)) here — and
+extract everything gradable (keys, point values, rubrics, scoring rules) into
+`grading.json` now, so grading later needs as little model intelligence as possible.
+
 `ingest` accepts any mix of PDFs and photos for one exam. **Feed it everything you
 have** — question booklet, answer key, worked solutions, scoring guidelines, and the
 blank answer sheet: open-ended answer formats (answer grids, graph paper) and

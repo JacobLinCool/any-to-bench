@@ -1,8 +1,14 @@
 # Grading semantics
 
-Fixed-answer questions grade **deterministically**; open-ended questions grade via one
-or more **multimodal LLM judges**. A bundle whose grading is fully deterministic grades
-with zero API calls.
+The design goal of this phase is **reproducibility with minimal intelligence**: the
+same answer sheet should earn the same score every time, and grading should not
+depend on a frontier model. Fixed-answer questions therefore grade
+**deterministically** — pure scripts, zero API calls. Open-ended questions grade via
+**constrained multimodal LLM judges**: a precise rubric with defined point levels
+(extracted at ingest time), a reference answer, and level snapping leave the judge
+mechanical rule-following rather than free-form appraisal — which is what keeps even
+a modest judge model accurate and consistent. A bundle whose grading is fully
+deterministic grades with zero API calls.
 
 ## Deterministic rules
 

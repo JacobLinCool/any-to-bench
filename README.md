@@ -40,6 +40,10 @@ uv run any-to-bench grade out/bundle out/answers.json -o out/report.json
 # Or benchmark several models at once: solve + grade each, compare in one table
 uv run any-to-bench bench out/bundle -o out/bench \
     --model openai:gpt-5.6-terra --model google:gemini-3.7-flash
+
+# Share bundles via Hugging Face datasets (viewer-friendly, byte-faithful round trip)
+uv run any-to-bench upload out/bundle user/my-exams --name matha
+uv run any-to-bench download user/my-exams --name matha -o local/bundle
 ```
 
 `a2b` is a shorthand alias for `any-to-bench` — every command works with both.
@@ -49,6 +53,28 @@ Ingest, solve, and judge models are independent. Use a `codex:` model string (e.
 direct LLM calls — same commands, same outputs. All commands accept `--effort` and
 report token usage.
 
+## Design principles
+
+The three phases have deliberately **asymmetric goals**:
+
+- **Ingest: spend freely, be exact.** A bundle is a dataset — built once, reused by
+  everyone who ever benchmarks against it. Extraction accuracy is worth almost any
+  model cost and wall time; this is why ingestion supports the expensive agentic mode,
+  gap-repair rounds, and validate-and-fix loops. Intelligence spent here is amortized
+  across every future run.
+- **Solve: no constraints.** The taker is the thing being measured — anything from a
+  cheap LLM call to a full agent belongs here.
+- **Grade: require as little intelligence as possible.** The same answer sheet must
+  earn the same score every time. Fixed-answer questions grade as pure scripts — zero
+  model calls, bit-for-bit reproducible. Where an LLM judge is unavoidable
+  (open-ended questions), it is *constrained*, not creative: precise rubrics with
+  defined point levels, reference answers, and level snapping mean the judge follows
+  the rubric mechanically instead of improvising — so even a non-frontier judge model
+  grades accurately and consistently.
+
+Put differently: ingest converts intelligence into structure (keys, rubrics, schemas)
+exactly once, so that grading needs almost none, forever.
+
 ## Documentation
 
 - [The exam bundle](docs/bundle.md) — output format, question model, validation
@@ -56,6 +82,7 @@ report token usage.
 - [Agentic mode](docs/agentic-mode.md) — `codex:` models, workspaces, the fix loop
 - [Grading semantics](docs/grading.md) — deterministic rules and LLM judges
 - [Benchmarking](docs/bench.md) — the `bench` model matrix and its metrics
+- [Publishing](docs/publish.md) — sharing bundles as Hugging Face datasets
 - [Models, effort, usage](docs/models.md) — model strings, `--effort`, token reporting
 
 ## Development
