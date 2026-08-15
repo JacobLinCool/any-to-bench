@@ -39,6 +39,28 @@ class TestChoice:
         awarded, _ = grade_choice(rule, 2.0, 0.0, SingleChoiceAnswer(selected="A"))
         assert awarded == 0.0
 
+    def test_single_choice_accepts_any_listed_option(self):
+        """An amended key ("B or C both accepted") must pay out on either."""
+        rule = ChoiceRule(correct=["B", "C"])
+
+        assert grade_choice(rule, 2.0, 0.0, SingleChoiceAnswer(selected="B"))[0] == 2.0
+        assert grade_choice(rule, 2.0, 0.0, SingleChoiceAnswer(selected="C"))[0] == 2.0
+        assert grade_choice(rule, 2.0, 0.0, SingleChoiceAnswer(selected="A"))[0] == 0.0
+
+    def test_single_choice_voided_question_pays_every_option(self):
+        """A defective question voided into 送分: every option earns full marks."""
+        rule = ChoiceRule(correct=["A", "B", "C", "D"])
+
+        for option in ("A", "B", "C", "D"):
+            assert grade_choice(rule, 2.0, 0.0, SingleChoiceAnswer(selected=option))[0] == 2.0
+
+    def test_multiple_choice_still_needs_the_exact_set(self):
+        """The accept-list reading is single_choice only; multi-select is unchanged."""
+        rule = ChoiceRule(correct=["A", "C"])
+
+        assert grade_choice(rule, 3.0, 0.0, MultipleChoiceAnswer(selected=["A", "C"]))[0] == 3.0
+        assert grade_choice(rule, 3.0, 0.0, MultipleChoiceAnswer(selected=["A"]))[0] == 0.0
+
     def test_single_negative_marking(self):
         rule = ChoiceRule(correct=["B"], negative_marking=-0.5)
         awarded, detail = grade_choice(rule, 2.0, -0.5, SingleChoiceAnswer(selected="A"))

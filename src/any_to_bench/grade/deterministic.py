@@ -40,8 +40,10 @@ def grade_choice(
     rule: ChoiceRule, max_points: float, min_points: float, answer: AnswerValue
 ) -> tuple[float, dict[str, Any]]:
     if isinstance(answer, SingleChoiceAnswer):
+        single = True
         selected = {answer.selected}
     elif isinstance(answer, MultipleChoiceAnswer):
+        single = False
         selected = set(answer.selected)
     else:
         raise AnswerTypeMismatch(f"expected a choice answer, got {answer.type}")
@@ -56,7 +58,12 @@ def grade_choice(
         "wrong": sorted(wrong),
     }
 
-    if selected == correct:
+    # For a single_choice question `correct` is an accept-list, not a set the
+    # answer must reproduce: an official key can accept several options after an
+    # amendment ("B or C"), or every option when a defective question is voided
+    # into full credit for all takers. Requiring set equality there scores every
+    # possible pick zero — the exact opposite of what the key says.
+    if selected == correct or (single and hits):
         return max_points, detail
 
     if not hits and rule.negative_marking is not None:
