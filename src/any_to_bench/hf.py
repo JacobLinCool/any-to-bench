@@ -147,7 +147,11 @@ def _replace_block(text: str, start: str, end: str, block: str) -> str:
     return (text.rstrip() + "\n\n" + block + "\n").lstrip("\n")
 
 
-def _header_block(repo_id: str) -> str:
+COPYRIGHT_NOTE = "*Exam content copyright belongs to the original exam publisher.*"
+
+
+def _header_block(repo_id: str, *, copyright_note: bool = True) -> str:
+    note = f"\n\n{COPYRIGHT_NOTE}" if copyright_note else ""
     return f"""{_HEADER_START}
 Machine-gradable exam benchmarks produced by **any-to-bench**. Each subset is one
 exam: the viewer table shows one row per answerable question (figures embedded);
@@ -176,9 +180,7 @@ ds = load_dataset("{repo_id}", "<subset>", split="test")
 ## ⚠️ Answer key included
 
 `<subset>/bundle/grading.json` contains the full answer key and scoring rubrics.
-If you benchmark models against this dataset, keep it out of training corpora.
-
-*Exam content copyright belongs to the original exam publisher.*
+If you benchmark models against this dataset, keep it out of training corpora.{note}
 {_HEADER_END}"""
 
 
@@ -226,11 +228,21 @@ def _bundle_block(name: str, bundle: ExamBundle, repo_id: str) -> str:
 
 
 def update_card(
-    card: Any, name: str, bundle: ExamBundle, repo_id: str, license: str | None = None
+    card: Any,
+    name: str,
+    bundle: ExamBundle,
+    repo_id: str,
+    license: str | None = None,
+    *,
+    copyright_note: bool = True,
 ) -> Any:
     """Refresh the header and this bundle's section; other sections and any
     hand-written text outside the markers are preserved, as is the
-    push_to_hub-managed configs YAML."""
+    push_to_hub-managed configs YAML.
+
+    The header is rewritten in full on every call, so copyright_note has to be
+    passed on every upload to a repo — one upload without it puts the line back.
+    """
     data = card.data
     if not getattr(data, "pretty_name", None):
         data.pretty_name = bundle.exam.title
@@ -254,7 +266,8 @@ def update_card(
         data.license = license
 
     text = card.text
-    text = _replace_block(text, _HEADER_START, _HEADER_END, _header_block(repo_id))
+    header = _header_block(repo_id, copyright_note=copyright_note)
+    text = _replace_block(text, _HEADER_START, _HEADER_END, header)
     start, end = _section_markers(name)
     text = _replace_block(text, start, end, _bundle_block(name, bundle, repo_id))
     card.text = text
@@ -340,6 +353,7 @@ def upload_bundle(
     name: str | None = None,
     private: bool = False,
     license: str | None = None,
+    copyright_note: bool = True,
 ) -> str:
     """Publish one bundle: viewer table (embedded images), raw files, dataset card."""
     bundle_dir = Path(bundle_dir)
@@ -370,7 +384,9 @@ def upload_bundle(
         commit_message=f"Upload bundle {name}",
         delete_patterns=[f"{name}/bundle/**"],
     )
-    card = update_card(_load_card(repo_id), name, bundle, repo_id, license=license)
+    card = update_card(
+        _load_card(repo_id), name, bundle, repo_id, license=license, copyright_note=copyright_note
+    )
     _push_card(card, repo_id)
     return f"https://huggingface.co/datasets/{repo_id}"
 

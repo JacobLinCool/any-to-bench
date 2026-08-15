@@ -259,12 +259,28 @@ def upload(
             "stays with the original publisher; unset leaves the card without one)"
         ),
     ] = None,
+    copyright_note: Annotated[
+        bool,
+        typer.Option(
+            "--copyright-note/--no-copyright-note",
+            help="Print 'exam content copyright belongs to the original publisher' "
+            "in the dataset card. The card header is rebuilt on every upload, so "
+            "pass --no-copyright-note on each one to keep the line out",
+        ),
+    ] = True,
 ) -> None:
     """Publish an exam bundle to a Hugging Face dataset repo (viewer-friendly)."""
     from any_to_bench.hf import HubError, upload_bundle
 
     try:
-        url = upload_bundle(bundle_dir, repo_id, name=name, private=private, license=license)
+        url = upload_bundle(
+            bundle_dir,
+            repo_id,
+            name=name,
+            private=private,
+            license=license,
+            copyright_note=copyright_note,
+        )
     except HubError as e:
         typer.echo(str(e), err=True)
         raise typer.Exit(code=1) from e

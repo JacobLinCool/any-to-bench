@@ -53,6 +53,12 @@ bundle rewrites only its own section, and anything you write outside the markers
 preserved. `pretty_name` is set only when absent (from the first uploaded exam's
 title) — edit it freely on the Hub; uploads won't clobber it.
 
+`--no-copyright-note` drops the "exam content copyright belongs to the original
+publisher" line from the header — useful when you own the material or say it
+elsewhere. Unlike a hand edit on the Hub, which the next upload overwrites, the flag
+survives *that* upload — but the header block is rebuilt in full every time, so pass
+it on **every** upload to the repo or the line comes back.
+
 ## Auth and visibility
 
 - Token: `HF_TOKEN` in `.env` (or environment), or the cached `hf auth login` state.

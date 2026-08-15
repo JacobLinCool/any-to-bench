@@ -164,6 +164,24 @@ def test_card_update_is_idempotent_and_preserves_foreign_content(tiny_bundle):
     assert "## second — Tiny Exam" in card.text
 
 
+def test_copyright_note_is_optional_but_not_sticky(tiny_bundle):
+    from huggingface_hub import DatasetCard
+
+    from any_to_bench.hf import COPYRIGHT_NOTE, update_card
+
+    card = update_card(DatasetCard(""), "tiny", tiny_bundle, "user/exams")
+    assert COPYRIGHT_NOTE in card.text  # on by default
+
+    card = update_card(card, "tiny", tiny_bundle, "user/exams", copyright_note=False)
+    assert COPYRIGHT_NOTE not in card.text
+    assert "Answer key included" in card.text  # the rest of the header survives
+
+    # The header is rebuilt in full every time, so one upload without the flag
+    # brings the line back. Callers must pass it on every upload.
+    card = update_card(card, "second", tiny_bundle, "user/exams")
+    assert COPYRIGHT_NOTE in card.text
+
+
 def _fake_snapshot(monkeypatch, name="matha"):
     def snapshot(**kwargs):
         local_dir = kwargs["local_dir"]
