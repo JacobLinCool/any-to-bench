@@ -1,0 +1,35 @@
+{
+  "name": "any-to-bench-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "svelte-check --tsconfig ./tsconfig.json && vite build && node check-css.mjs",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@tailwindcss/vite": "^4.1.16",
+    "@types/node": "^26.2.0",
+    "daisyui": "^5.5.2",
+    "svelte": "^5.42.2",
+    "svelte-check": "^4.3.3",
+    "tailwindcss": "^4.1.16",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
+  },
+  "dependencies": {
+    "@fontsource-variable/archivo": "^5.2.8",
+    "@fontsource-variable/spline-sans-mono": "^5.2.6",
+    "@lucide/svelte": "^0.552.0",
+    "dompurify": "^3.4.13",
+    "katex": "^0.16.24",
+    "marked": "^16.4.1"
+  }
+}

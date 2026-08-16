@@ -1,0 +1,487 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-17T00:00:00Z",
+  "title": "Design System: any-to-bench",
+  "scope": "site/ — the landing page (src/App.svelte), the bundle viewer (src/Viewer.svelte), and src/lib/. The Python CLI and docs/ are out of scope.",
+  "extensions": {
+    "colorMeta": {
+      "stock": {
+        "role": "neutral",
+        "displayName": "Card Stock",
+        "canonical": "oklch(0.968 0.005 220)",
+        "usage": "Every surface a word is read on. DaisyUI base-100.",
+        "tonalRamp": [
+          "oklch(0.15 0.008 220)",
+          "oklch(0.26 0.008 220)",
+          "oklch(0.37 0.007 220)",
+          "oklch(0.49 0.007 220)",
+          "oklch(0.60 0.006 220)",
+          "oklch(0.72 0.006 220)",
+          "oklch(0.83 0.005 220)",
+          "oklch(0.95 0.005 220)"
+        ]
+      },
+      "stock-shaded": {
+        "role": "neutral",
+        "displayName": "Stock, Shaded Zone",
+        "canonical": "oklch(0.936 0.017 219)",
+        "usage": "Second-order panel ground on the card. DaisyUI base-200.",
+        "tonalRamp": [
+          "oklch(0.15 0.017 219)",
+          "oklch(0.26 0.017 219)",
+          "oklch(0.37 0.017 219)",
+          "oklch(0.49 0.017 219)",
+          "oklch(0.60 0.017 219)",
+          "oklch(0.72 0.017 219)",
+          "oklch(0.83 0.017 219)",
+          "oklch(0.95 0.017 219)"
+        ]
+      },
+      "bed": {
+        "role": "neutral",
+        "displayName": "Scanner Bed",
+        "canonical": "oklch(0.229 0.012 240)",
+        "usage": "The page ground under every card. Content is never set on it except the footer's issuing block.",
+        "tonalRamp": [
+          "oklch(0.15 0.012 240)",
+          "oklch(0.26 0.012 240)",
+          "oklch(0.37 0.012 240)",
+          "oklch(0.49 0.012 240)",
+          "oklch(0.60 0.012 240)",
+          "oklch(0.72 0.012 240)",
+          "oklch(0.83 0.012 240)",
+          "oklch(0.95 0.012 240)"
+        ]
+      },
+      "bed-deep": {
+        "role": "neutral",
+        "displayName": "Bed, Deep",
+        "canonical": "oklch(0.174 0.011 240)",
+        "usage": "Scrollbar track — the shadowed part of the bed.",
+        "tonalRamp": [
+          "oklch(0.15 0.011 240)",
+          "oklch(0.26 0.011 240)",
+          "oklch(0.37 0.011 240)",
+          "oklch(0.49 0.011 240)",
+          "oklch(0.60 0.011 240)",
+          "oklch(0.72 0.011 240)",
+          "oklch(0.83 0.011 240)",
+          "oklch(0.95 0.011 240)"
+        ]
+      },
+      "bed-content": {
+        "role": "neutral",
+        "displayName": "Bed Content",
+        "canonical": "oklch(0.898 0.019 220)",
+        "usage": "The only text color permitted directly on the bed.",
+        "tonalRamp": [
+          "oklch(0.15 0.019 220)",
+          "oklch(0.26 0.019 220)",
+          "oklch(0.37 0.019 220)",
+          "oklch(0.49 0.019 220)",
+          "oklch(0.60 0.019 220)",
+          "oklch(0.72 0.019 220)",
+          "oklch(0.83 0.019 220)",
+          "oklch(0.95 0.019 220)"
+        ]
+      },
+      "graphite": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "oklch(0.253 0.013 245)",
+        "usage": "Content that counts: headlines, question numbers, exam prose, the filled mark, 2px boundary rules. DaisyUI base-content.",
+        "tonalRamp": [
+          "oklch(0.15 0.013 245)",
+          "oklch(0.26 0.013 245)",
+          "oklch(0.37 0.013 245)",
+          "oklch(0.49 0.013 245)",
+          "oklch(0.60 0.013 245)",
+          "oklch(0.72 0.013 245)",
+          "oklch(0.83 0.013 245)",
+          "oklch(0.95 0.013 245)"
+        ]
+      },
+      "graphite-soft": {
+        "role": "neutral",
+        "displayName": "Graphite, Soft",
+        "canonical": "oklch(0.469 0.020 240)",
+        "usage": "Supporting prose, captions, point values, secondary labels.",
+        "tonalRamp": [
+          "oklch(0.15 0.020 240)",
+          "oklch(0.26 0.020 240)",
+          "oklch(0.37 0.020 240)",
+          "oklch(0.49 0.020 240)",
+          "oklch(0.60 0.020 240)",
+          "oklch(0.72 0.020 240)",
+          "oklch(0.83 0.020 240)",
+          "oklch(0.95 0.020 240)"
+        ]
+      },
+      "dropout": {
+        "role": "secondary",
+        "displayName": "Drop-Out Cyan",
+        "canonical": "oklch(0.745 0.077 216)",
+        "usage": "The ink the scanner is blind to: the measuring grid, dividing rules, footer links, separators. Never carries anything a grader depends on.",
+        "tonalRamp": [
+          "oklch(0.15 0.030 216)",
+          "oklch(0.26 0.045 216)",
+          "oklch(0.37 0.058 216)",
+          "oklch(0.49 0.070 216)",
+          "oklch(0.60 0.077 216)",
+          "oklch(0.72 0.077 216)",
+          "oklch(0.83 0.060 216)",
+          "oklch(0.95 0.028 216)"
+        ]
+      },
+      "dropout-ink": {
+        "role": "secondary",
+        "displayName": "Drop-Out Ink",
+        "canonical": "oklch(0.531 0.076 219)",
+        "contrast": "4.52:1 on card stock",
+        "usage": "Drop-out cyan where it must still be read: field captions, register stub numbers, the unfilled mark's outline.",
+        "tonalRamp": [
+          "oklch(0.15 0.030 219)",
+          "oklch(0.26 0.045 219)",
+          "oklch(0.37 0.060 219)",
+          "oklch(0.49 0.074 219)",
+          "oklch(0.60 0.076 219)",
+          "oklch(0.72 0.070 219)",
+          "oklch(0.83 0.052 219)",
+          "oklch(0.95 0.024 219)"
+        ]
+      },
+      "dropout-soft": {
+        "role": "secondary",
+        "displayName": "Printed Hairline",
+        "canonical": "oklch(0.891 0.036 218)",
+        "usage": "Every cell seam, table row rule, and panel border on stock. DaisyUI base-300.",
+        "tonalRamp": [
+          "oklch(0.15 0.020 218)",
+          "oklch(0.26 0.028 218)",
+          "oklch(0.37 0.034 218)",
+          "oklch(0.49 0.036 218)",
+          "oklch(0.60 0.036 218)",
+          "oklch(0.72 0.036 218)",
+          "oklch(0.83 0.036 218)",
+          "oklch(0.95 0.026 218)"
+        ]
+      },
+      "dropout-faint": {
+        "role": "secondary",
+        "displayName": "Printed Tint",
+        "canonical": "oklch(0.943 0.019 217)",
+        "usage": "The ground of an opened answer key, a hovered register stub, and the travelling band in the question rail.",
+        "tonalRamp": [
+          "oklch(0.15 0.012 217)",
+          "oklch(0.26 0.015 217)",
+          "oklch(0.37 0.018 217)",
+          "oklch(0.49 0.019 217)",
+          "oklch(0.60 0.019 217)",
+          "oklch(0.72 0.019 217)",
+          "oklch(0.83 0.019 217)",
+          "oklch(0.95 0.019 217)"
+        ]
+      },
+      "cinnabar": {
+        "role": "primary",
+        "displayName": "Cinnabar",
+        "canonical": "oklch(0.577 0.191 30)",
+        "contrast": "4.65:1 under white text",
+        "usage": "Fills only: the act that commits, the broken seal's hover, the error glyph, the focus outline, the caret.",
+        "tonalRamp": [
+          "oklch(0.15 0.070 30)",
+          "oklch(0.26 0.110 30)",
+          "oklch(0.37 0.150 30)",
+          "oklch(0.49 0.180 30)",
+          "oklch(0.60 0.191 30)",
+          "oklch(0.72 0.155 30)",
+          "oklch(0.83 0.100 30)",
+          "oklch(0.95 0.038 30)"
+        ]
+      },
+      "cinnabar-ink": {
+        "role": "primary",
+        "displayName": "Cinnabar Ink",
+        "canonical": "oklch(0.533 0.187 30)",
+        "contrast": "5.26:1 on card stock",
+        "usage": "Cinnabar as text or hairline: the sealed-key label and border, matching-rule answer arrows.",
+        "tonalRamp": [
+          "oklch(0.15 0.070 30)",
+          "oklch(0.26 0.110 30)",
+          "oklch(0.37 0.150 30)",
+          "oklch(0.49 0.180 30)",
+          "oklch(0.60 0.187 30)",
+          "oklch(0.72 0.150 30)",
+          "oklch(0.83 0.098 30)",
+          "oklch(0.95 0.036 30)"
+        ]
+      },
+      "cinnabar-deep": {
+        "role": "primary",
+        "displayName": "Cinnabar, Deep",
+        "canonical": "oklch(0.512 0.180 30)",
+        "usage": "The hover darkening under white text on the primary action. Written literally at both call sites; promote to a :root custom property before a third use.",
+        "tonalRamp": [
+          "oklch(0.15 0.068 30)",
+          "oklch(0.26 0.106 30)",
+          "oklch(0.37 0.145 30)",
+          "oklch(0.49 0.176 30)",
+          "oklch(0.60 0.180 30)",
+          "oklch(0.72 0.145 30)",
+          "oklch(0.83 0.094 30)",
+          "oklch(0.95 0.035 30)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "One per page, on the issued card. Set to a 19ch measure with text-balance so it breaks like a printed heading."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section heads. The viewer's first-run heading is the same voice at clamp(2.1rem, 5vw, 3.6rem) / 800."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "In-panel headings. Exam section titles take the same rank at 1.25rem in the Han face."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose at a 62–68ch measure. The landing lede steps up to 1.125rem; in-panel copy steps down to 0.9375rem."
+      },
+      "label": {
+        "displayName": "Field Caption",
+        "purpose": "The .field-label — uppercase, letterspaced, set in drop-out ink so it disappears under the scanner lamp. Names a value; never a kicker or eyebrow."
+      },
+      "mono": {
+        "displayName": "Numeral / Identifier",
+        "purpose": "Question numbers, stub numbers, points, bundle names, dataset ids, commands, JSON. Ranges 0.6875rem to 1.875rem; question numbers are the loud end at semibold graphite."
+      },
+      "han": {
+        "displayName": "Exam Prose",
+        "purpose": "Traditional Chinese exam content. TC face leads, line-height 1.9, overflow-wrap: anywhere — bundles are untrusted input and must not set the page width."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sheet",
+        "value": "0 1px 0 color-mix(in oklab, #fff 55%, transparent) inset, 0 18px 44px -18px rgb(0 0 0 / 0.72), 0 2px 6px -2px rgb(0 0 0 / 0.45)",
+        "purpose": "The only shadow in the system: card stock lifted off the scanner bed. Inset hairline is the lit top edge; the two offset shadows are the cast shadow. Applied by .sheet and nowhere else."
+      }
+    ],
+    "motion": [
+      {
+        "name": "mark-fill",
+        "value": "transform 320ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms ease-out",
+        "purpose": "The one authored moment: graphite growing into a square (scale 0.15 → 1) when a mark fills."
+      },
+      {
+        "name": "mark-outline",
+        "value": "box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The mark's pre-printed outline settling."
+      },
+      {
+        "name": "state-color",
+        "value": "160ms ease-out",
+        "purpose": "Color, background, and border transitions on rows and stubs. Nothing else animates."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce → all durations 0.01ms, iteration-count 1",
+        "purpose": "Global, applied to *, ::before and ::after. No component may opt out."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "lg", "value": "1024px" }
+    ],
+    "containers": [
+      { "name": "landing", "value": "76rem" },
+      { "name": "viewer", "value": "82rem" },
+      { "name": "rail", "value": "15rem" }
+    ],
+    "buildGuards": {
+      "script": "site/check-css.mjs, run by pnpm build after vite build",
+      "required": [
+        "gap-x-8",
+        "sheet",
+        "registered-marks",
+        "timing-track",
+        "ruled",
+        "field-label",
+        "han",
+        "scanning",
+        "drops-out"
+      ],
+      "why": "Tailwind emits utility rules only where its scanner sees the name used, and it has dropped this world's classes twice — once because an unanchored lib/ rule in .gitignore hid site/src/lib from source detection. The world's furniture is therefore plain global CSS, Mark owns its own geometry, and the build greps the output CSS so the failure is loud."
+    }
+  },
+  "components": [
+    {
+      "name": "The Sheet",
+      "kind": "card",
+      "refersTo": "sheet",
+      "description": "The card itself, and the only container in the system: stock on the bed, zero radius, the one shadow, registration marks at the true corners and a timing track down the left edge.",
+      "html": "<div class=\"ds-sheet\"><span class=\"ds-sheet-marks\"></span><span class=\"ds-sheet-track\"></span><span class=\"ds-field-label\">Form</span><p class=\"ds-sheet-body\">any-to-bench · a2b</p></div>",
+      "css": ".ds-sheet { position: relative; background: var(--omr-stock, #f4f7f8); color: var(--omr-graphite, #1b2126); border-radius: 0; padding: 2rem 1.5rem 2rem 2.25rem; font-family: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif; box-shadow: 0 1px 0 color-mix(in oklab, #fff 55%, transparent) inset, 0 18px 44px -18px rgb(0 0 0 / 0.72), 0 2px 6px -2px rgb(0 0 0 / 0.45); } .ds-sheet-marks { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(var(--omr-graphite, #1b2126) 0 0), linear-gradient(var(--omr-graphite, #1b2126) 0 0), linear-gradient(var(--omr-graphite, #1b2126) 0 0), linear-gradient(var(--omr-graphite, #1b2126) 0 0); background-repeat: no-repeat; background-size: 14px 3px, 3px 14px, 14px 3px, 3px 14px; background-position: left 14px top 14px, left 14px top 14px, right 14px bottom 14px, right 14px bottom 14px; } .ds-sheet-track { position: absolute; top: 2.5rem; bottom: 2.5rem; left: 7px; width: 3px; opacity: 0.7; background-image: repeating-linear-gradient(to bottom, var(--omr-graphite, #1b2126) 0 6px, transparent 6px 14px); } .ds-sheet .ds-field-label { display: block; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--omr-dropout-ink, #2e7a92); } .ds-sheet-body { margin: 0.25rem 0 0; font-family: 'Spline Sans Mono Variable', ui-monospace, monospace; font-size: 0.875rem; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "The Mark",
+      "kind": "custom",
+      "refersTo": "mark",
+      "description": "The atom of the world: a wide square outlined in the pre-printed drop-out ink, filled with graphite when it counts. The only authored motion in the system.",
+      "html": "<span class=\"ds-mark-row\"><span class=\"ds-mark\"></span><span class=\"ds-mark\" data-filled=\"true\"></span><span class=\"ds-mark-label\">filled grades by script</span></span>",
+      "css": ".ds-mark-row { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif; } .ds-mark { position: relative; display: inline-block; flex: none; width: 1.75rem; height: 1.25rem; border-radius: 0; box-shadow: inset 0 0 0 1.5px var(--omr-dropout-ink, #2e7a92); transition: box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-mark::after { content: ''; position: absolute; inset: 2px; background: var(--omr-graphite, #1b2126); transform: scale(0.15); opacity: 0; transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms ease-out; } .ds-mark[data-filled='true']::after, .ds-mark-row:hover .ds-mark::after { transform: scale(1); opacity: 1; } .ds-mark-label { font-size: 0.8125rem; letter-spacing: 0.01em; color: var(--omr-graphite-soft, #4a555d); }"
+    },
+    {
+      "name": "Commit Button",
+      "kind": "button",
+      "refersTo": "button-commit",
+      "description": "The one cinnabar act on a page, placed where a card is signed. Hover darkens the fill and opens the tracking a hair as the arrow advances.",
+      "html": "<a class=\"ds-btn-commit\" href=\"#\">Open a real exam<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a>",
+      "css": ".ds-btn-commit { display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; background: var(--omr-cinnabar, #d8382a); color: #fff; border: none; border-radius: 0; padding: 1rem 1.75rem; font-family: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif; font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: background-color 180ms ease-out, letter-spacing 180ms ease-out; } .ds-btn-commit svg { transition: transform 180ms ease-out; } .ds-btn-commit:hover { background: #b92c20; letter-spacing: 0.01em; } .ds-btn-commit:hover svg { transform: translateX(4px); } .ds-btn-commit:focus-visible { outline: 2px solid var(--omr-cinnabar, #d8382a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Seal Button",
+      "kind": "button",
+      "refersTo": "button-seal",
+      "description": "The control over an answer key, and the only three-state control in the system: sealed (outlined cinnabar ink), hovered (cinnabar fill), broken (graphite fill).",
+      "html": "<button class=\"ds-btn-seal\" type=\"button\" aria-pressed=\"false\">Break the seal</button> <button class=\"ds-btn-seal ds-is-broken\" type=\"button\" aria-pressed=\"true\">Key shown</button>",
+      "css": ".ds-btn-seal { border: 1px solid var(--omr-cinnabar-ink, #c22e21); background: transparent; color: var(--omr-cinnabar-ink, #c22e21); border-radius: 0; padding: 0.5rem 0.875rem; font-family: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background-color 160ms ease-out, color 160ms ease-out, border-color 160ms ease-out; } .ds-btn-seal:hover { background: var(--omr-cinnabar, #d8382a); color: #fff; } .ds-btn-seal.ds-is-broken { border-color: var(--omr-graphite, #1b2126); background: var(--omr-graphite, #1b2126); color: var(--omr-stock, #f4f7f8); } .ds-btn-seal:focus-visible { outline: 2px solid var(--omr-cinnabar, #d8382a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Scanner Toggle",
+      "kind": "button",
+      "refersTo": "button-state",
+      "description": "Turns the drop-out ink off across the whole document. Off: a graphite label in a faint graphite hairline. On: a solid graphite fill.",
+      "html": "<button class=\"ds-btn-state\" type=\"button\" aria-pressed=\"false\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7V5a2 2 0 0 1 2-2h2\"/><path d=\"M17 3h2a2 2 0 0 1 2 2v2\"/><path d=\"M21 17v2a2 2 0 0 1-2 2h-2\"/><path d=\"M7 21H5a2 2 0 0 1-2-2v-2\"/><path d=\"M7 12h10\"/></svg><span>Scanner view</span></button> <button class=\"ds-btn-state ds-is-on\" type=\"button\" aria-pressed=\"true\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7V5a2 2 0 0 1 2-2h2\"/><path d=\"M17 3h2a2 2 0 0 1 2 2v2\"/><path d=\"M21 17v2a2 2 0 0 1-2 2h-2\"/><path d=\"M7 21H5a2 2 0 0 1-2-2v-2\"/><path d=\"M7 12h10\"/></svg><span>Scanner view on</span></button>",
+      "css": ".ds-btn-state { display: inline-flex; align-items: center; gap: 0.625rem; border: 1px solid color-mix(in oklab, var(--omr-graphite, #1b2126) 26%, transparent); background: transparent; color: var(--omr-graphite, #1b2126); border-radius: 0; padding: 0.5rem 0.875rem; font-family: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background-color 160ms ease-out, color 160ms ease-out, border-color 160ms ease-out; } .ds-btn-state:hover { background: color-mix(in oklab, var(--omr-graphite, #1b2126) 7%, transparent); } .ds-btn-state.ds-is-on { background: var(--omr-graphite, #1b2126); color: var(--omr-stock, #f4f7f8); border-color: var(--omr-graphite, #1b2126); } .ds-btn-state:focus-visible { outline: 2px solid var(--omr-cinnabar, #d8382a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Repo Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "A mono field on a white well, joined to a graphite submit button by a shared border. Focus turns the field's border cinnabar; the submit fill flips to cinnabar because submitting is a commit.",
+      "html": "<form class=\"ds-field-row\"><input class=\"ds-input\" value=\"JacobLinCool/taiwan-exams\" spellcheck=\"false\" aria-label=\"Hugging Face dataset id\"/><button class=\"ds-btn-solid\" type=\"submit\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg>Open</button></form>",
+      "css": ".ds-field-row { display: flex; align-items: stretch; max-width: 36rem; } .ds-input { min-width: 0; flex: 1; border: 1px solid var(--omr-graphite, #1b2126); border-radius: 0; background: rgb(255 255 255 / 0.7); color: var(--omr-graphite, #1b2126); padding: 0.625rem 0.75rem; font-family: 'Spline Sans Mono Variable', ui-monospace, monospace; font-size: 0.875rem; outline: none; caret-color: var(--omr-cinnabar, #d8382a); } .ds-input:focus { border-color: var(--omr-cinnabar, #d8382a); } .ds-btn-solid { display: inline-flex; align-items: center; gap: 0.5rem; flex: none; border: 1px solid var(--omr-graphite, #1b2126); border-left: 0; border-radius: 0; background: var(--omr-graphite, #1b2126); color: var(--omr-stock, #f4f7f8); padding: 0 1rem; font-family: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: background-color 160ms ease-out, border-color 160ms ease-out; } .ds-btn-solid:hover { background: var(--omr-cinnabar, #d8382a); border-color: var(--omr-cinnabar, #d8382a); }"
+    },
+    {
+      "name": "Register Stub",
+      "kind": "chip",
+      "refersTo": "register-stub",
+      "description": "One issued bundle in the register: a drop-out ordinal, then the bundle name in mono, on stock, ruled right and bottom so the grid reads as printed paper.",
+      "html": "<ul class=\"ds-register\"><li><button class=\"ds-stub\" type=\"button\"><span class=\"ds-stub-no\">01</span><span class=\"ds-stub-name\">gsat-115-math-a</span></button></li><li><button class=\"ds-stub\" type=\"button\"><span class=\"ds-stub-no\">02</span><span class=\"ds-stub-name\">gsat-115-math-b</span></button></li></ul>",
+      "css": ".ds-register { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; border: 1px solid var(--omr-dropout-soft, #cbe3ea); } .ds-stub { display: flex; align-items: baseline; gap: 0.75rem; width: 100%; height: 100%; border: 0; border-right: 1px solid var(--omr-dropout-soft, #cbe3ea); border-bottom: 1px solid var(--omr-dropout-soft, #cbe3ea); border-radius: 0; background: var(--omr-stock, #f4f7f8); padding: 0.75rem 1rem; text-align: left; cursor: pointer; font-family: 'Spline Sans Mono Variable', ui-monospace, monospace; font-variant-numeric: tabular-nums; transition: background-color 160ms ease-out; } .ds-stub:hover { background: var(--omr-dropout-faint, #e2f0f4); } .ds-stub-no { flex: none; width: 1.5rem; font-size: 0.6875rem; color: var(--omr-dropout-ink, #2e7a92); } .ds-stub-name { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.875rem; color: var(--omr-graphite, #1b2126); } .ds-stub:focus-visible { outline: 2px solid var(--omr-cinnabar, #d8382a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Key Panel",
+      "kind": "card",
+      "refersTo": "key-panel",
+      "description": "The revealed answer key: a 2px graphite top rule over the printed tint, captioned as a field. The same construction carries ingest warnings — this is the system's one authoritative container.",
+      "html": "<div class=\"ds-key\"><span class=\"ds-key-label\">Official key</span><p class=\"ds-key-body\"><span class=\"ds-key-value\">2</span> <span class=\"ds-key-note\">— worth 5 points, graded by rule</span></p></div>",
+      "css": ".ds-key { border-top: 2px solid var(--omr-graphite, #1b2126); background: var(--omr-dropout-faint, #e2f0f4); border-radius: 0; padding: 0.875rem 1rem; font-family: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif; } .ds-key-label { display: block; margin-bottom: 0.5rem; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--omr-dropout-ink, #2e7a92); } .ds-key-body { margin: 0; font-size: 0.9375rem; color: var(--omr-graphite, #1b2126); } .ds-key-value { font-family: 'Spline Sans Mono Variable', ui-monospace, monospace; font-weight: 600; font-variant-numeric: tabular-nums; } .ds-key-note { color: var(--omr-graphite-soft, #4a555d); }"
+    },
+    {
+      "name": "Copy Line",
+      "kind": "custom",
+      "refersTo": "input-field",
+      "description": "A command on the white well inside a printed hairline, wrapping rather than scrolling, with a bordered copy button that swaps to a check and \"Copied\" for 1.6s.",
+      "html": "<div class=\"ds-copyline\"><code class=\"ds-copyline-cmd\">a2b download JacobLinCool/taiwan-exams --name gsat-115-math-a -o bundle</code><button class=\"ds-copyline-btn\" type=\"button\" aria-label=\"Copy command\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg><span>Copy</span></button></div>",
+      "css": ".ds-copyline { display: flex; align-items: stretch; border: 1px solid var(--omr-dropout-soft, #cbe3ea); background: rgb(255 255 255 / 0.6); border-radius: 0; } .ds-copyline-cmd { min-width: 0; flex: 1; padding: 0.625rem 0.75rem; font-family: 'Spline Sans Mono Variable', ui-monospace, monospace; font-size: 0.8125rem; line-height: 1.625; color: var(--omr-graphite, #1b2126); white-space: pre-wrap; overflow-wrap: break-word; } .ds-copyline-btn { display: flex; align-items: center; gap: 0.375rem; flex: none; border: 0; border-left: 1px solid var(--omr-dropout-soft, #cbe3ea); border-radius: 0; background: transparent; padding: 0 0.75rem; font-family: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--omr-graphite-soft, #4a555d); cursor: pointer; transition: background-color 160ms ease-out, color 160ms ease-out; } .ds-copyline-btn:hover { background: var(--omr-dropout-faint, #e2f0f4); color: var(--omr-graphite, #1b2126); } .ds-copyline-btn:focus-visible { outline: 2px solid var(--omr-cinnabar, #d8382a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Question Rail Row",
+      "kind": "nav",
+      "refersTo": "rail-row",
+      "description": "The sticky way through a paper: mono question number on the left, mark on the right. The active row takes a graphite left hairline and the printed tint — never cinnabar, which is spoken for.",
+      "html": "<nav class=\"ds-rail\"><button class=\"ds-rail-row\" type=\"button\"><span>1</span><span class=\"ds-mark\" data-filled=\"true\"></span></button><button class=\"ds-rail-row ds-is-active\" type=\"button\" aria-current=\"true\"><span>2</span><span class=\"ds-mark\" data-filled=\"true\"></span></button><button class=\"ds-rail-row\" type=\"button\"><span>3</span><span class=\"ds-mark\"></span></button></nav>",
+      "css": ".ds-rail { display: flex; flex-direction: column; width: 9rem; } .ds-rail-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; width: 100%; min-width: 3.5rem; border: 0; border-left: 1px solid transparent; border-radius: 0; background: transparent; padding: 0.3rem 0.45rem; cursor: pointer; font-family: 'Spline Sans Mono Variable', ui-monospace, monospace; font-size: 0.6875rem; font-variant-numeric: tabular-nums; color: var(--omr-graphite-soft, #4a555d); transition: background-color 160ms ease-out, border-color 160ms ease-out, color 160ms ease-out; } .ds-rail-row:hover { background: var(--omr-dropout-faint, #e2f0f4); color: var(--omr-graphite, #1b2126); } .ds-rail-row.ds-is-active { border-left-color: var(--omr-graphite, #1b2126); background: var(--omr-dropout-faint, #e2f0f4); color: var(--omr-graphite, #1b2126); font-weight: 600; } .ds-rail-row .ds-mark { position: relative; display: inline-block; flex: none; width: 1.25rem; height: 0.875rem; box-shadow: inset 0 0 0 1.5px var(--omr-dropout-ink, #2e7a92); } .ds-rail-row .ds-mark::after { content: ''; position: absolute; inset: 2px; background: var(--omr-graphite, #1b2126); transform: scale(0.15); opacity: 0; transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms ease-out; } .ds-rail-row .ds-mark[data-filled='true']::after { transform: scale(1); opacity: 1; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Answer Card",
+    "overview": "The surface is a Taiwanese OMR answer card lying on a scanner bed. Everything a candidate is given — the grid, the rules, the field captions, the option letters — is pre-printed in a cyan the scanner's lamp does not return, so it exists only for the human. Everything that counts is graphite: the filled square, the question number, the words of the paper itself. The product does the same thing to an exam, and the interface argues by being the thing it describes. A visitor can prove the claim in one click: scanner view is a real document state that zeroes the drop-out ink and leaves the marks standing alone.\n\nDensity is high and unapologetically clerical. Content sits on cool card stock lifted off a near-black bed by the single shadow in the whole system; the stock never rounds, never gains a second shadow, and never floats over a gradient. Type is Archivo for everything Latin and structural, Spline Sans Mono for every number that identifies something, and a Traditional Chinese face leading the stack wherever real exam prose appears — the papers are in Chinese, and the design treats that as the primary reading case rather than an i18n afterthought. Numerals are tabular everywhere, because columns of them are the point.\n\nThis world refuses three things by name: the dev-tool dark hero (the dark is a scanner bed, and content never sits on it), exam-paper pastiche (no fake staples, coffee rings, torn edges, or handwriting fonts), and stock DaisyUI (radii, depth, and noise are all zeroed in a custom `omr` theme so the component library cannot speak in its own accent).",
+    "keyCharacteristics": [
+      "Zero radii throughout — card stock is guillotined, not rounded.",
+      "Exactly one elevation in the system: stock lifting off the bed.",
+      "Two-tier inks: a fill tier and a contrast-checked reading tier for both cyan and cinnabar.",
+      "Cinnabar is rationed to commitment, the seal over an answer key, and refusal.",
+      "Hairline seams (1px) instead of margins wherever cells meet.",
+      "Tabular numerals globally; mono for every identifying number.",
+      "One authored motion moment: graphite growing into a square."
+    ],
+    "rules": [
+      {
+        "name": "The Drop-Out Rule",
+        "body": "Anything pre-printed — grids, rules, field captions, option letters, stub numbers, ordinal markers — is drawn in a drop-out token and carries .drops-out when it is an element rather than a border. Anything a score depends on is graphite. If you cannot say which side a new element is on, it does not belong on the card.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Ink Rule",
+        "body": "Every accent has a fill tier and a reading tier, and they are not interchangeable. Cyan fills with dropout, reads with dropout-ink. Cinnabar fills with cinnabar, reads with cinnabar-ink. Text and hairlines take the reading tier; areas take the fill tier. Never set body-sized text in a fill-tier ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The Reserved Cinnabar Rule",
+        "body": "Cinnabar is spent on three things only: the act that commits (the primary action), the seal over an answer key, and refusal (focus rings, carets, error marks). It is never used for emphasis, decoration, hover warmth, or active navigation — the viewer's travelling band is graphite plus the printed tint for exactly this reason.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "font-variant-numeric: tabular-nums is set on body and is never overridden. Any number that identifies a thing — question, stub, score, count — is set in the mono face; any number inside a sentence stays in Archivo.",
+        "section": "typography"
+      },
+      {
+        "name": "The Han Lead Rule",
+        "body": "Third-party exam content is wrapped in .han: the TC face leads, line-height opens to 1.9, and overflow-wrap: anywhere is mandatory. A bundle is untrusted input, and one unbroken token must never set the width of the page.",
+        "section": "typography"
+      },
+      {
+        "name": "The Field Caption Rule",
+        "body": "Uppercase letterspaced type exists in exactly one role: a printed field caption naming the value directly beneath or beside it. It is never used as a kicker above a headline, as a section eyebrow, or as button text on a primary action.",
+        "section": "typography"
+      },
+      {
+        "name": "The Hairline Seam Rule",
+        "body": "Where cells meet, the border belongs to the container and the gap is 1px of dropout-soft showing through. A section that ends mid-row still closes with a rule across its full width, the way a printed register does.",
+        "section": "layout"
+      },
+      {
+        "name": "The One Elevation Rule",
+        "body": "There is exactly one shadow in this world and it means \"this is the card\". Hover does not lift, modals do not float higher, and nothing gains a second shadow to signal importance. State is signalled by ink and rule, never by altitude.",
+        "section": "elevation"
+      },
+      {
+        "name": "The No Halo Rule",
+        "body": "The sheet shadow is offset and blurred, in that order. A zero-offset glow around a surface is a screen effect; stock on a bed casts its shadow downward.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Zero Radius Rule",
+        "body": "Nothing rounds. If a control looks like it needs a radius to feel finished, it needs different padding or a different rule weight instead.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do keep the world's furniture (.sheet, .registered, .registered-marks, .timing-track, .ruled, .field-label, .han, .scanning, .drops-out) as plain global CSS in app.css, and let components own their own geometry in component <style>. Tailwind emits @utility rules only where its scanner sees the name used, and it has silently dropped this world's classes twice — once because an unanchored lib/ rule in .gitignore hid site/src/lib from source detection, so every mark rendered 0×0 and review looked fine.",
+      "Do keep check-css.mjs in the build (pnpm build runs it after vite build) and add any new world class to its REQUIRED list. A design that vanishes without an error is the failure this guards against.",
+      "Do implement a view like scanner view as a document state — a class on <html> that re-points the drop-out custom properties to transparent — so every layer, including anything portalled out of the tree, changes together.",
+      "Do mark every pre-printed element with .drops-out so it disappears under the lamp, and check a new screen by turning scanner view on: what remains must be exactly what a grader is allowed to depend on.",
+      "Do put load-bearing numbers in the mono face with tabular figures.",
+      "Do let untrusted bundle content wrap (.han) and let unshrinkable content scroll in its own box.",
+      "Do respect prefers-reduced-motion; the global reduction to 0.01ms is already in place and no component may opt out."
+    ],
+    "donts": [
+      "Don't introduce a radius anywhere, or accept DaisyUI's defaults for radius, depth, or noise — the omr theme zeroes all three on purpose.",
+      "Don't add a second shadow, a hover lift, or a zero-offset glow. One elevation exists and it belongs to .sheet.",
+      "Don't spend cinnabar on emphasis, decoration, active states, or navigation. If it is not a commit, a seal, or a refusal, it is graphite.",
+      "Don't set text in a fill-tier ink (dropout, cinnabar) where it has to be read; the -ink tier exists because those two fail contrast on stock.",
+      "Don't implement scanner view — or any state change — as a CSS filter, mix-blend-mode, or opacity fade over the whole page.",
+      "Don't put content directly on the scanner bed. The bed carries the footer's issuing block and nothing else; words are read on stock.",
+      "Don't use uppercase letterspaced type as a kicker or eyebrow above a headline. It is a field caption and only a field caption.",
+      "Don't reach for exam-paper pastiche — torn edges, staples, paper texture, handwriting faces, skewed photographic scans. The world is a printed card, not a prop.",
+      "Don't animate anything but the mark's fill. Everything else is a color or border transition of 160–220ms."
+    ]
+  }
+}

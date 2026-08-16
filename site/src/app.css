@@ -1,0 +1,225 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/archivo';
+@import '@fontsource-variable/spline-sans-mono';
+
+@plugin "daisyui" {
+  themes: false;
+}
+
+/* The world: an OMR answer card lying on a scanner bed.
+ *
+ * Card stock is base-100 because that is where every word is read; the bed is
+ * `neutral`, applied to the page ground. Radii are zero throughout — a card is
+ * guillotined stock, and DaisyUI's default rounding is the single loudest tell
+ * that a component library was used unchanged. Depth is likewise zero: the only
+ * elevation in this world is the card lifting off the bed, and that shadow is
+ * authored once (.sheet) rather than sprinkled by the framework. */
+@plugin "daisyui/theme" {
+  name: 'omr';
+  default: true;
+  color-scheme: light;
+
+  --color-base-100: #f4f7f8; /* card stock */
+  --color-base-200: #e4eef2; /* stock, shaded zone */
+  --color-base-300: #cbe3ea; /* drop-out field */
+  --color-base-content: #1b2126; /* graphite */
+
+  --color-primary: #d8382a; /* cinnabar — reserved for commit + seal */
+  --color-primary-content: #fff4f2;
+  --color-secondary: #0f6a84; /* deep cyan, same family as the drop-out ink */
+  --color-secondary-content: #eaf6f9;
+  --color-accent: #0b4353;
+  --color-accent-content: #eaf6f9;
+  --color-neutral: #161c21; /* the scanner bed */
+  --color-neutral-content: #d7e5ea;
+
+  --color-info: #0f6a84;
+  --color-info-content: #eaf6f9;
+  --color-success: #1c6b46;
+  --color-success-content: #eefaf3;
+  --color-warning: #8a5a08;
+  --color-warning-content: #fdf6e8;
+  --color-error: #b02a1d;
+  --color-error-content: #fff4f2;
+
+  --radius-selector: 0;
+  --radius-field: 0;
+  --radius-box: 0;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@theme {
+  --font-sans:
+    'Archivo Variable', ui-sans-serif, system-ui, 'PingFang TC', 'Noto Sans TC', sans-serif;
+  --font-mono: 'Spline Sans Mono Variable', ui-monospace, 'PingFang TC', monospace;
+  /* Exam prose is Traditional Chinese; the TC face leads and Archivo covers Latin. */
+  --font-han: 'PingFang TC', 'Noto Sans TC', 'Hiragino Sans CNS', 'Microsoft JhengHei', sans-serif;
+}
+
+:root {
+  --omr-bed: #161c21;
+  --omr-bed-deep: #0d1215;
+  --omr-stock: #f4f7f8;
+  --omr-dropout: #6fb9cf; /* the ink the scanner is blind to */
+  --omr-dropout-ink: #2e7a92; /* the same ink where it must still be read: 4.5:1 on stock */
+  --omr-dropout-soft: #cbe3ea;
+  --omr-dropout-faint: #e2f0f4;
+  --omr-graphite: #1b2126;
+  --omr-graphite-soft: #4a555d;
+  --omr-cinnabar: #d8382a; /* fills only — 4.65:1 under white */
+  --omr-cinnabar-ink: #c22e21; /* cinnabar as text or hairline: 5.26:1 on stock */
+  --omr-rule: color-mix(in oklab, var(--omr-dropout) 30%, transparent);
+}
+
+html {
+  background: var(--omr-bed);
+  scrollbar-color: var(--omr-dropout) var(--omr-bed-deep);
+}
+
+body {
+  background: var(--omr-bed);
+  color: var(--color-neutral-content);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Browser surfaces belong to the design, not to the browser. */
+::selection {
+  background: var(--omr-dropout);
+  color: var(--omr-graphite);
+}
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--omr-cinnabar);
+  outline-offset: 2px;
+}
+
+input,
+textarea {
+  caret-color: var(--omr-cinnabar);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.han {
+  font-family: var(--font-han);
+  line-height: 1.9;
+  /* Bundles are third-party content: a long unbroken token must not push the
+     page sideways. */
+  overflow-wrap: anywhere;
+}
+
+/* --- The card (plain classes: see the note above `.sheet`) ---------------------------------------------------------- */
+
+/* The one elevation in the world: stock lifted off the bed. Offset and blur,
+ * never a zero-offset halo. */
+.sheet {
+  background-color: var(--omr-stock);
+  color: var(--omr-graphite);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, #fff 55%, transparent) inset,
+    0 18px 44px -18px rgb(0 0 0 / 0.72),
+    0 2px 6px -2px rgb(0 0 0 / 0.45);
+}
+
+/* Corner registration marks: how a scanner finds the sheet. Drawn, not decorative
+ * — they mark the true edges of the readable area. */
+.registered {
+  position: relative;
+}
+.registered-marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--omr-graphite) 0 0), linear-gradient(var(--omr-graphite) 0 0),
+    linear-gradient(var(--omr-graphite) 0 0), linear-gradient(var(--omr-graphite) 0 0);
+  background-repeat: no-repeat;
+  background-size:
+    14px 3px,
+    3px 14px,
+    14px 3px,
+    3px 14px;
+  background-position:
+    left 14px top 14px,
+    left 14px top 14px,
+    right 14px bottom 14px,
+    right 14px bottom 14px;
+}
+
+/* The timing track down a card's edge: one tick per row, the clock the scanner
+ * counts questions by. */
+.timing-track {
+  /* Geometry lives here too: utilities that only ever appear in one component's
+     class attribute are exactly what Tailwind's scanner has dropped twice. */
+  position: absolute;
+  top: 2.5rem;
+  bottom: 2.5rem;
+  left: 7px;
+  width: 3px;
+  opacity: 0.7;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--omr-graphite) 0 6px,
+    transparent 6px 14px
+  );
+}
+
+/* The pre-printed measuring grid. Load-bearing, not wallpaper: content aligns to
+ * it, and it is the only patterned ground in the world. */
+.ruled {
+  background-image:
+    linear-gradient(to right, var(--omr-rule) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--omr-rule) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Scanner view: the drop-out ink vanishes, exactly as it does under the lamp.
+ * A real state, not a filter — the class is set on <html>. */
+.scanning {
+  --omr-dropout: transparent;
+  --omr-dropout-ink: transparent;
+  --omr-dropout-soft: transparent;
+  --omr-dropout-faint: transparent;
+  --omr-rule: transparent;
+}
+.scanning .drops-out {
+  visibility: hidden;
+}
+
+.field-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  /* Pre-printed, so it is the drop-out ink — the OWN-WORLD claim has to be
+     legible before the visitor touches the toggle, not only after. */
+  color: var(--omr-dropout-ink);
+}
+
+/* KaTeX renders one unbreakable box. Some papers set what is really display
+   maths inline, so a single formula can be wider than a phone: let it scroll
+   inside the line rather than widen the document. */
+.katex {
+  max-width: 100%;
+  display: inline-block;
+  overflow-x: auto;
+  overflow-y: hidden;
+  vertical-align: middle;
+}
+.katex-display > .katex {
+  display: block;
+}

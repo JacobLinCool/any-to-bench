@@ -8,18 +8,21 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
-develop-eggs/
+# Anchored to the repo root: unanchored, `lib/` also matched site/src/lib, which
+# hid every component in it from git AND from Tailwind's source detection (it
+# skips ignored files), so the built CSS silently lost their classes.
+/build/
+/develop-eggs/
 dist/
-downloads/
-eggs/
+/downloads/
+/eggs/
 .eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
+/lib/
+/lib64/
+/parts/
+/sdist/
+/var/
+/wheels/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
@@ -143,8 +146,14 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
-/site
+# (The Python template's mkdocs rule ignored /site, which is this repo's
+#  Svelte site — removed. mkdocs is not used here.)
+
+# Impeccable working artifacts: screenshots and decision payloads are
+# regenerated per run and are not project sources.
+/.impeccable/review/
+/.impeccable/mocks/
+/.impeccable/payload-*.json
 
 # mypy
 .mypy_cache/
@@ -182,3 +191,10 @@ cython_debug/
 # Experiment artifacts (not tracked)
 reports/
 examples/
+
+# Node (the site/ workspace). This repo was Python-only, so nothing here ignored
+# node_modules until now — the old unanchored `/site` rule was doing it by
+# accident, and removing that rule exposed the whole tree.
+node_modules/
+.svelte-kit/
+*.tsbuildinfo
