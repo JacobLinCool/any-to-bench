@@ -126,8 +126,20 @@ def snap_verdict(
     warnings: list[str],
     question_id: str,
     judge_model: str,
-) -> JudgeVerdict:
-    """Force a verdict onto the rubric's defined levels and recompute the total."""
+) -> tuple[JudgeVerdict, dict[str, Any]]:
+    """Force a verdict onto the rubric's defined levels and recompute the total.
+
+    Returns the snapped verdict and a record of what the judge actually said
+    before snapping. Snapping is a real part of how this tool makes grading
+    reproducible — two judges saying 1.7 and 2.3 both become 2.0 — which means
+    any measurement of judge agreement taken after it partly measures our own
+    rounding. Keeping the raw figures lets that contribution be subtracted out
+    instead of quietly counted as the models agreeing.
+    """
+    raw: dict[str, Any] = {
+        "total": verdict.total_points,
+        "criteria": {c.criterion_id: c.points for c in verdict.criteria},
+    }
     if not rule.rubric:
         total = max(min_points, min(max_points, verdict.total_points))
         if total != verdict.total_points:
@@ -135,10 +147,14 @@ def snap_verdict(
                 f"question {question_id}: judge {judge_model} total {verdict.total_points} "
                 f"clamped to {total}"
             )
-        return JudgeVerdict(
-            criteria=verdict.criteria,
-            total_points=total,
-            overall_rationale=verdict.overall_rationale,
+        raw["changed"] = total != verdict.total_points
+        return (
+            JudgeVerdict(
+                criteria=verdict.criteria,
+                total_points=total,
+                overall_rationale=verdict.overall_rationale,
+            ),
+            raw,
         )
 
     by_id = {c.criterion_id: c for c in verdict.criteria}
@@ -176,8 +192,16 @@ def snap_verdict(
                 f"{extra.criterion_id!r}; ignored"
             )
     total = max(min_points, min(max_points, sum(c.points for c in snapped)))
-    return JudgeVerdict(
-        criteria=snapped, total_points=total, overall_rationale=verdict.overall_rationale
+    raw["criteria_sum"] = sum(c.points for c in verdict.criteria)
+    raw["changed"] = (
+        any(raw["criteria"].get(c.criterion_id) != c.points for c in snapped)
+        or total != verdict.total_points
+    )
+    return (
+        JudgeVerdict(
+            criteria=snapped, total_points=total, overall_rationale=verdict.overall_rationale
+        ),
+        raw,
     )
 
 
@@ -190,7 +214,7 @@ def judge_one(
     warnings: list[str],
     tracker: UsageTracker,
     effort: Effort | str | None = None,
-) -> JudgeVerdict:
+) -> tuple[JudgeVerdict, dict[str, Any]]:
     rule = grading.rule
     assert isinstance(rule, JudgeRule)
     parts = build_judge_parts(bundle, question_id, rule, grading.max_points, answer)
@@ -238,14 +262,17 @@ def run_judges(
         return results
 
     agentic_verdicts: dict[str, dict[str, JudgeVerdict]] = {}
+    agentic_raw: dict[str, dict[str, dict[str, Any]]] = {}
     for judge_model in models:
         if parse_agentic_model(judge_model) is None:
             continue
         from any_to_bench.agentic.judge import agentic_judge
 
+        raw_out: dict[str, dict[str, Any]] = {}
+        agentic_raw[judge_model] = raw_out
         try:
             agentic_verdicts[judge_model] = agentic_judge(
-                bundle, sheet, judge_rules, judge_model, warnings, tracker, effort
+                bundle, sheet, judge_rules, judge_model, warnings, tracker, effort, raw_out
             )
         except Exception as e:  # noqa: BLE001 — a failing judge must not sink the run
             warnings.append(f"judge {judge_model} failed: {e}")
@@ -255,29 +282,20 @@ def run_judges(
         answer = sheet.answers[question_id]
         # Kept as pairs, not two lists: judges drop out on failure, so anything
         # zipping a verdict list against the requested model list mis-attributes.
-        scored: list[tuple[str, JudgeVerdict]] = []
+        scored: list[tuple[str, JudgeVerdict, dict[str, Any]]] = []
         for judge_model in models:
             if judge_model in agentic_verdicts:
                 verdict = agentic_verdicts[judge_model].get(question_id)
                 if verdict is not None:  # missing ones were already warned about
-                    scored.append((judge_model, verdict))
+                    scored.append(
+                        (judge_model, verdict, agentic_raw[judge_model].get(question_id, {}))
+                    )
                 continue
             try:
-                scored.append(
-                    (
-                        judge_model,
-                        judge_one(
-                            bundle,
-                            question_id,
-                            grading,
-                            answer,
-                            judge_model,
-                            warnings,
-                            tracker,
-                            effort,
-                        ),
-                    )
+                verdict, raw = judge_one(
+                    bundle, question_id, grading, answer, judge_model, warnings, tracker, effort
                 )
+                scored.append((judge_model, verdict, raw))
             except Exception as e:  # noqa: BLE001 — a failing judge must not sink the run
                 warnings.append(f"question {question_id}: judge {judge_model} failed: {e}")
         if not scored:
@@ -288,8 +306,9 @@ def run_judges(
             )
             continue
 
-        scoring_models = [m for m, _ in scored]
-        verdicts = [v for _, v in scored]
+        scoring_models = [m for m, _, _ in scored]
+        verdicts = [v for _, v, _ in scored]
+        raw_records = [r for _, _, r in scored]
         totals = [v.total_points for v in verdicts]
         if aggregation == "median":
             awarded = statistics.median(totals)
@@ -309,7 +328,18 @@ def run_judges(
                 "requested_judge_models": models,
                 "aggregation": aggregation,
                 "totals": totals,
+                # What each judge said before its scores were snapped onto the
+                # rubric's levels, positionally matching `judge_models`. Agreement
+                # measured after snapping partly measures the snapping.
+                "raw_totals": [r.get("total") for r in raw_records],
+                "snap_changed": [bool(r.get("changed")) for r in raw_records],
                 "agreement": _question_agreement(totals, grading.max_points),
+                "raw_agreement": _question_agreement(
+                    [r["total"] for r in raw_records if r.get("total") is not None],
+                    grading.max_points,
+                )
+                if all(r.get("total") is not None for r in raw_records)
+                else None,
             },
         )
     return results

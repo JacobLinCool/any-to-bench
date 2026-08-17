@@ -157,7 +157,13 @@ def agentic_judge(
     warnings: list[str],
     tracker: UsageTracker,
     effort: Effort | str | None = None,
+    raw_scores: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, JudgeVerdict]:
+    """Grade every open-ended question in one agentic session.
+
+    raw_scores is an out-parameter, matching how `warnings` is threaded here: it
+    receives what each judge said before snapping, per question id.
+    """
     agentic_model = parse_agentic(judge_model)
     if agentic_model is None:
         raise ValueError(f"not an agentic model string: {judge_model!r}")
@@ -234,7 +240,7 @@ def agentic_judge(
             continue
         rule = grading.rule
         assert isinstance(rule, JudgeRule)
-        verdicts[qid] = snap_verdict(
+        verdicts[qid], raw_record = snap_verdict(
             JudgeVerdict.model_validate(raw),
             rule,
             grading.max_points,
@@ -243,6 +249,8 @@ def agentic_judge(
             qid,
             judge_model,
         )
+        if raw_scores is not None:
+            raw_scores[qid] = raw_record
     if not outcome.problems:
         cleanup_workspace(workspace)
     else:

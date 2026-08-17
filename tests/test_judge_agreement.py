@@ -213,3 +213,46 @@ def test_grade_stays_quiet_without_judged_questions(tiny_bundle):
     report = run_grade(tiny_bundle, imperfect_sheet(), judge_models=["test:a"])
 
     assert not any("single judge" in w or "own answers" in w for w in report.warnings)
+
+
+def test_raw_verdict_survives_snapping(tiny_bundle, monkeypatch):
+    """Agreement measured after snapping partly measures the snapping.
+
+    q6.b's rubric defines content at 2/1/0 and clarity at 1/0. A judge answering
+    1.6 and 0.4 is snapped to 2 and 0 — so two judges who disagreed by 1.2 points
+    are recorded as agreeing exactly. The raw figures have to survive that, or
+    the tool's own rounding gets counted as the models concurring.
+    """
+    from any_to_bench.schemas.report import CriterionScore
+
+    def produce(parts):
+        return JudgeVerdict(
+            criteria=[
+                CriterionScore(criterion_id="content", points=1.6, rationale="…"),
+                CriterionScore(criterion_id="clarity", points=0.4, rationale="…"),
+            ],
+            total_points=2.0,
+            overall_rationale="ok",
+        )
+
+    monkeypatch.setattr(judge_module, "build_agent", fake_build_agent({JudgeVerdict: produce}))
+    sheet = perfect_sheet()
+    sheet.answers = {qid: a for qid, a in sheet.answers.items() if qid == "q6.b"}
+
+    report = run_grade(tiny_bundle, sheet, judge_models=["test:a"])
+    detail = report.results["q6.b"].detail
+
+    assert report.results["q6.b"].awarded == 2.0  # snapped: 2 + 0
+    assert detail["raw_totals"] == [2.0]
+    assert detail["snap_changed"] == [True]
+
+
+def test_raw_totals_recorded_even_when_nothing_snapped(tiny_bundle, monkeypatch):
+    monkeypatch.setattr(judge_module, "build_agent", fake_build_agent({JudgeVerdict: verdict(2.0)}))
+
+    report = run_grade(tiny_bundle, holistic_sheet(), judge_models=["test:a", "test:b"])
+    detail = report.results["q6.a"].detail
+
+    assert detail["raw_totals"] == [2.0, 2.0]
+    assert detail["snap_changed"] == [False, False]
+    assert detail["raw_agreement"]["spread"] == 0.0
