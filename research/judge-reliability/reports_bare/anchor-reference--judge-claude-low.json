@@ -1,0 +1,602 @@
+{
+  "schema_version": "1",
+  "exam_id": "judge-reliability-ablate12bare",
+  "taker": "anchor:reference",
+  "graded_at": "2026-08-17T18:50:35.550062Z",
+  "results": {
+    "ast-113-chemistry--q25": {
+      "question_id": "ast-113-chemistry--q25",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "All four formulas are correct and mutually consistent with the clues: (NH4)2Cr2O7 (M=252, orange, dissociates into 2 NH4+ + Cr2O7^2-, dichromate orange solution, NaOH gives yellow CrO4^2- plus pungent NH3), decomposing to Cr2O3 (green, M=152, X2O3 with X=Cr), N2 (colorless diatomic, most abundant air gas, reacts with Mg), and H2O (colorless liquid at STP, turns anhydrous CuSO4 blue). Stoichiometry (NH4)2Cr2O7 -> Cr2O3 + N2 + 4H2O also matches the stated 4:1 volume ratio of 丁:丙. Full credit."
+        }
+      ]
+    },
+    "ast-113-civics--q36.b": {
+      "question_id": "ast-113-civics--q36.b",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "The checked box '原則上不能經由繼承取得' is correct, since privacy is a personality right (人格權) that is in principle non-inheritable. The right-column reasoning captures the core interest-balancing rationale (act served the public interest of consumer protection and the resulting benefit outweighed the shop owner's loss), which is the standard justification netizens would invoke. However, it presents essentially one combined idea rather than two clearly distinct legal grounds (e.g. an explicit second basis such as freedom of expression/consumers' right to know, or naming the 'best interest/proportionality' doctrine separately), so it falls slightly short of fully covering '兩個法律理由'. Within the 30-character limit."
+        }
+      ]
+    },
+    "ast-113-geography--q36": {
+      "question_id": "ast-113-geography--q36",
+      "mode": "judge",
+      "max_points": 3.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 3.0,
+          "overall_rationale": "Elderly population figures place 甲 (538) in the 301-600 bracket (horizontal lines), 乙 (218) in the 0-300 bracket (vertical lines), and 丙 (992) in the 601-1200 bracket (cross-hatch), matching the legend in Figure 9. The student's described choropleth assignment (甲=horizontal, 乙=vertical, 丙=cross-hatch) is exactly correct for all three areas. Full credit."
+        }
+      ]
+    },
+    "ast-113-geography--q37": {
+      "question_id": "ast-113-geography--q37",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 5.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          5.0
+        ],
+        "raw_totals": [
+          5.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 5.0,
+          "overall_rationale": "丙 is correctly selected: it has the largest elderly population (992), highest dependency ratio (46.52%), and highest old-age dependency ratio (22.88%) of the three candidate villages, and per Figure 9 it lacks an existing 巷弄長照站 nearby, making it the area of greatest unmet need. The stated reasoning (highest elderly population, dependency ratio, and old-age dependency ratio) is accurate, well supported by Table 2, and within the 30-character limit. Full credit for both the selection (2 pts) and the justification (3 pts)."
+        }
+      ]
+    },
+    "ast-114-geography--q42.b": {
+      "question_id": "ast-114-geography--q42.b",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 6.0,
+          "overall_rationale": "Both viewpoints are grounded solely in Data 1 as required. Viewpoint 1 correctly links reduced China-to-US solar panel trade/shipping (China's export-oriented manufacturing dominance) to a short-term drop in transport-related emissions. Viewpoint 2 correctly links tariffs on Chinese-made panels to rising costs for US solar buildout (since the US's advantage is land/sunlight, not domestic panel manufacturing), impeding its energy transition and green-tech growth. Both are logically sound, evidence-based, and within the 30-character limit. Full credit."
+        }
+      ]
+    },
+    "ast-115-civics--q35": {
+      "question_id": "ast-115-civics--q35",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 6.0,
+          "overall_rationale": "The official's emphasis on shared/self-borne responsibility for cost matches 乙 (落實受補助者的自立與自助), and the association's concern that the policy disadvantages poorer disabled-care families matches 甲 (調和社會資源的階層化差異), both correctly identified with correct letter codes. The accompanying descriptions of the official's policy preference (families sharing/bearing care costs) and the association's warning (poor families falling into unaffordable care difficulty) accurately reflect the passage and are within the character limits. Full credit."
+        }
+      ]
+    },
+    "ast-115-geography--q23.c": {
+      "question_id": "ast-115-geography--q23.c",
+      "mode": "judge",
+      "max_points": 7.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 6.0,
+          "overall_rationale": "The described cross-section (a monotonically descending profile from the pre-plotted 甲-side point at 120m through 乙 at 118m and 丙 at 116m to 丁 at 114m, three line segments) is an internally consistent, plausible reading of a river valley crossing from the higher north bank/levee toward the lower south bank, though it cannot be fully verified against the actual contour map since the specific Figure 9 for this question was not supplied as an asset. The causal explanation (riverbed elevation exceeding the south bank near Guangfu, causing floodwater to spill into the settlement/farmland) correctly applies the 'relative bed height + flood pathway' framework requested by the question and stays within the 40-character limit. Minor uncertainty about exact elevation/shape fidelity given the unverifiable map warrants a small deduction."
+        }
+      ]
+    },
+    "gsat-113-english--q19.a": {
+      "question_id": "gsat-113-english--q19.a",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 3.5,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.5
+        ],
+        "raw_totals": [
+          3.5
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 3.5,
+          "overall_rationale": "Both submitted translations are grammatically correct, natural, and convey the intended meaning ('every election season, politicians are seen visiting famous temples around the country'). Minor points: '總會' (always/invariably) is not fully captured by either version, and the response gives two alternative translations rather than a single answer as the task instructs ('依題號...譯成...英文'), which is a minor deviation from instructions though both variants are of similar quality. Near-full credit."
+        }
+      ]
+    },
+    "gsat-113-english--q20": {
+      "question_id": "gsat-113-english--q20",
+      "mode": "judge",
+      "max_points": 20.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 0.0,
+          "overall_rationale": "No essay was submitted; the student answer field contains only the placeholder '(no reference published)' with no actual composition addressing the prompt. No credit can be awarded."
+        }
+      ]
+    },
+    "gsat-114-chinese-writing--q2": {
+      "question_id": "gsat-114-chinese-writing--q2",
+      "mode": "judge",
+      "max_points": 25.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 0.0,
+          "overall_rationale": "No essay was submitted; the student answer field contains only the placeholder '(no reference published)' with no actual writing responding to the 52-赫茲鯨魚 prompt. No credit can be awarded."
+        }
+      ]
+    },
+    "gsat-115-chinese-writing--q1.b": {
+      "question_id": "gsat-115-chinese-writing--q1.b",
+      "mode": "judge",
+      "max_points": 21.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 0.0,
+          "overall_rationale": "No response was submitted; the student answer field contains only the placeholder '(no reference published)' with no actual reflection on the '臉' passage. No credit can be awarded."
+        }
+      ]
+    },
+    "gsat-115-math-a--q20": {
+      "question_id": "gsat-115-math-a--q20",
+      "mode": "judge",
+      "max_points": 8.0,
+      "awarded": 8.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          8.0
+        ],
+        "raw_totals": [
+          8.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 8.0,
+          "overall_rationale": "The solution's method and every computed value check out: (AD×AP)×(AP×AB) = -20(2,2,-1) gives AP=±(4,4,-2) consistent with |AP|=6; volume = |AP·(AB×AD)| = |(4,4,-2)·(-5,5,5)| = 10, correctly computed. Subsequently deriving AB=(1,-1,2) and AD=(2,3,-1) from the perpendicularity/cross-product arguments is verified correct by direct substitution into all three given cross products. The vertex vectors AC=(3,2,1), AQ=(5,3,0), AS=(6,7,-3), AR=(7,6,-1) and their lengths (√6, √14, √14, √94, √34, √86) are all correctly computed, correctly identifying the maximum distance from A as √94 (attained at S), which occurs at a boundary vertex as required. Full credit for both the volume (10) and the maximum distance (√94)."
+        }
+      ]
+    }
+  },
+  "section_totals": {
+    "stratum-C": {
+      "awarded": 16.5,
+      "max_points": 64.0
+    },
+    "stratum-D": {
+      "awarded": 29.0,
+      "max_points": 50.0
+    }
+  },
+  "total_awarded": 45.5,
+  "total_max": 114.0,
+  "percentage": 39.91228070175438,
+  "skipped_count": 0,
+  "skipped_points": 0.0,
+  "covered_max": 114.0,
+  "covered_percentage": 39.91228070175438,
+  "warnings": [
+    "single judge model — inter-judge agreement cannot be measured; pass a second --judge-model to see how much of the score is judge-dependent"
+  ],
+  "judge_agreement": {
+    "requested_judge_models": [
+      "claude:claude-sonnet-5"
+    ],
+    "judged_questions": 12,
+    "multi_judge_questions": 0,
+    "disagreed_questions": 0,
+    "mean_spread": 0.0,
+    "max_spread": 0.0,
+    "mean_normalized_spread": 0.0,
+    "per_judge_mean": {
+      "claude:claude-sonnet-5": 3.7916666666666665
+    }
+  },
+  "usage": {
+    "total": {
+      "requests": 15,
+      "input_tokens": 24,
+      "output_tokens": 16177,
+      "reasoning_tokens": 0,
+      "cache_read_tokens": 458446,
+      "cache_write_tokens": 57225
+    },
+    "phases": {
+      "judge:claude:claude-sonnet-5": {
+        "requests": 15,
+        "input_tokens": 24,
+        "output_tokens": 16177,
+        "reasoning_tokens": 0,
+        "cache_read_tokens": 458446,
+        "cache_write_tokens": 57225
+      }
+    }
+  }
+}

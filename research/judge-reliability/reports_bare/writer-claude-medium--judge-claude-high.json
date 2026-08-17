@@ -1,0 +1,603 @@
+{
+  "schema_version": "1",
+  "exam_id": "judge-reliability-ablate12bare",
+  "taker": "claude:claude-sonnet-5",
+  "graded_at": "2026-08-17T18:50:54.209134Z",
+  "results": {
+    "ast-113-chemistry--q25": {
+      "question_id": "ast-113-chemistry--q25",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "所有四項化學式判斷均正確且完全對應題目給定的所有線索：甲＝(NH4)2Cr2O7（莫耳質量252、橙色、溶於水產生2莫耳NH4+與1莫耳Cr2O7^2-、加NaOH後生成NH3並使Cr2O7^2-轉為CrO4^2-而變黃)；乙＝Cr2O3（莫耳質量152、綠色固體、通式X2O3對應X=Cr)；丙＝N2（無色雙原子氣體、空氣中最多、可與鎂反應、莫耳質量28)；丁＝H2O（生成時為氣態、常溫常壓下為液體、使無水硫酸銅變藍、莫耳質量18)。分解反應式(NH4)2Cr2O7→Cr2O3+N2+4H2O（重鉻酸銨火山反應）之化學計量亦正確解釋了「丁的體積為丙的4倍」，推論過程完整嚴謹，可視為滿分答案。"
+        }
+      ]
+    },
+    "ast-113-civics--q36.b": {
+      "question_id": "ast-113-civics--q36.b",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "左欄勾選「原則上不能經由繼承取得」正確：隱私權屬人格權之一種，具一身專屬性，原則上不得繼承，其餘三個選項（基於特定身分關係、僅得對契約相對人主張、僅得主張慰撫金）均不符合隱私權之特性。右欄提出的兩個法律理由──①小恩為對話當事人自行錄音未違反通訊保障及監察法、②為維護消費者權益、揭發不實廣告而具阻卻違法之正當性──方向正確且切合本案關鍵法律爭點，是合理且具體的論證。惟題目明確限制右欄作答「30字內」，學生實際作答約49字，超出限制達六成以上，未遵守字數規範，故在內容正確的基礎上酌予扣分。"
+        }
+      ]
+    },
+    "ast-113-geography--q36": {
+      "question_id": "ast-113-geography--q36",
+      "mode": "judge",
+      "max_points": 3.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 3.0,
+          "overall_rationale": "比對表2與圖例可確認：甲里老年人口538人（301–600區間，應繪水平線)、乙里218人（0–300區間，應繪垂直線)、丙里992人（601–1200區間，應繪交叉斜線)。經比對底圖，甲、乙、丙三里在原圖中確實留白待填，學生描述的花紋分級與各里數值完全對應正確，且清楚說明填色須對齊行政界線、花紋方向與圖例一致，描述精確、可供重現，達成滿分标准。"
+        }
+      ]
+    },
+    "ast-113-geography--q37": {
+      "question_id": "ast-113-geography--q37",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "勾選「丙」合理且有據：丙里在表2中人口數(6,353)、老年人口數(992)、扶養比(46.52%)均為五里最高，扶老比(22.88)亦僅次於乙里，依表2資料丙里對長照資源的整體需求最為突出，選擇正確，此部分（2分）給予滿分。理由說明「丙里老年人口數最多，扶老比亦高，需求最大但站點相對不足」內容切合表2數據、邏輯合理，但題目明訂「理由（30字內）」，學生實際作答為41字，超出限制約37%，未能嚴格遵守字數規定，故理由部分（3分）酌予扣分。"
+        }
+      ]
+    },
+    "ast-114-geography--q42.b": {
+      "question_id": "ast-114-geography--q42.b",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 5.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          5.0
+        ],
+        "raw_totals": [
+          5.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 5.0,
+          "overall_rationale": "兩個觀點的佐證皆僅取材自資料一、且邏輯合理：觀點一以「中國為太陽能板最大出口國，關稅將減緩其出口與生產活動，致碳排放下降」佐證貿易減速使碳排暫降的看法，切合資料一「中國主導太陽能板製造並外銷」的敘述；觀點二以「美國仰賴太陽能板但供應鏈掌握於中國，關稅推升成本、減緩美國太陽能建置」佐證長期不利美國能源轉型的看法，亦合理連結資料一中「美國具日照優勢、太陽能發電量領先」及「中國主導製造出口」兩項訊息。惟題目要求「各以30字內」作答，學生第一則約36字（超出約2成），第二則約40字（超出約3成多），皆未嚴格符合字數限制，故酌予扣分。"
+        }
+      ]
+    },
+    "ast-115-civics--q35": {
+      "question_id": "ast-115-civics--q35",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "代號判斷合理：官員強調「政府仍負主要責任，但民眾也須分攤費用」，符合「乙、落實受補助者的自立與自助」之預設；協會關切經濟弱勢家庭因補助上限與自付額規定而更難負擔照護，反映其預設為「丙、打造涵納全民的社會安全網」，訴求應涵蓋所有有需要者而非因財力受限被排除，兩代號判斷均可成立，此部分應予滿分。惟題目明訂「偏好／提醒各15字內」，學生實際作答第一段（政策偏好）約26字（超出約7成），第二段（政策提醒）約35字（超出逾1倍），皆嚴重超出字數限制，故雖代號與內容方向正確，仍需就格式規範大幅扣分。"
+        }
+      ]
+    },
+    "ast-115-geography--q23.c": {
+      "question_id": "ast-115-geography--q23.c",
+      "mode": "judge",
+      "max_points": 7.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 6.0,
+          "overall_rationale": "剖面圖描述方向合理：以甲（北岸／河床附近）地勢最高，向南經乙、丙緩降，至丁（光復市街一帶）降至最低，此走勢與2025年馬太鞍溪堰塞湖潰壩事件中「河床因淤積而抬高、形成懸河，居高臨下衝擊低窪市街」的實際地理成因相符，具備合理的地形邏輯；惟本題未提供實際等高線地形圖可供比對，無法驗證具體等高線讀取與剖面轉折的精確度（例如跨越河床時是否應呈現局部低點等細節），故剖面圖部分（3分）予以部份給分。原因說明「河床地勢高於光復市街，潰壩洪水居高臨下向低窪市街猛烈漫流，致嚴重受淹」緊扣「河床相對高度」與「洪水動線」兩項推論依據，且精確符合「限40字內」的字數規定（實際40字），此部分（4分）給予滿分。"
+        }
+      ]
+    },
+    "gsat-113-english--q19.a": {
+      "question_id": "gsat-113-english--q19.a",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "譯文「Every time the election season comes, we can always see politicians visiting famous temples all over the country.」語意完整、文法正確、用詞自然，精準傳達原句「每逢選舉季節，總會看到政治人物造訪各地著名廟宇」之意，句構通順達意，屬近乎完美的翻譯，予以滿分。"
+        }
+      ]
+    },
+    "gsat-113-english--q20": {
+      "question_id": "gsat-113-english--q20",
+      "mode": "judge",
+      "max_points": 20.0,
+      "awarded": 19.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          19.0
+        ],
+        "raw_totals": [
+          19.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 19.0,
+          "overall_rationale": "文章確實依提示分為兩段：第一段清楚說明選擇解決「Caring What Others Think」的原因並具體連結個人經驗，第二段具體描述期望機器人小幫手具備的特質（耐心、鼓勵、誠實回饋、提醒放鬆技巧）及雙方如何分工合作，內容切題、組織清晰、前後呼應。全文字數約217字，遠超120字的最低要求。文法幾近無誤，句型富有變化，用詞精準且具個人色彩，整體屬高分等級的作文，僅在論述深度與細節個別處尚有極小提升空間，故給予19/20的高分。"
+        }
+      ]
+    },
+    "gsat-114-chinese-writing--q2": {
+      "question_id": "gsat-114-chinese-writing--q2",
+      "mode": "judge",
+      "max_points": 25.0,
+      "awarded": 22.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          22.0
+        ],
+        "raw_totals": [
+          22.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 22.0,
+          "overall_rationale": "本文以52赫茲鯨魚的意象貫串全文，藉由自身國小、國中觀察昆蟲卻被視為「怪咖」到最終被同學理解、產生共鳴的經歷，具體回應了「屬於自己的52赫茲」此一提問，結構完整（破題、鋪陳、轉折、昇華），首尾呼應（以鯨魚意象開展、以「迴聲」意象收束），情感真摯、文字流暢優美，比喻運用貼切且具延展性，展現良好的文學筆法與思辨深度。文長不限，無格式扣分疑慮。整體屬於上乘之作，僅在議論的普遍化與更深層的哲思開展上尚可再精進，故給予22/25的高分評價。"
+        }
+      ]
+    },
+    "gsat-115-chinese-writing--q1.b": {
+      "question_id": "gsat-115-chinese-writing--q1.b",
+      "mode": "judge",
+      "max_points": 21.0,
+      "awarded": 17.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          17.0
+        ],
+        "raw_totals": [
+          17.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 17.0,
+          "overall_rationale": "本文以校慶園遊會後主動協助收拾攤位的年邁阿伯為例，扣合題文列維納斯「臉」之論述，具體描寫「與阿伯視線對上」的觸動如何召喚出主動承擔的行動，並對比「移開視線、加快腳步」即可迴避責任的心理狀態，呼應題文中兜售商品小販被路人迴避目光的例子，末段並提出「選擇迴避／選擇正視」的省思，內容切題、結構完整、文字流暢、情感真摯，展現一定的思辨深度。惟題目明訂「文長限400字以內（至多19行）」，學生實際作答約502字，超出限制達25%以上，明顯違反字數規範，故雖內容品質優良，仍須就此項明確格式要求酌予扣分。"
+        }
+      ]
+    },
+    "gsat-115-math-a--q20": {
+      "question_id": "gsat-115-math-a--q20",
+      "mode": "judge",
+      "max_points": 8.0,
+      "awarded": 8.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          8.0
+        ],
+        "raw_totals": [
+          8.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 8.0,
+          "overall_rationale": "解法完全正確且推導嚴謹：利用向量恆等式導出(d×p)×(p×b)=V·p，計算(-2,0,-4)×(6,-10,-8)=(-40,-40,20)，其長度60，結合|p|=6解出|V|=10，即平行六面體體積為10（可驗證正確）。接著以相同方法反解出p=(-4,-4,2)、d=(-2,-3,1)、b=(-1,1,-2)，並代回驗證三個外積結果與題目所給完全一致，過程嚴密無誤。最後正確運用「凸多面體上距頂點最遠的點必為另一頂點」之原理，逐一計算八頂點（含A自身）到A的距離平方，得出最大值94（對應頂點S=d+p），故最長距離為√94。體積與最長距離兩項結果均正確，推導完整且經過自我驗證，應給予滿分。"
+        }
+      ]
+    }
+  },
+  "section_totals": {
+    "stratum-C": {
+      "awarded": 54.0,
+      "max_points": 64.0
+    },
+    "stratum-D": {
+      "awarded": 46.0,
+      "max_points": 50.0
+    }
+  },
+  "total_awarded": 100.0,
+  "total_max": 114.0,
+  "percentage": 87.71929824561404,
+  "skipped_count": 0,
+  "skipped_points": 0.0,
+  "covered_max": 114.0,
+  "covered_percentage": 87.71929824561404,
+  "warnings": [
+    "taker claude:claude-sonnet-5 judged its own answers; self-judging tends to be optimistic — prefer a --judge-model different from the taker",
+    "single judge model — inter-judge agreement cannot be measured; pass a second --judge-model to see how much of the score is judge-dependent"
+  ],
+  "judge_agreement": {
+    "requested_judge_models": [
+      "claude:claude-sonnet-5"
+    ],
+    "judged_questions": 12,
+    "multi_judge_questions": 0,
+    "disagreed_questions": 0,
+    "mean_spread": 0.0,
+    "max_spread": 0.0,
+    "mean_normalized_spread": 0.0,
+    "per_judge_mean": {
+      "claude:claude-sonnet-5": 8.333333333333334
+    }
+  },
+  "usage": {
+    "total": {
+      "requests": 37,
+      "input_tokens": 596,
+      "output_tokens": 46634,
+      "reasoning_tokens": 0,
+      "cache_read_tokens": 2329558,
+      "cache_write_tokens": 105388
+    },
+    "phases": {
+      "judge:claude:claude-sonnet-5": {
+        "requests": 37,
+        "input_tokens": 596,
+        "output_tokens": 46634,
+        "reasoning_tokens": 0,
+        "cache_read_tokens": 2329558,
+        "cache_write_tokens": 105388
+      }
+    }
+  }
+}

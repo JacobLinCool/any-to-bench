@@ -9,14 +9,21 @@ Six configurations (GPT-5.6 Luna and Claude Sonnet 5, each at low, medium,
 and high reasoning effort) wrote answers to 24 open-ended questions from the
 [taiwan-exams](https://huggingface.co/datasets/JacobLinCool/taiwan-exams)
 corpus, then graded all eight answer sheets (six writers plus two anchors)
-three times each: 144 grading passes, 3,456 verdicts.
+three times each: 144 grading passes, 3,456 verdicts. Two ablations then
+re-graded the twelve stratum-C/D questions with the rubric's criteria
+stripped (key only) and with the official answer stripped as well (zero
+guidance): 96 further passes, 1,152 further verdicts.
 
 ## Layout
 
 | Path | What it is |
 |---|---|
-| `reports24/` | the 144 grading reports, one per (sheet, judge, repeat) |
+| `reports24/` | the 144 main-study grading reports, one per (sheet, judge, repeat) |
+| `reports_ab/`, `reports_bare/` | the 48+48 ablation reports (key only; zero guidance) |
 | `study24-answers-*.json` | the eight answer sheets that were graded |
+| `ablate12-answers-*.json`, `ablate12bare-answers-*.json` | the same sheets filtered to the 12 ablated questions |
+| `build_ablate.py` | derives the ablation bundles from the study24 bundle |
+| `analyse_ablate.py`, `figures_ablate.py` | the three-condition ablation analysis and figure |
 | `provenance-study24.json` | where each of the 24 questions came from, and its stratum |
 | `study24-anchor-notes.json` | which questions publish no official answer |
 | `study24.py` | loads the reports and prints the headline statistics |

@@ -1,0 +1,57 @@
+{
+  "exam_id": "judge-reliability-ablate12",
+  "taker": "anchor:reference",
+  "answers": {
+    "gsat-114-chinese-writing--q2": {
+      "type": "text",
+      "text": "(no reference published)"
+    },
+    "gsat-115-chinese-writing--q1.b": {
+      "type": "text",
+      "text": "(no reference published)"
+    },
+    "ast-115-civics--q35": {
+      "type": "text",
+      "text": "官員的預設是**乙**；政策偏好是讓失能者的家庭共同承擔（照護）責任／負有分攤（照護）費用的責任。\n\n協會的預設是**甲**；政府作法會使貧窮的失能者家庭落入不利處境／陷入無法負擔的（照護）困境。"
+    },
+    "ast-113-civics--q36.b": {
+      "type": "text",
+      "text": "左欄勾選「原則上不能經由繼承取得」。右欄：小恩的行為有助於公益，且前述利益大於店主所受損害。"
+    },
+    "gsat-113-english--q19.a": {
+      "type": "text",
+      "text": "Every election season, politicians can be seen visiting famous temples in different places.\n\nDuring election season, politicians will be seen making visits to famous temples in different areas."
+    },
+    "ast-113-geography--q36": {
+      "type": "drawing",
+      "description": "甲里繪製水平線；乙里繪製垂直線；丙里繪製交叉的傾斜線。",
+      "image_asset": null
+    },
+    "gsat-113-english--q20": {
+      "type": "text",
+      "text": "(no reference published)"
+    },
+    "gsat-115-math-a--q20": {
+      "type": "text",
+      "text": "$\\overrightarrow{AP}\\perp(\\overrightarrow{AD}\\times\\overrightarrow{AP})$ 且 $\\overrightarrow{AP}\\perp(\\overrightarrow{AP}\\times\\overrightarrow{AB})$，故\n\n$$\\overrightarrow{AP}\\parallel[(\\overrightarrow{AD}\\times\\overrightarrow{AP})\\times(\\overrightarrow{AP}\\times\\overrightarrow{AB})].$$\n\n又\n\n$$(-2,0,-4)\\times(6,-10,-8)=-20(2,2,-1),$$\n\n所以 $\\overrightarrow{AP}\\parallel(2,2,-1)$。因 $\\overline{AP}=6$，故 $\\overrightarrow{AP}=\\pm(4,4,-2)$。因此平行六面體體積為\n\n$$|\\overrightarrow{AP}\\cdot(\\overrightarrow{AB}\\times\\overrightarrow{AD})|=|(4,4,-2)\\cdot(-5,5,5)|=10。$$\n\n因一個封閉區域距一點最遠的距離必發生在邊界上，故僅需考量六面體上各頂點到 $A$ 的距離。不失一般性，設 $\\overrightarrow{AP}=(4,4,-2)$。\n\n由\n\n$$\\overrightarrow{AB}\\parallel[(\\overrightarrow{AB}\\times\\overrightarrow{AD})\\times(\\overrightarrow{AP}\\times\\overrightarrow{AB})]=10(1,-1,2),$$\n\n設 $\\overrightarrow{AB}=t(1,-1,2)$，再由題設 $\\overrightarrow{AP}\\times\\overrightarrow{AB}=(6,-10,-8)$，得 $t=1$，即 $\\overrightarrow{AB}=(1,-1,2)$。同理，$\\overrightarrow{AD}=(2,3,-1)$。\n\n因此 $\\overrightarrow{AC}=(3,2,1)$、$\\overrightarrow{AS}=(6,7,-3)$、$\\overrightarrow{AQ}=(5,3,0)$、$\\overrightarrow{AR}=(7,6,-1)$。計算向量長可知：\n\n$$\\overline{AB}=\\sqrt6,\\quad\\overline{AD}=\\sqrt{14},\\quad\\overline{AC}=\\sqrt{14},\\quad\\overline{AS}=\\sqrt{94},\\quad\\overline{AQ}=\\sqrt{34},\\quad\\overline{AR}=\\sqrt{86}。$$\n\n故體積為 $10$，距點 $A$ 的最長距離為 $\\sqrt{94}$。"
+    },
+    "ast-115-geography--q23.c": {
+      "type": "drawing",
+      "description": "地形剖面圖：由作答區已繪折線右端點（海拔 120 公尺）依序連至乙點（海拔 118 公尺）、丙點（海拔 116 公尺）、丁點（海拔 114 公尺），共 3 個線段。\n\n推論依據：因為河床高度較右岸（南岸、光復市街）高，因此洪水衝入光復市街（農田、聚落）。",
+      "image_asset": null
+    },
+    "ast-114-geography--q42.b": {
+      "type": "text",
+      "text": "觀點一：全球貿易減速可能讓碳排放短暫下降，主要是因為中國到美國的出口貿易量下降，運輸量降低。\n\n觀點二：長期恐不利於美國能源轉型與綠色科技，主要是因為美國（未來發展光電所需的）太陽能板成本增加。"
+    },
+    "ast-113-geography--q37": {
+      "type": "text",
+      "text": "里別：丙。\n\n理由：因為老年人口數最多、扶養比最高與扶老比高。"
+    },
+    "ast-113-chemistry--q25": {
+      "type": "text",
+      "text": "甲：$(NH_4)_2Cr_2O_7$\n\n乙：$Cr_2O_3$\n\n丙：$N_2$\n\n丁：$H_2O$"
+    }
+  },
+  "usage": null
+}

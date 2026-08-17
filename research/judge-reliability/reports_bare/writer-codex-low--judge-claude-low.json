@@ -1,0 +1,602 @@
+{
+  "schema_version": "1",
+  "exam_id": "judge-reliability-ablate12bare",
+  "taker": "codex:gpt-5.6-luna",
+  "graded_at": "2026-08-17T18:27:51.441031Z",
+  "results": {
+    "ast-113-chemistry--q25": {
+      "question_id": "ast-113-chemistry--q25",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "All four chemical formulas are correct and fully consistent with every clue in the stem: (NH4)2Cr2O7 (M=252, orange, dissolves to 2 NH4+ + Cr2O7^2- giving an orange solution, turns yellow with pungent NH3 smell on excess NaOH); Cr2O3 (green solid, M=152, X2O3 formula); N2 (M=28, colorless diatomic, most abundant air gas, reacts with Mg); H2O (M=18, gas when formed, liquid at RT, turns white CuSO4 blue). The balanced decomposition equation (NH4)2Cr2O7 → Cr2O3 + N2 + 4H2O is correctly balanced and matches the given 1:1:4 mole/volume ratios. Full marks."
+        }
+      ]
+    },
+    "ast-113-civics--q36.b": {
+      "question_id": "ast-113-civics--q36.b",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 2.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          2.0
+        ],
+        "raw_totals": [
+          2.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 2.0,
+          "overall_rationale": "The checkbox selection is incorrect: personality/privacy rights are not limited to seeking only 慰撫金 (compensation is not the sole remedy — injunctive relief etc. is also available); the textbook-correct characteristic is that such rights generally cannot be acquired through inheritance. The right-column reasons (公共利益、消費者知情權) are a reasonable and on-topic pair of legal justifications for why the recording was not wrongful (serving public interest / consumer right to know), earning partial credit even though the checkbox answer is wrong."
+        }
+      ]
+    },
+    "ast-113-geography--q36": {
+      "question_id": "ast-113-geography--q36",
+      "mode": "judge",
+      "max_points": 3.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 3.0,
+          "overall_rationale": "The described fill pattern is fully correct against the legend and Table 2: 甲 (538, 301–600) filled with horizontal lines, 乙 (218, 0–300) filled with vertical lines, 丙 (992, 601–1200) filled with cross-hatching — exactly matching the categories shown in the reference figure. Full marks."
+        }
+      ]
+    },
+    "ast-113-geography--q37": {
+      "question_id": "ast-113-geography--q37",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 2.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          2.0
+        ],
+        "raw_totals": [
+          2.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 2.0,
+          "overall_rationale": "The student selected 丙里 based solely on the table (highest elderly population count and highest 扶養比). However, the accompanying map (圖9) shows existing 巷弄長照站 markers already clustered densely around the 甲/丙 boundary, while 乙里 on the left has almost no existing stations nearby despite a meaningful elderly population — the map's spatial coverage gap, not raw headcount, appears to be the intended basis for the answer (乙里 is the underserved area). The student's reasoning is coherent and defensible from the table alone, but it disregards the spatial/proximity evidence in 圖9 that the question was designed to test, so only partial credit is warranted for the reasoning quality despite likely selecting the wrong village."
+        }
+      ]
+    },
+    "ast-114-geography--q42.b": {
+      "question_id": "ast-114-geography--q42.b",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 5.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          5.0
+        ],
+        "raw_totals": [
+          5.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 5.0,
+          "overall_rationale": "Both 30-word justifications correctly draw on 資料一: (1) China's dominance in solar panel manufacturing/export means a trade slowdown suppresses its production and exports, plausibly reducing carbon emissions short-term; (2) since the U.S. leads in solar generation capacity but (per 資料一) relies on globally supplied panels, tariff-driven trade slowdown raising import costs would hinder U.S. energy transition/green tech. Both points are logically grounded in the given data and directly address the professor's two claims. Minor loss for not being maximally crisp/precise within the tight word limit."
+        }
+      ]
+    },
+    "ast-115-civics--q35": {
+      "question_id": "ast-115-civics--q35",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 2.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          2.0
+        ],
+        "raw_totals": [
+          2.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 2.0,
+          "overall_rationale": "The question explicitly requires selecting from the four provided lettered options (甲/乙/丙/丁) and states the right-hand explanation only counts if the code is correct. The student did not select any of the four provided presets at all, instead inventing its own labels ('效率與風險分擔預設', '公平與需求預設') that don't map onto the exam's answer choices, so the coding requirement is unmet. The underlying substance is partially on-track — official's push for shared responsibility loosely echoes '自立自助' and the association's equity/access concern loosely echoes concern over stratified disadvantage — so some credit is given for conceptual direction, but precision and required format are largely missing."
+        }
+      ]
+    },
+    "ast-115-geography--q23.c": {
+      "question_id": "ast-115-geography--q23.c",
+      "mode": "judge",
+      "max_points": 7.0,
+      "awarded": 5.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          5.0
+        ],
+        "raw_totals": [
+          5.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 5.0,
+          "overall_rationale": "The described cross-section (rising toward 甲, falling sharply across the embankment into a low, flat riverbed, then rising again toward 丁) is a geographically plausible reading of the contour map for this valley/riverbed setting. The 40-word explanation correctly reasons from relative riverbed elevation and flood pathway: floodwaters funneled rapidly down the channel and overtopped low embankments into low-lying settlements, which is a sound disaster-severity argument grounded in the two required factors (relative elevation, flood routing). Some uncertainty remains since the exact contour shape/elevation values cannot be verified from the text description alone, so full marks are not awarded."
+        }
+      ]
+    },
+    "gsat-113-english--q19.a": {
+      "question_id": "gsat-113-english--q19.a",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "Accurate, natural, and grammatically correct translation that faithfully conveys the meaning: recurring election-season observation of politicians visiting well-known temples across various locations. No errors that would impede full credit."
+        }
+      ]
+    },
+    "gsat-113-english--q20": {
+      "question_id": "gsat-113-english--q20",
+      "mode": "judge",
+      "max_points": 20.0,
+      "awarded": 17.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          17.0
+        ],
+        "raw_totals": [
+          17.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 17.0,
+          "overall_rationale": "Well-organized two-paragraph essay that fully follows the prompt: paragraph one clearly states the chosen problem (mood swings) with a well-reasoned explanation of why it matters (impact on concentration, relationships, confidence); paragraph two describes desired robot qualities (patient, observant, emotionally perceptive) and a believable collaborative division of labor (monitoring/suggesting vs. the student following through and providing feedback). Comfortably exceeds the 120-word minimum, uses varied and accurate grammar/vocabulary, and stays coherent and on-topic throughout. A few points withheld for relatively modest range of complex structures and some generic phrasing rather than truly standout content."
+        }
+      ]
+    },
+    "gsat-114-chinese-writing--q2": {
+      "question_id": "gsat-114-chinese-writing--q2",
+      "mode": "judge",
+      "max_points": 25.0,
+      "awarded": 21.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          21.0
+        ],
+        "raw_totals": [
+          21.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 21.0,
+          "overall_rationale": "強而有力的抒情文，緊扣「52赫茲」意象，將自身在群體中不敢表達意見的沉默經驗轉化為與鯨魚頻率的類比，結構完整（起—承—轉—合），有具體事例（報告失敗後鼓起勇氣發言、同學回應），結尾呼應題旨並昇華主旨（獨特不等於孤單、值得被聽見）。文字流暢、意象運用自然，情感真摯，扣題精準，屬水準以上的作品，僅在文采精煉度與深度上略有進一步提升空間。"
+        }
+      ]
+    },
+    "gsat-115-chinese-writing--q1.b": {
+      "question_id": "gsat-115-chinese-writing--q1.b",
+      "mode": "judge",
+      "max_points": 21.0,
+      "awarded": 18.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          18.0
+        ],
+        "raw_totals": [
+          18.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 18.0,
+          "overall_rationale": "扣緊題文對「臉」與倫理責任的論述，舉出具體生活事例（便利商店外扶助跌倒老人，先逃避後折返承擔），並清楚呈現「無臉／選擇不看」與「積極承擔」的對比，最後提出省思（面對一張臉即承認對方值得被尊重、拒絕以忙碌作為冷漠藉口），扣題精確且有個人化的反思深度。文長與結構合宜，論述前後呼應，惟部分論證略顯直白、可再深化與列維納斯理論的連結，故未達滿分。"
+        }
+      ]
+    },
+    "gsat-115-math-a--q20": {
+      "question_id": "gsat-115-math-a--q20",
+      "mode": "judge",
+      "max_points": 8.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "The volume calculation is correct: the identity (d×p)×(p×a)=V·p is used correctly (equivalent to the student's method), giving |V|=10, matching an independent verification. However, when reconstructing individual vectors a and d to find the farthest point, the student's chosen a=(2,3,-1), d=(1,-1,2) do NOT actually satisfy the given a×d=(-5,5,5) (they instead satisfy a×d=(5,-5,-5), a sign error), so the vectors used are inconsistent with the problem data. Solving the system correctly gives a=(-1,1,-2), d=(-2,-3,1), p=(-4,-4,2), whose vertex sums yield a true maximum squared distance of |d+p|²=94, i.e. max distance = √94 ≈ 9.70 — not the student's 5√2 ≈ 7.07. The method/setup for part 2 was reasonable but the arithmetic error in recovering a and d produced an incorrect final distance, while the volume (worth roughly half the credit) is fully correct."
+        }
+      ]
+    }
+  },
+  "section_totals": {
+    "stratum-C": {
+      "awarded": 50.0,
+      "max_points": 64.0
+    },
+    "stratum-D": {
+      "awarded": 37.0,
+      "max_points": 50.0
+    }
+  },
+  "total_awarded": 87.0,
+  "total_max": 114.0,
+  "percentage": 76.3157894736842,
+  "skipped_count": 0,
+  "skipped_points": 0.0,
+  "covered_max": 114.0,
+  "covered_percentage": 76.3157894736842,
+  "warnings": [
+    "single judge model — inter-judge agreement cannot be measured; pass a second --judge-model to see how much of the score is judge-dependent"
+  ],
+  "judge_agreement": {
+    "requested_judge_models": [
+      "claude:claude-sonnet-5"
+    ],
+    "judged_questions": 12,
+    "multi_judge_questions": 0,
+    "disagreed_questions": 0,
+    "mean_spread": 0.0,
+    "max_spread": 0.0,
+    "mean_normalized_spread": 0.0,
+    "per_judge_mean": {
+      "claude:claude-sonnet-5": 7.25
+    }
+  },
+  "usage": {
+    "total": {
+      "requests": 8,
+      "input_tokens": 12,
+      "output_tokens": 15678,
+      "reasoning_tokens": 0,
+      "cache_read_tokens": 186848,
+      "cache_write_tokens": 57373
+    },
+    "phases": {
+      "judge:claude:claude-sonnet-5": {
+        "requests": 8,
+        "input_tokens": 12,
+        "output_tokens": 15678,
+        "reasoning_tokens": 0,
+        "cache_read_tokens": 186848,
+        "cache_write_tokens": 57373
+      }
+    }
+  }
+}

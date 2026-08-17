@@ -1,0 +1,603 @@
+{
+  "schema_version": "1",
+  "exam_id": "judge-reliability-ablate12bare",
+  "taker": "claude:claude-sonnet-5",
+  "graded_at": "2026-08-17T18:42:56.310785Z",
+  "results": {
+    "ast-113-chemistry--q25": {
+      "question_id": "ast-113-chemistry--q25",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "Student correctly identifies 甲=(NH4)2Cr2O7, 乙=Cr2O3, 丙=N2, 丁=H2O, with a complete and accurate derivation: molar mass check for 甲 (252), ion counts (2 cations + 1 anion), the color/odor clues from NaOH addition (NH3 pungent gas, Cr2O7^2- to CrO4^2- color change), the decomposition equation (NH4)2Cr2O7 → Cr2O3 + N2 + 4H2O, molar mass verification of 乙 (152) and 丙 (28), and the 4:1 volume ratio of 丁:丙 matching the stoichiometric 4 mol H2O to 1 mol N2. All four formulas and all supporting evidence are correct and fully justified."
+        }
+      ]
+    },
+    "ast-113-civics--q36.b": {
+      "question_id": "ast-113-civics--q36.b",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 4.5,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.5
+        ],
+        "raw_totals": [
+          4.5
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.5,
+          "overall_rationale": "Student correctly identifies the shop owner's damaged right (privacy, a personality right) as having the characteristic that it 'cannot in principle be acquired through inheritance,' consistent with privacy being a highly personal, non-transferable right. The two legal reasons given for the netizens' view — that 小恩 was a party to the conversation so the recording did not violate the Communication Security and Surveillance Act, and that exposing false advertising to protect consumer rights constitutes a legitimate act that precludes wrongfulness — are legally sound, concise, and stay within the 30-character limit for each. Minor uncertainty remains about whether these are precisely the two reasons envisioned by the grading key, so a small deduction is applied."
+        }
+      ]
+    },
+    "ast-113-geography--q36": {
+      "question_id": "ast-113-geography--q36",
+      "mode": "judge",
+      "max_points": 3.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 3.0,
+          "overall_rationale": "The described choropleth shading correctly matches Table 2 to the given legend classes: 甲 (538 elderly) placed in the 301–600 band with horizontal-line pattern, 乙 (218 elderly) placed in the 0–300 band with vertical-line pattern, and 丙 (992 elderly) placed in the 601–1200 band with cross-hatch pattern. The description also specifies that shading should align exactly with each administrative boundary and be consistent in pattern density/direction with the legend, producing a complete, correctly classified choropleth map as required."
+        }
+      ]
+    },
+    "ast-113-geography--q37": {
+      "question_id": "ast-113-geography--q37",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "Student selects 丙, which has by far the highest elderly population (992) and a high old-age dependency ratio (22.88), making it a well-supported choice based on Table 2 as instructed by the question ('根據表2'). The stated reason ('丙里老年人口數最多，扶老比亦高，需求最大但站點相對不足，最需增設服務') is concise, within the 30-character limit, and logically grounded in the table data, earning most of the credit. Some ambiguity remains as to whether the intended answer weighs existing station distribution (visible in Figure 9) more heavily, so a modest deduction is applied for a not-fully-exhaustive justification."
+        }
+      ]
+    },
+    "ast-114-geography--q42.b": {
+      "question_id": "ast-114-geography--q42.b",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 5.5,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          5.5
+        ],
+        "raw_totals": [
+          5.5
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 5.5,
+          "overall_rationale": "Both offered pieces of supporting evidence are well grounded in Data 1 and directly address the two viewpoints: (1) tariffs slowing China's solar panel exports (China being the dominant exporter) would reduce associated production and thus carbon emissions in the short term, and (2) tariffs raising import costs of Chinese-made panels would hinder US solar buildout given China's supply-chain dominance, undermining long-term US energy transition. Both answers are within the 30-character limit and clearly tied to the cited data, with only minor room for sharper phrasing/precision costing a small deduction."
+        }
+      ]
+    },
+    "ast-115-civics--q35": {
+      "question_id": "ast-115-civics--q35",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 5.5,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          5.5
+        ],
+        "raw_totals": [
+          5.5
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 5.5,
+          "overall_rationale": "The student correctly identifies the official's underlying presumption as 乙 (fostering self-reliance of subsidized individuals) with a coherent policy preference (having disabled individuals' families share the cost of care based on severity), and the association's presumption as 丙 (building a social safety net inclusive of all citizens) with an apt reminder (that the policy could push poor disabled families further into difficulty since aid caps and self-pay burdens are quickly exhausted). Both mappings and their accompanying descriptions are well-supported by the passage and stay within the character limits, with only a slight deduction for brevity/precision in fully capturing nuance."
+        }
+      ]
+    },
+    "ast-115-geography--q23.c": {
+      "question_id": "ast-115-geography--q23.c",
+      "mode": "judge",
+      "max_points": 7.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 6.0,
+          "overall_rationale": "The cross-section description is reasonably precise: horizontal axis is distance from 甲 to 丁 (north to south), vertical axis is elevation, with 甲 highest (~120m near the river/levee), gradual decline through 乙 and 丙 (close together, ~90–100m), and lowest at 丁 (~80m) entering the Guangfu floodplain — a plausible and internally consistent profile given the described contour map. The disaster-cause explanation (river bed near 甲 higher than Guangfu's street level, so the breached dam's floodwater rushed downhill onto the lower town) correctly applies the required reasoning about relative river-bed elevation and floodpath within the 40-character limit. Some detail on exact elevation intervals and floodwater discharge direction could be sharper, warranting a small deduction from full marks."
+        }
+      ]
+    },
+    "gsat-113-english--q19.a": {
+      "question_id": "gsat-113-english--q19.a",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 3.5,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.5
+        ],
+        "raw_totals": [
+          3.5
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 3.5,
+          "overall_rationale": "The translation ('Every time the election season comes, we can always see politicians visiting famous temples all over the country.') accurately conveys the meaning of the Chinese sentence and is grammatically correct, though the phrasing 'Every time the election season comes' is slightly less natural than alternatives like 'Whenever election season arrives' or 'During every election season,' and 'all over the country' is an added elaboration not explicit in the source. Overall clear, accurate, and reasonably fluent, warranting most but not full credit."
+        }
+      ]
+    },
+    "gsat-113-english--q20": {
+      "question_id": "gsat-113-english--q20",
+      "mode": "judge",
+      "max_points": 20.0,
+      "awarded": 18.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          18.0
+        ],
+        "raw_totals": [
+          18.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 18.0,
+          "overall_rationale": "The essay follows the required two-paragraph structure, chooses one problem ('Caring What Others Think'), explains the choice with concrete personal reasoning, and describes desired robot qualities (patient, encouraging listener; gives feedback; prompts breathing exercises) along with a clear division of labor between student and robot. It exceeds the 120-word minimum, is coherent, well-organized, and largely free of grammatical errors, with natural and varied vocabulary. Minor room for more vivid specificity keeps it just short of a top score."
+        }
+      ]
+    },
+    "gsat-114-chinese-writing--q2": {
+      "question_id": "gsat-114-chinese-writing--q2",
+      "mode": "judge",
+      "max_points": 25.0,
+      "awarded": 22.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          22.0
+        ],
+        "raw_totals": [
+          22.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 22.0,
+          "overall_rationale": "The essay skillfully parallels the 52-hertz whale motif with a genuine personal narrative (childhood fascination with insects, being misunderstood by peers, eventually being embraced after a class presentation), showing good structural coherence, appropriate imagery, and a meaningful thematic payoff about being heard through persistence and finding the right way to communicate. Language is fluent and evocative with well-controlled sentence variety, and the piece stays clearly on topic with a satisfying conclusion; only minor room for deeper originality or more polished phrasing prevents a near-perfect score."
+        }
+      ]
+    },
+    "gsat-115-chinese-writing--q1.b": {
+      "question_id": "gsat-115-chinese-writing--q1.b",
+      "mode": "judge",
+      "max_points": 21.0,
+      "awarded": 19.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          19.0
+        ],
+        "raw_totals": [
+          19.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 19.0,
+          "overall_rationale": "The response provides a concrete, well-observed personal anecdote (helping an elderly vendor after a chance eye contact) that directly illustrates the passage's concept of the 'face' calling forth ethical responsibility, and thoughtfully reflects on the choice between avoidance and engagement, echoing the source text's vendor example. The writing is coherent, appropriately reflective, and fits within the length constraint, with clear structure (event → realization → resolution). Slightly more depth or a second contrasting example could strengthen the reflection further, keeping it just below full marks."
+        }
+      ]
+    },
+    "gsat-115-math-a--q20": {
+      "question_id": "gsat-115-math-a--q20",
+      "mode": "judge",
+      "max_points": 8.0,
+      "awarded": 8.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          8.0
+        ],
+        "raw_totals": [
+          8.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 8.0,
+          "overall_rationale": "The solution correctly derives the scalar triple product identity to compute the parallelepiped volume: |Y×Z| = |V||p| gives |V| = 60/6 = 10, matching the correct volume. The student then correctly recovers vectors p=(-4,-4,2), d=(-2,-3,1), b=(-1,1,-2) and verifies all three given cross products, confirming internal consistency. Finally, correctly reasoning that the maximum distance from A on a convex parallelepiped occurs at a vertex, it computes all 8 vertex distances-squared and correctly identifies the maximum at vertex S (d+p) with distance √94. All arithmetic checks out and the final answers (volume 10, max distance √94) are correct with full justification."
+        }
+      ]
+    }
+  },
+  "section_totals": {
+    "stratum-C": {
+      "awarded": 57.5,
+      "max_points": 64.0
+    },
+    "stratum-D": {
+      "awarded": 45.5,
+      "max_points": 50.0
+    }
+  },
+  "total_awarded": 103.0,
+  "total_max": 114.0,
+  "percentage": 90.35087719298245,
+  "skipped_count": 0,
+  "skipped_points": 0.0,
+  "covered_max": 114.0,
+  "covered_percentage": 90.35087719298245,
+  "warnings": [
+    "taker claude:claude-sonnet-5 judged its own answers; self-judging tends to be optimistic — prefer a --judge-model different from the taker",
+    "single judge model — inter-judge agreement cannot be measured; pass a second --judge-model to see how much of the score is judge-dependent"
+  ],
+  "judge_agreement": {
+    "requested_judge_models": [
+      "claude:claude-sonnet-5"
+    ],
+    "judged_questions": 12,
+    "multi_judge_questions": 0,
+    "disagreed_questions": 0,
+    "mean_spread": 0.0,
+    "max_spread": 0.0,
+    "mean_normalized_spread": 0.0,
+    "per_judge_mean": {
+      "claude:claude-sonnet-5": 8.583333333333334
+    }
+  },
+  "usage": {
+    "total": {
+      "requests": 17,
+      "input_tokens": 34,
+      "output_tokens": 15315,
+      "reasoning_tokens": 0,
+      "cache_read_tokens": 757579,
+      "cache_write_tokens": 67908
+    },
+    "phases": {
+      "judge:claude:claude-sonnet-5": {
+        "requests": 17,
+        "input_tokens": 34,
+        "output_tokens": 15315,
+        "reasoning_tokens": 0,
+        "cache_read_tokens": 757579,
+        "cache_write_tokens": 67908
+      }
+    }
+  }
+}

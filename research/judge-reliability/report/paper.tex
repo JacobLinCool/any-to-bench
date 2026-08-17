@@ -48,24 +48,27 @@ Small language models can grade open-ended examination answers as reliably as
 substantially more expensive models when they grade against an explicit
 rubric. We test this claim as the design principle behind
 \textsc{any-to-bench}: a frontier model reads source documents once, at
-ingestion, to extract questions and grading rubrics, after which lower-cost
-models perform all repeated grading work. We evaluate six cost-efficient
-model configurations from two model families at three reasoning-effort
-levels. Each configuration answers 24 open-ended examination questions, and
-each also grades every answer sheet three times, yielding 3{,}456
-per-question grades. Scores depend overwhelmingly on the answer being graded:
-answer identity explains 95.6\,\% of score variance, whereas judge identity
-explains only 0.2\,\%. Raising a writer's reasoning effort moves earned
-scores by as much as 0.143 of full marks, while raising a judge's reasoning
-effort moves assigned scores by at most 0.006. The two lowest-cost judges
-alone reach a reliability (ICC) of 0.913, close to the six-judge panel's
-0.922, and neither misgrades any anchor sheet with a known correct score. The
-rubric appears central to this reliability: in an observational stratum of
-questions without published rubrics, judges still agree with one another but
-separate answers of clearly different quality five times less. We find no
-evidence of length preference or same-family preference under rubric-anchored
-grading. Together, these results suggest that explicit grading criteria
-matter more than judge scale or inference cost.
+ingestion, to extract each question and its rubric, meaning its complete
+scoring standard: the official answer plus any published criteria and levels.
+Lower-cost models then perform all repeated grading work. We evaluate six
+cost-efficient model configurations from two model families at three
+reasoning-effort levels. Each configuration answers 24 open-ended examination
+questions, and each also grades every answer sheet three times, yielding
+3{,}456 per-question grades. Scores depend overwhelmingly on the answer
+being graded: answer identity explains 95.6\,\% of score variance, whereas
+judge identity explains only 0.2\,\%. Raising a writer's reasoning effort
+moves earned scores by as much as 0.143 of full marks, while raising a
+judge's reasoning effort moves assigned scores by at most 0.006. The two
+lowest-cost judges alone reach a reliability (ICC) of 0.913, close to the
+six-judge panel's 0.922, and neither misgrades any anchor sheet with a known
+correct score. Two ablations then decompose the rubric on the same questions
+and answers. Removing its criteria and levels while keeping the official
+answer changes nothing measurable. Removing the official answer as well
+collapses reliability (ICC 0.888 to 0.628), inflates scores, and makes judge
+reasoning effort matter again. The rubric is what decouples grading from
+judge intelligence, and within the rubric the official answer does nearly
+all the work. We find no evidence of length preference or same-family
+preference under rubric-anchored grading.
 \end{abstract}
 
 \section{Introduction}
@@ -84,8 +87,10 @@ family~\cite{panickssery2024}.
 \textsc{any-to-bench} takes a different approach, built on an asymmetry
 between its two model-driven steps: ingestion and grading. Ingestion is where
 the intelligence goes. A frontier configuration reads the source documents and
-extracts questions, answer formats, and per-criterion scoring rubrics, and it
-does this once per exam. Grading happens on every benchmark run, and the tool
+extracts questions, answer formats, and scoring rubrics, and it does this
+once per exam. Throughout this paper, a question's \emph{rubric} is its
+complete extracted scoring standard: the official reference answer, plus
+explicit criteria with defined levels where the source publishes them. Grading happens on every benchmark run, and the tool
 bets that it needs almost no intelligence at all: with the rubric in hand,
 grading reduces to applying it. That is work small models should handle
 cheaply, repeatedly, and interchangeably.
@@ -106,12 +111,12 @@ marks, so capability registers when it sits on the answering side. The same
 dial moves what a judge \emph{gives} by at most 0.006. Judge identity
 accounts for 0.2\,\% of score variance, and replacing the entire panel with
 its cheapest members changes per-answer scores by 0.019 on average.
-\item \textbf{The rubric is the mechanism} (\S\ref{sec:rubric}). On questions
-whose sources publish no rubric, the same judges remain about as consistent
-with each other, but their scores stop separating good answers from bad
-ones. The spread between six writers shrinks five-fold. A rubric buys
-discrimination, not agreement, and naive reliability coefficients invert this
-conclusion; we show why.
+\item \textbf{The rubric is the mechanism, and its answer key is the
+load-bearing part} (\S\ref{sec:rubric}). Two ablations decompose the rubric
+on the same questions and answers. Stripping its criteria and levels while
+keeping the official answer changes nothing measurable. Stripping the
+official answer as well collapses reliability, inflates scores, and makes
+judge effort matter again.
 \item \textbf{Two textbook biases fail to appear} (\S\ref{sec:bias}). Under
 rubric anchoring there is no self-preference and no length premium. A
 within-question length--score correlation of $+0.6$ to $+0.7$ suggests
@@ -255,6 +260,21 @@ because nobody grades three times in production. They also cover the six
 model-written sheets only: the two anchors are trivially easy to separate and
 would inflate any statistic that included them.
 
+\subsection{Two ablations}
+\label{sec:ablations}
+
+The strata compare different questions, so they cannot separate the rubric's
+effect from the questions' own character. Two ablations remove that limit by
+intervening on the same questions. From the twelve stratum-C and -D questions
+we built two further bundles. The first strips each rubric's criteria and
+levels but keeps the official answer, which is the shape stratum-A rules
+have. The second strips the official answer as well, leaving the judge
+nothing but the question and the answer to grade. The same six judges then
+re-graded all eight answer sheets once under each condition: 96 further
+grading passes and 1{,}152 further verdicts. Comparisons against the full
+rubric use the first repeat of the main study, so all three conditions are
+single-pass.
+
 \section{The scale is anchored}
 \label{sec:validity}
 
@@ -373,32 +393,74 @@ error is worth explaining because reliability coefficients are how this
 literature reports results. ICC is signal over signal-plus-noise. Stratum~A's
 judges disagree with each other about as much as C's and D's in absolute terms
 (0.080 against 0.092 and 0.085); the noise is ordinary. What has collapsed is
-the signal. Without a rubric, the judges place six answers of visibly
-different quality within a standard deviation of \num{0.043} of each other,
-five times narrower than the 0.22--0.28 achieved when a rubric is present
-(Figure~\ref{fig:discriminate}). Every answer gets much the same
-mark.\footnote{The same collapse explains why stratum~A's within-judge repeat
-variation (0.019) is the \emph{lowest} of the four strata: a judge that gives
-everything 0.85 is very stable.}
-
-This reframes what the rubric is for. It does not mainly make judges agree
-with each other; they mostly agree anyway. It makes them able to \emph{tell
-answers apart}, which is the property a benchmark actually needs from its
-grader. It also confirms the ingestion half of the asymmetry: the judgment
-was exercised once, at ingestion, when the frontier model turned source
-materials into criteria and levels. Grading inherits that judgment. Remove it, as
-stratum~A does, and the same small judges stay just as consistent while
-losing the ability to separate answers.
+the signal. In stratum~A the judges place the six answers within a standard
+deviation of \num{0.043} of each other, five times narrower than the
+0.22--0.28 seen elsewhere (Figure~\ref{fig:discriminate}). Every answer gets
+much the same mark.\footnote{The same collapse explains why stratum~A's
+within-judge repeat variation (0.019) is the \emph{lowest} of the four
+strata: a judge that gives everything 0.85 is very stable.}
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.9\linewidth]{fig/s24-discriminate.pdf}
-\caption{What the rubric buys. Left: how far apart the six writers' answers
+\caption{The stratum contrast. Left: how far apart the six writers' answers
 are placed, by stratum. Right: how much the six judges disagree on the same
 answer. Stratum~A's judges are no more divided than C's or D's; they simply
 have nothing to divide.}
 \label{fig:discriminate}
 \end{figure}
+
+The stratum contrast, however, compares different questions, and it is
+confounded: stratum~A's questions are mostly free-form writing, and prose
+may compress for reasons of its own. The two ablations of
+\S\ref{sec:ablations} settle what the rubric itself contributes, because
+they intervene on the same questions and the same answers.
+
+Stripping the criteria and levels changes nothing measurable
+(Figure~\ref{fig:ablate}, middle). On the five questions with real
+discrimination, the spread between writers keeps a median 114\,\% of its
+full-rubric value. Reliability is unchanged: ICC 0.880 with the full rubric,
+0.888 with the official answer alone. The judges become slightly more
+generous (+0.016 of full marks) and slightly less aligned on each answer
+(mean spread 0.122 to 0.145), and that is all. Given the official answer,
+the elaborate criteria are redundant.
+
+Stripping the official answer as well breaks things
+(Figure~\ref{fig:ablate}, right). Reliability falls to 0.628. Scores inflate
+by 0.074 of full marks. The reference anchor drops below perfection for the
+first time in this paper (0.957). Median discrimination falls to 68\,\%, and
+which questions survive is telling. The two questions a judge can re-derive
+for itself hold their spread: the mathematics question keeps 108\,\% and one
+civics question 102\,\%. The questions whose answers can only be checked against
+the key collapse to 30--36\,\%. Judge reasoning effort, irrelevant
+everywhere else in this paper, also starts to matter: without the key, every
+judge drifts further from the full-rubric consensus, and the drift now falls
+with effort, 0.143 at low codex effort against 0.114 at high, twice the
+gradient seen when the key is present.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.82\linewidth]{fig/s24-ablate.pdf}
+\caption{Writer spread per question across the guidance spectrum. Removing
+the criteria and levels (middle) changes nothing. Removing the official
+answer as well (right) collapses the questions that can only be checked
+against it, while the re-derivable mathematics and civics questions survive.
+The essays sit flat at every guidance level.}
+\label{fig:ablate}
+\end{figure}
+
+This locates the mechanism. The rubric is what decouples grading from judge
+intelligence: without it, grading turns back into answering, and capability
+matters again. Within the rubric, the official answer carries nearly all of
+the weight, and the criteria and levels add a margin of consistency. This is
+the ingestion half of the asymmetry made concrete: the frontier model's real
+product is the scoring standard, and above all the key.
+
+One limit holds at every guidance level. The essays never discriminate: with
+a 26-level rubric, with only a key, or with nothing, the six writers' essays
+sit within 0.04 of one another. Whether the essays are genuinely that
+similar or the judges cannot separate prose quality is not decidable without
+human raters (\S\ref{sec:limits}).
 
 \section{Two biases that fail to appear}
 \label{sec:bias}
@@ -506,10 +568,16 @@ examiner.
 \textbf{Power.} The headline reliability is adequately powered; the bootstrap
 lower bound, 0.815, still supports strong agreement, and no single question
 moves any stratum's ICC by more than 0.17. But six questions per stratum
-remains thin. The strata are observational rather than randomised: sources
-that publish no rubric may set questions that are intrinsically harder to
-separate. And the writer-side effort response rests on one family, since the
-other family's answers were flat in effort.
+remains thin. The strata are observational rather than randomised; the
+ablations remove this limit for the rubric's own effect, but they are
+single-pass and cover twelve questions. And the writer-side effort response
+rests on one family, since the other family's answers were flat in effort.
+
+\textbf{Prose.} The essays never discriminate, at any guidance level. Six
+competent models may genuinely write prose of similar merit, or the judges
+may be unable to separate prose quality; deciding between the two requires
+human raters. Either way, benchmark builders should expect little signal
+from free-form writing items.
 
 \section{Conclusion}
 
@@ -520,9 +588,11 @@ model once per exam. The experiment reported here says the recovery works and
 the economics follow. After ingestion, grading is the easy half. Small judges
 at low effort grade the same answers to the same scores as their most
 expensive counterparts, contribute 0.2\,\% of score variance, show neither
-the length bias nor the family bias that affect rubric-free judging, and need
-no panel. The one thing they cannot survive is losing the rubric: then they
-keep agreeing and stop measuring. Intelligence belongs at ingestion. A
+the length bias nor the family bias reported for pairwise judging, and need
+no panel. The one thing they cannot lose is the rubric. Without it, scores
+inflate, judges drift apart, and reasoning effort begins to matter again:
+grading turns back into answering. Within the rubric, the official answer
+carries nearly all the weight. Intelligence belongs at ingestion. A
 benchmark that spends it there is cheap to run at any scale.
 
 \begin{thebibliography}{12}
@@ -640,8 +710,12 @@ repository.\footnote{\url{https://github.com/JacobLinCool/any-to-bench}}
 They are:
 
 \begin{itemize}\setlength\itemsep{0.1em}
-\item the 144 grading reports, one JSON file per (sheet, judge, repeat);
-\item \texttt{data.csv}, a tidy table with one row per verdict (3{,}456 rows);
+\item the 144 grading reports of the main study, one JSON file per (sheet,
+judge, repeat);
+\item the 96 ablation grading reports: \texttt{reports\_ab} for the
+key-only condition and \texttt{reports\_bare} for zero guidance;
+\item \texttt{data.csv}, a tidy table with one row per main-study verdict
+(3{,}456 rows);
 \item the analysis and figure scripts, which read only the reports above.
 \end{itemize}
 
