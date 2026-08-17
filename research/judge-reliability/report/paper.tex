@@ -48,9 +48,8 @@ Small language models can grade open-ended examination answers as reliably as
 substantially more expensive models when they grade against an explicit
 rubric. We test this claim as the design principle behind
 \textsc{any-to-bench}: a frontier model reads source documents once, at
-ingestion, to extract each question and its rubric, meaning its complete
-scoring standard: the official answer plus any published criteria and levels.
-Lower-cost models then perform all repeated grading work. We evaluate six
+ingestion, to extract each question and its rubric; lower-cost models then
+perform all repeated grading work. We evaluate six
 cost-efficient model configurations from two model families at three
 reasoning-effort levels. Each configuration answers 24 open-ended examination
 questions, and each also grades every answer sheet three times, yielding
@@ -58,11 +57,8 @@ questions, and each also grades every answer sheet three times, yielding
 being graded: answer identity explains 95.6\,\% of score variance, whereas
 judge identity explains only 0.2\,\%. Raising a writer's reasoning effort
 moves earned scores by as much as 0.143 of full marks, while raising a
-judge's reasoning effort moves assigned scores by at most 0.006. The two
-lowest-cost judges alone reach a reliability (ICC) of 0.913, close to the
-six-judge panel's 0.922, and neither misgrades any anchor sheet with a known
-correct score. Two ablations then decompose the rubric on the same questions
-and answers. Removing its criteria and levels while keeping the official
+judge's reasoning effort moves assigned scores by at most 0.006. Two
+ablations then decompose the rubric on the same questions and answers. Removing its criteria and levels while keeping the official
 answer changes nothing measurable. Removing the official answer as well
 collapses reliability (ICC 0.888 to 0.628), inflates scores, and makes judge
 reasoning effort matter again. The rubric is what decouples grading from
