@@ -177,8 +177,13 @@ rubric.
 From the judge-graded questions in this corpus we drew 24, grouped into four
 strata by how much scoring guidance the source itself publishes
 (Table~\ref{tab:strata}, left half). Each stratum holds six questions. The 24
-questions span 1--25 points and several answer types: short answers, essays,
-translations, and drawings. The strata are not four arms of one experiment.
+questions come from 21 different exam papers across the three series and the
+three years, and cover eight subjects: Chinese, English, mathematics,
+physics, chemistry, biology, geography, and civics. They are worth 1 to 25
+points each and use three answer formats: ten short answers (including
+English translation items), ten essays, and four drawings. Rubric size runs
+from a single two-level criterion to rubrics with up to four criteria and up
+to 26 levels in total. Appendix~\ref{app:questions} lists every question. The strata are not four arms of one experiment.
 Stratum~B's two-level rubrics make agreement largely automatic, so it serves
 as a floor check. Stratum~A, with no published rubric, is the comparison
 condition that \S\ref{sec:rubric} turns on.
@@ -571,6 +576,58 @@ Language Models? \emph{AIED}, 2025.
 
 \appendix
 
+\section{The 24 questions}
+\label{app:questions}
+
+Table~\ref{tab:questions} lists every question in the study: its stratum, the
+exam paper it comes from, its answer format, its point value, and the size of
+its rubric.
+
+\begin{table}[!ht]
+\centering\footnotesize
+\caption{The 24 questions. \emph{Levels} is the total number of defined
+levels across the rubric's criteria; stratum~A questions publish no rubric.
+\emph{Key} marks whether the examining board publishes an official answer;
+the eight questions without one are excluded from reference-anchor
+statistics.}
+\label{tab:questions}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}clllrrrc@{}}
+\toprule
+& \textbf{Source exam} & \textbf{Question} & \textbf{Format}
+& \textbf{Points} & \textbf{Criteria} & \textbf{Levels} & \textbf{Key} \\
+\midrule
+A & \texttt{ast-114-physics} & q19 & short answer & 4 & 0 & -- & yes \\
+A & \texttt{tve-113-chinese} & q39 & essay & 24 & 0 & -- & no \\
+A & \texttt{tve-113-english} & q44 & short answer & 6 & 0 & -- & no \\
+A & \texttt{tve-113-foreign-language-english-2} & q8 & essay & 24 & 0 & -- & no \\
+A & \texttt{tve-114-chinese} & q39 & essay & 24 & 0 & -- & no \\
+A & \texttt{tve-114-foreign-language-english-2} & q9 & essay & 24 & 0 & -- & no \\
+\midrule
+B & \texttt{ast-113-biology} & q37 & short answer & 2 & 1 & 2 & yes \\
+B & \texttt{ast-113-math-jia} & q17 & essay & 6 & 1 & 2 & yes \\
+B & \texttt{ast-113-physics} & q25.a & short answer & 1 & 1 & 2 & yes \\
+B & \texttt{ast-114-math-jia} & q12.b & essay & 4 & 1 & 2 & yes \\
+B & \texttt{ast-114-math-yi} & q18 & drawing & 8 & 1 & 2 & yes \\
+B & \texttt{ast-115-geography} & q20.b & drawing & 3 & 1 & 2 & yes \\
+\midrule
+C & \texttt{ast-113-civics} & q36.b & short answer & 5 & 1 & 6 & yes \\
+C & \texttt{ast-113-geography} & q36 & drawing & 3 & 1 & 4 & yes \\
+C & \texttt{ast-115-civics} & q35 & short answer & 6 & 1 & 7 & yes \\
+C & \texttt{gsat-113-english} & q19.a & short answer & 4 & 1 & 9 & yes \\
+C & \texttt{gsat-114-chinese-writing} & q2 & essay & 25 & 1 & 26 & no \\
+C & \texttt{gsat-115-chinese-writing} & q1.b & essay & 21 & 1 & 22 & no \\
+\midrule
+D & \texttt{ast-113-chemistry} & q25 & short answer & 4 & 4 & 8 & yes \\
+D & \texttt{ast-113-geography} & q37 & short answer & 5 & 2 & 6 & yes \\
+D & \texttt{ast-114-geography} & q42.b & short answer & 6 & 2 & 6 & yes \\
+D & \texttt{ast-115-geography} & q23.c & drawing & 7 & 2 & 6 & yes \\
+D & \texttt{gsat-113-english} & q20 & essay & 20 & 4 & 24 & no \\
+D & \texttt{gsat-115-math-a} & q20 & essay & 8 & 4 & 8 & yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Reproducibility}
 \label{app:repro}
 
@@ -602,7 +659,7 @@ grading one question on one answer sheet in one repeat.}
 \texttt{qid} & question identifier, prefixed by its source bundle \\
 \texttt{stratum} & scoring-guidance stratum, A--D (Table~\ref{tab:strata}) \\
 \texttt{max\_points} & the question's maximum points \\
-\texttt{type} & answer type (short answer, essay, translation, drawing) \\
+\texttt{type} & answer format (short answer, essay, drawing) \\
 \texttt{sheet} & answer sheet being graded: a writer sheet or an anchor \\
 \texttt{judge} & judge configuration (family and reasoning effort) \\
 \texttt{jfam}, \texttt{wfam} & judge family and writer family \\
