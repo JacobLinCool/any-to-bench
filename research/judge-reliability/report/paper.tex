@@ -45,29 +45,27 @@
 \begin{abstract}
 \noindent
 Small language models can grade open-ended examination answers as reliably as
-far more expensive configurations, provided they grade against a rubric. We
-tested
-this claim, which is the design principle behind \textsc{any-to-bench}: a
-frontier model reads the source documents once, at ingestion, and extracts
-questions and scoring rubrics; smaller models then do all the grading. In our
-experiment, we used six cost-efficient model configurations, drawn from two
-model families at three reasoning-effort settings each. Each configuration
-wrote answers to 24 open-ended examination questions and also graded every
-answer sheet three times. From the 3{,}456 per-question grades this produced,
-we find that the score depends on the answer, and hardly at all on the judge.
-Raising a writer's reasoning effort changed the scores it earned by up to
-\num{0.143} of full marks. Raising a judge's reasoning
-effort changed the grades it gave by at most \num{0.006}. The answer being
-graded explained \num{95.6\,\%} of score variance; the identity of the judge
-explained \num{0.2\,\%}. Used alone, the two cheapest judges matched the full
-six-judge panel (reliability 0.913 against 0.922) and never misgraded an
-anchor: a control sheet whose correct score is known in advance. The rubric is
-what makes this work. Judges without a rubric still agreed with each other but
-stopped telling answers apart. The spread between answers of visibly
-different quality shrank five-fold. Two
-biases reported for LLM judges, a preference for longer answers and a
-preference for the judge's own model family, did not appear under
-rubric-anchored grading.
+substantially more expensive models when they grade against an explicit
+rubric. We test this claim as the design principle behind
+\textsc{any-to-bench}: a frontier model reads source documents once, at
+ingestion, to extract questions and grading rubrics, after which lower-cost
+models perform all repeated grading work. We evaluate six cost-efficient
+model configurations from two model families at three reasoning-effort
+levels. Each configuration answers 24 open-ended examination questions, and
+each also grades every answer sheet three times, yielding 3{,}456
+per-question grades. Scores depend overwhelmingly on the answer being graded:
+answer identity explains 95.6\,\% of score variance, whereas judge identity
+explains only 0.2\,\%. Raising a writer's reasoning effort moves earned
+scores by as much as 0.143 of full marks, while raising a judge's reasoning
+effort moves assigned scores by at most 0.006. The two lowest-cost judges
+alone reach a reliability (ICC) of 0.913, close to the six-judge panel's
+0.922, and neither misgrades any anchor sheet with a known correct score. The
+rubric appears central to this reliability: in an observational stratum of
+questions without published rubrics, judges still agree with one another but
+separate answers of clearly different quality five times less. We find no
+evidence of length preference or same-family preference under rubric-anchored
+grading. Together, these results suggest that explicit grading criteria
+matter more than judge scale or inference cost.
 \end{abstract}
 
 \section{Introduction}
