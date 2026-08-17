@@ -1,0 +1,1318 @@
+{
+  "schema_version": "1",
+  "exam_id": "judge-reliability-pilot",
+  "taker": "codex:gpt-5.6-luna",
+  "graded_at": "2026-08-16T22:24:23.453696Z",
+  "results": {
+    "tve-113-chinese--q39": {
+      "question_id": "tve-113-chinese--q39",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 20.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          20.0
+        ],
+        "raw_totals": [
+          20.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 20.0,
+          "overall_rationale": "The essay gives a concrete, well-chosen personal example (a class-fair cardboard bookstore project) and clearly covers both the positive side of the IKEA effect (emotional investment, ownership, cohesion) and the negative side (overvaluing one's own contribution, resisting feedback). Structure is clear (two well-developed paragraphs: positive experience, then complication and reflection), language is fluent and controlled, and the closing reflection ('願為更好的結果放下固執') shows genuine insight. It falls short of the most literary/refined top tier but is a strong, clearly organized, thoughtful response, placing it in the upper-mid range."
+        }
+      ]
+    },
+    "tve-113-english--q44": {
+      "question_id": "tve-113-english--q44",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 6.0,
+          "overall_rationale": "The reordered sentence 'It is good to see that more people work on solving pollution problems.' uses exactly the five given phrase chunks with no words added, omitted, or altered, forms a grammatically correct and meaningful sentence, and ends with correct punctuation. Full marks."
+        }
+      ]
+    },
+    "ast-114-physics--q19": {
+      "question_id": "ast-114-physics--q19",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "The student correctly identifies that the locked wheels experience kinetic friction with the ground, computes the correct deceleration a = μ_kt·g = 5.0 m/s², and correctly applies 0 = v² − 2as to obtain s = 1.6 m. This matches the reference answer's method and value exactly, with a clear, correct derivation. Full marks."
+        }
+      ]
+    },
+    "tve-113-foreign-language-english-2--q8": {
+      "question_id": "tve-113-foreign-language-english-2--q8",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 21.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          21.0
+        ],
+        "raw_totals": [
+          21.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 21.0,
+          "overall_rationale": "The response correctly and specifically compares the 2020–2021 trend for every category in the table (entertainment, music, pets, sports up; clothing, food, travel down), matching the data accurately, and then names two favorite categories (entertainment, music) with clear, relevant reasons. It is close to the ~120-word target, well organized, and grammatically clean with good vocabulary variety. A strong, complete response just short of flawless polish."
+        }
+      ]
+    },
+    "tve-114-chinese--q39": {
+      "question_id": "tve-114-chinese--q39",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 20.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          20.0
+        ],
+        "raw_totals": [
+          20.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 20.0,
+          "overall_rationale": "The essay presents a specific, relevant personal example (a group-project partner who overstepped boundaries) and traces a clear arc from discomfort to a boundary-setting conversation to an improved relationship, then reflects thoughtfully on why boundaries are not coldness but a condition for sustainable closeness. Structure is clear and coherent, language is fluent, and the reflection connects meaningfully back to the prompt's key phrases (親如兄弟). Strong and well organized, though not at the most literary/refined tier."
+        }
+      ]
+    },
+    "tve-114-foreign-language-english-2--q9": {
+      "question_id": "tve-114-foreign-language-english-2--q9",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 21.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          21.0
+        ],
+        "raw_totals": [
+          21.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 21.0,
+          "overall_rationale": "The response accurately describes the five-year trend for all four museum types shown in the chart (historical-artifact sharp drop then partial recovery, natural-science dip then rise to most visited, marine-life roughly stable, artwork least popular and stable) and clearly states a preferred museum type with a relevant reason. Close to the ~120-word target, well organized, and grammatically clean with varied vocabulary. A strong, complete, accurate response."
+        }
+      ]
+    },
+    "ast-114-math-yi--q18": {
+      "question_id": "ast-114-math-yi--q18",
+      "mode": "judge",
+      "max_points": 8.0,
+      "awarded": 8.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          8.0
+        ],
+        "raw_totals": [
+          8.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "q18_solution",
+              "points": 8.0,
+              "rationale": "The student's described feasible region (bounded by x≥0, y≥0, x≤15, x+y≤24, y≥x/3, y≤2x, shaded, in the first quadrant) matches the reference region exactly, with all four correct vertices (0,0), (8,16), (15,9), (15,5). The target function P=6x+7y is correctly identified, and the vertex method is applied correctly, substituting all four vertices to get the four correct values (0, 160, 153, 125) and correctly concluding the maximum profit is 160 (萬元) at (8,16). This satisfies all three required elements for full marks."
+            }
+          ],
+          "total_points": 8.0,
+          "overall_rationale": "All three required elements—correct feasible region with correct vertices, correct objective function, and correct vertex-method reasoning yielding the correct maximum of 160萬元—are present and correct."
+        }
+      ]
+    },
+    "ast-113-math-jia--q17": {
+      "question_id": "ast-113-math-jia--q17",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "solution",
+              "points": 0.0,
+              "rationale": "Rather than solving the problem using the tangent line L established in question 16 (which the exam context supplies even though this excerpt does not repeat it), the student declines to compute an answer, claiming L is undefined, and only offers a generic unevaluated setup. No correct intersection points or area value is produced, and no valid derivation using the actual problem data is completed, so no credit can be given per the grading instructions (no correct reasoning, no correct answer)."
+            }
+          ],
+          "total_points": 0.0,
+          "overall_rationale": "The student did not solve the problem with the actual given data and produced no correct intersection points or area value, so the response earns no credit under the rubric's requirement of correct reasoning based on the actual problem setup leading to the correct answer."
+        }
+      ]
+    },
+    "ast-114-math-jia--q12.b": {
+      "question_id": "ast-114-math-jia--q12.b",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "overall",
+              "points": 4.0,
+              "rationale": "The student correctly expresses the expected number of draws using the sum-of-a-geometric-series expectation formula E(X)=Σ_{k=1}^∞ k(3/5)^{k-1}(2/5), and correctly evaluates it (equivalently identifying it as the geometric distribution mean 1/p) to get 5/2. Both required elements are present and correct."
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "The student's expectation sum and final value of 5/2 both match the reference answer and reasoning; full marks awarded."
+        }
+      ]
+    },
+    "ast-115-geography--q20.b": {
+      "question_id": "ast-115-geography--q20.b",
+      "mode": "judge",
+      "max_points": 3.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "location_mark",
+              "points": 3.0,
+              "rationale": "The described circle location—at the mouth of the Persian Gulf, between Iran's south coast and Oman/UAE's north side, connecting the Persian Gulf and the Gulf of Oman near its western end—correctly identifies the Strait of Hormuz's actual location, consistent with the reference map, with no indication of an incorrectly sized or multiple markings."
+            }
+          ],
+          "total_points": 3.0,
+          "overall_rationale": "The described mark correctly locates the Strait of Hormuz between the Omani peninsula and the Iranian coastline, matching the reference answer."
+        }
+      ]
+    },
+    "ast-113-biology--q37": {
+      "question_id": "ast-113-biology--q37",
+      "mode": "judge",
+      "max_points": 2.0,
+      "awarded": 2.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          2.0
+        ],
+        "raw_totals": [
+          2.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "complete",
+              "points": 2.0,
+              "rationale": "The student explicitly states both that the two genes are linked (連鎖, being on the same chromosome and not assorting independently) and that recombination occurs via crossover (互換) during meiosis, correctly explaining the skewed 965:944:206:185 ratio versus the expected 9:3:3:1."
+            }
+          ],
+          "total_points": 2.0,
+          "overall_rationale": "Both required concepts—linkage and crossover—are explicitly and correctly stated, earning full marks."
+        }
+      ]
+    },
+    "ast-113-physics--q25.a": {
+      "question_id": "ast-113-physics--q25.a",
+      "mode": "judge",
+      "max_points": 1.0,
+      "awarded": 1.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          1.0
+        ],
+        "raw_totals": [
+          1.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "answer",
+              "points": 1.0,
+              "rationale": "The student correctly states that the torque magnitude is τ = FL, matching the reference answer exactly, with correct reasoning (force perpendicular to the crank of length L)."
+            }
+          ],
+          "total_points": 1.0,
+          "overall_rationale": "Correct answer (FL) with valid reasoning; full marks."
+        }
+      ]
+    },
+    "gsat-114-chinese-writing--q2": {
+      "question_id": "gsat-114-chinese-writing--q2",
+      "mode": "judge",
+      "max_points": 25.0,
+      "awarded": 22.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          22.0
+        ],
+        "raw_totals": [
+          22.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "overall_quality",
+              "points": 22.0,
+              "rationale": "The essay develops a specific, personal '52赫茲' story (habitual silence in group discussions, a failed report that prompts the student to finally speak up, discovering others share the same feeling) tightly tied back to the whale metaphor. Structure is tight (three clear movements: establishing the personal frequency, a turning-point event, and a reflective close), language is polished with an extended, evocative metaphor ('聲音若始終藏在海底...調頻相近的靈魂'), and the ending achieves a resonant, hopeful sentiment. This meets the top tier's requirements for concrete content, tight structure, refined language, and lasting emotional resonance, placed at the lower end of that tier given its relative brevity."
+            }
+          ],
+          "total_points": 22.0,
+          "overall_rationale": "Specific, well-structured, and stylistically polished essay with a coherent extended metaphor and genuine emotional depth places this at the lower end of the A+ (22–25) band."
+        }
+      ]
+    },
+    "gsat-115-chinese-writing--q1.b": {
+      "question_id": "gsat-115-chinese-writing--q1.b",
+      "mode": "judge",
+      "max_points": 21.0,
+      "awarded": 18.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          18.0
+        ],
+        "raw_totals": [
+          18.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "holistic",
+              "points": 18.0,
+              "rationale": "The essay gives a concrete, relevant example (initially ignoring then returning to help a fallen elderly person) that clearly illustrates the choice between evasion and taking responsibility per the passage's concept of '臉', and follows with a clear, sincere reflection connecting the anecdote back to the reading's ethical framework ('倫理並不會因轉身而消失'). Structure is sound (example, then reflection) and language flows well, but the treatment is fairly compact and not the most rigorously layered or persuasive, placing it at the top of the A band rather than into A+."
+            }
+          ],
+          "total_points": 18.0,
+          "overall_rationale": "Concrete example, clear reflection, sound structure, and fluent language place this at the top of the A level (18) rather than the A+ level."
+        }
+      ]
+    },
+    "ast-115-civics--q35": {
+      "question_id": "ast-115-civics--q35",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "q35-holistic",
+              "points": 0.0,
+              "rationale": "The student does not use any of the four provided option codes (甲/乙/丙/丁) at all, instead substituting its own labels ('效率與風險分擔預設', '公平與需求預設') that do not correspond to the official presuppositions (乙 for the official's, 甲 for the association's). Since both A1 (official's presupposition, should be 乙) and B1 (association's presupposition, should be 甲) are wrong, the rubric mandates 0 points regardless of the plausibility of the accompanying policy-preference/reminder descriptions."
+            }
+          ],
+          "total_points": 0.0,
+          "overall_rationale": "Neither required option code (乙 for the official, 甲 for the association) was correctly identified, so per the rubric's all-or-nothing condition on A1/B1 the response earns 0 points."
+        }
+      ]
+    },
+    "ast-113-civics--q36.b": {
+      "question_id": "ast-113-civics--q36.b",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 2.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          2.0
+        ],
+        "raw_totals": [
+          2.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "overall",
+              "points": 2.0,
+              "rationale": "The left-column checkbox answer ('受損後只可以主張慰撫金') is incorrect; the correct characteristic is '原則上不能經由繼承取得'. In the right column, the student correctly identifies the public-interest justification (B1: '公共利益') but substitutes '消費者知情權' for the required balancing-of-interests justification (B2), so only one of the two required legal reasons is correct, with no other contradictory information present."
+            }
+          ],
+          "total_points": 2.0,
+          "overall_rationale": "Left column (A) is incorrect, and only one of the two required right-column reasons (B1, public interest) is correct, with no contradictions—matching the rubric's 2-point tier."
+        }
+      ]
+    },
+    "gsat-113-english--q19.a": {
+      "question_id": "gsat-113-english--q19.a",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "translation_accuracy",
+              "points": 4.0,
+              "rationale": "'During every election season, we often see politicians visiting famous temples in various places.' correctly and idiomatically conveys all required elements (election season, politicians, visiting, famous temples, various places) with correct grammar, capitalization, and punctuation, and no identifiable errors relative to the accepted answer patterns."
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "Accurate, fluent, and grammatically clean translation with no independent errors; full marks."
+        }
+      ]
+    },
+    "ast-113-geography--q36": {
+      "question_id": "ast-113-geography--q36",
+      "mode": "judge",
+      "max_points": 3.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "choropleth",
+              "points": 3.0,
+              "rationale": "The student correctly matches all three villages to the correct legend pattern based on their elderly population counts: 甲 (538, within 301–600) → horizontal lines; 乙 (218, within 0–300) → vertical lines; 丙 (992, within 601–1200) → cross-hatching. All three match the reference answer."
+            }
+          ],
+          "total_points": 3.0,
+          "overall_rationale": "All three villages (甲, 乙, 丙) are assigned the correct choropleth pattern per the legend and table data; full marks."
+        }
+      ]
+    },
+    "gsat-113-english--q20": {
+      "question_id": "gsat-113-english--q20",
+      "mode": "judge",
+      "max_points": 20.0,
+      "awarded": 19.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          19.0
+        ],
+        "raw_totals": [
+          19.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "content",
+              "points": 5.0,
+              "rationale": "The topic (choosing mood swings, with clear reasons) is stated clearly in the first sentence and supported throughout with specific, relevant details (effects on concentration/relationships/confidence; specific robot behaviors and collaboration steps)."
+            },
+            {
+              "criterion_id": "organization",
+              "points": 5.0,
+              "rationale": "Two clearly delineated paragraphs as required, each with a clear focus (why this problem; robot's traits and how they'd collaborate), logical progression, and appropriate transitions ('When', 'If', 'Instead of', 'In this way')."
+            },
+            {
+              "criterion_id": "grammar_and_sentence_structure",
+              "points": 5.0,
+              "rationale": "No discernible grammar, punctuation, or format errors; sentence structures are varied, including complex and compound constructions ('If I could...', 'Instead of making decisions for me, it could...', 'while the robot would...')."
+            },
+            {
+              "criterion_id": "vocabulary_and_spelling",
+              "points": 4.0,
+              "rationale": "Word choice is generally precise and appropriate ('irritated', 'realistic study plan', 'practical action') with no spelling or capitalization errors, though some repetition of simpler connective verbs keeps it just short of the top tier."
+            }
+          ],
+          "total_points": 19.0,
+          "overall_rationale": "A well-organized, on-topic, grammatically clean essay of sufficient length (over 120 words, two paragraphs) that fully addresses both required parts of the prompt, with strong but not maximally varied vocabulary."
+        }
+      ]
+    },
+    "gsat-115-math-a--q20": {
+      "question_id": "gsat-115-math-a--q20",
+      "mode": "judge",
+      "max_points": 8.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "ap-vector",
+              "points": 2.0,
+              "rationale": "Using the valid identity that (AD×AP)×(AP×AB) is parallel to AP with magnitude |T|·|AP| (T being the scalar triple product/volume), the student correctly computes (d×p)×(p×a)=(-40,-40,20) (length 60), derives |T|=10, and obtains AP=(-4,-4,2)=-(4,4,-2), matching the reference's ±(4,4,-2)."
+            },
+            {
+              "criterion_id": "volume",
+              "points": 2.0,
+              "rationale": "The student correctly uses the scalar triple product method to find the volume, obtaining |T|=10, matching the reference value exactly."
+            },
+            {
+              "criterion_id": "base-vectors",
+              "points": 0.0,
+              "rationale": "The student asserts AB=(2,3,-1), AD=(1,-1,2) without a valid derivation ('由同樣的向量關係可取'), and these values are inconsistent with the chosen AP=(-4,-4,2): checking AP×AB with these values gives (-2,0,-4), not the given (6,-10,-8). The signs of AB, AD are not consistent with the chosen sign of AP, so this is not a valid solution of the given vector equations."
+            },
+            {
+              "criterion_id": "maximum-distance",
+              "points": 0.0,
+              "rationale": "Because AB and AD were found inconsistently with the chosen AP, the student's vertex-distance calculation only checks one combination (|d+p|²=50) rather than systematically comparing all relevant vertices, and arrives at √50=5√2, which does not match the correct maximum distance of √94."
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "The student correctly finds AP and the volume via a valid (if unconventional) vector-identity method, but the subsequent determination of AB and AD is not self-consistent with the given cross-product equations, leading to an incorrect final maximum-distance answer (5√2 instead of √94)."
+        }
+      ]
+    },
+    "ast-115-geography--q23.c": {
+      "question_id": "ast-115-geography--q23.c",
+      "mode": "judge",
+      "max_points": 7.0,
+      "awarded": 2.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          2.0
+        ],
+        "raw_totals": [
+          2.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "topographic_profile",
+              "points": 0.0,
+              "rationale": "The reference profile continues monotonically decreasing from the plotted line's right endpoint (120m) through 乙(118m), 丙(116m), to 丁(114m) via three straight segments. The student instead describes the profile rising again toward 丁 after the river-bed low point ('越過南側堤防後向丁逐漸上升'), which contradicts the correct monotonic decline, so none of the three required segments are correctly depicted."
+            },
+            {
+              "criterion_id": "disaster_inference",
+              "points": 2.0,
+              "rationale": "The student states the riverbed is relatively LOW compared to its surroundings ('河床相對周邊地勢低'), which is the opposite of the correct relation (riverbed higher than the south bank/Guangfu township); this required element is incorrect. However, the description of floodwater surging down the river and over the levee into the low, flat settlement captures the correct flood-flow-direction reasoning, matching the reference's '洪水衝入光復市街', earning credit for that one element."
+            }
+          ],
+          "total_points": 2.0,
+          "overall_rationale": "The profile description incorrectly shows a rise toward 丁 rather than the correct continued decline, earning no credit for the profile; for the inference, the riverbed-height relation is stated backwards but the flood-flow-direction reasoning is essentially correct, earning partial credit for one of the two required elements."
+        }
+      ]
+    },
+    "ast-114-geography--q42.b": {
+      "question_id": "ast-114-geography--q42.b",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "short_term_emissions",
+              "points": 1.0,
+              "rationale": "The student notes that China is the leading solar panel manufacturer and that trade slowdown suppresses its exports and production, but does not specify that this decline is in exports to the United States, nor explicitly mention reduced transport volume, matching the 1-point tier ('說明中國出口（貿易）量下降但未說明出口到美國')."
+            },
+            {
+              "criterion_id": "long_term_transition",
+              "points": 3.0,
+              "rationale": "The student correctly explains that the US, needing to import Chinese solar panels, would face increased costs due to tariffs, explicitly naming solar panels and the cost increase, matching the full-credit descriptor."
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "The long-term transition justification is fully correct and specific (solar panel cost increase due to tariffs), while the short-term emissions justification is only partially specified, omitting the 'exports to the US' and transport-volume details."
+        }
+      ]
+    },
+    "ast-113-geography--q37": {
+      "question_id": "ast-113-geography--q37",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "village",
+              "points": 2.0,
+              "rationale": "The student correctly selects 丙里, matching the reference answer."
+            },
+            {
+              "criterion_id": "reason",
+              "points": 2.0,
+              "rationale": "The student correctly cites two of the four acceptable justifications—highest elderly population (992) and highest dependency ratio (46.52%)—but does not mention the elderly-dependency ratio (扶老比) or the lack of nearby long-term care stations, so only 2 of the required items are present."
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "Correct village selection (丙) plus two of the four acceptable supporting reasons (highest elderly population, highest dependency ratio), matching the 2-of-4 tier for the reason criterion."
+        }
+      ]
+    },
+    "ast-113-chemistry--q25": {
+      "question_id": "ast-113-chemistry--q25",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "compound_a",
+              "points": 1.0,
+              "rationale": "Correctly identifies compound 甲 as (NH4)2Cr2O7, matching the reference answer."
+            },
+            {
+              "criterion_id": "product_b",
+              "points": 1.0,
+              "rationale": "Correctly identifies product 乙 as Cr2O3, matching the reference answer."
+            },
+            {
+              "criterion_id": "product_c",
+              "points": 1.0,
+              "rationale": "Correctly identifies product 丙 as N2, matching the reference answer."
+            },
+            {
+              "criterion_id": "product_d",
+              "points": 1.0,
+              "rationale": "Correctly identifies product 丁 as H2O, matching the reference answer."
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "All four chemical formulas are correctly identified, matching the reference answer exactly; full marks."
+        }
+      ]
+    }
+  },
+  "section_totals": {
+    "stratum-A": {
+      "awarded": 92.0,
+      "max_points": 106.0
+    },
+    "stratum-B": {
+      "awarded": 18.0,
+      "max_points": 24.0
+    },
+    "stratum-C": {
+      "awarded": 49.0,
+      "max_points": 64.0
+    },
+    "stratum-D": {
+      "awarded": 37.0,
+      "max_points": 50.0
+    }
+  },
+  "total_awarded": 196.0,
+  "total_max": 244.0,
+  "percentage": 80.32786885245902,
+  "skipped_count": 0,
+  "skipped_points": 0.0,
+  "covered_max": 244.0,
+  "covered_percentage": 80.32786885245902,
+  "warnings": [
+    "single judge model — inter-judge agreement cannot be measured; pass a second --judge-model to see how much of the score is judge-dependent"
+  ],
+  "judge_agreement": {
+    "requested_judge_models": [
+      "claude:claude-sonnet-5"
+    ],
+    "judged_questions": 24,
+    "multi_judge_questions": 0,
+    "disagreed_questions": 0,
+    "mean_spread": 0.0,
+    "max_spread": 0.0,
+    "mean_normalized_spread": 0.0,
+    "per_judge_mean": {
+      "claude:claude-sonnet-5": 8.166666666666666
+    }
+  },
+  "usage": {
+    "total": {
+      "requests": 17,
+      "input_tokens": 22,
+      "output_tokens": 28843,
+      "reasoning_tokens": 0,
+      "cache_read_tokens": 840035,
+      "cache_write_tokens": 112606
+    },
+    "phases": {
+      "judge:claude:claude-sonnet-5": {
+        "requests": 17,
+        "input_tokens": 22,
+        "output_tokens": 28843,
+        "reasoning_tokens": 0,
+        "cache_read_tokens": 840035,
+        "cache_write_tokens": 112606
+      }
+    }
+  }
+}

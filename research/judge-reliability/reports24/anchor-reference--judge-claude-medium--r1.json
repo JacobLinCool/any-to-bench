@@ -1,0 +1,1318 @@
+{
+  "schema_version": "1",
+  "exam_id": "judge-reliability-pilot",
+  "taker": "anchor:reference",
+  "graded_at": "2026-08-17T07:22:29.428159Z",
+  "results": {
+    "tve-113-chinese--q39": {
+      "question_id": "tve-113-chinese--q39",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 0.0,
+          "overall_rationale": "No student answer was provided (\"(no reference published)\" placeholder text with no actual essay content), so no credit can be awarded for this writing question."
+        }
+      ]
+    },
+    "tve-113-english--q44": {
+      "question_id": "tve-113-english--q44",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 0.0,
+          "overall_rationale": "No student answer was provided; the sentence-reordering task was left unanswered, earning 0 of 6 points."
+        }
+      ]
+    },
+    "ast-114-physics--q19": {
+      "question_id": "ast-114-physics--q19",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "The student's derivation exactly reproduces the reference solution: correctly computes the kinetic friction force (500 N), applies both the work-energy theorem and the kinematic equation, and arrives at the correct stopping distance of 1.6 m with clear, valid reasoning throughout. Full marks awarded."
+        }
+      ]
+    },
+    "tve-113-foreign-language-english-2--q8": {
+      "question_id": "tve-113-foreign-language-english-2--q8",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 0.0,
+          "overall_rationale": "No student answer was provided for this English short-essay task, so no credit can be awarded."
+        }
+      ]
+    },
+    "tve-114-chinese--q39": {
+      "question_id": "tve-114-chinese--q39",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 0.0,
+          "overall_rationale": "No student answer was provided for this Chinese essay question, so no credit can be awarded."
+        }
+      ]
+    },
+    "tve-114-foreign-language-english-2--q9": {
+      "question_id": "tve-114-foreign-language-english-2--q9",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 0.0,
+          "overall_rationale": "No student answer was provided for this English short-essay task, so no credit can be awarded."
+        }
+      ]
+    },
+    "ast-114-math-yi--q18": {
+      "question_id": "ast-114-math-yi--q18",
+      "mode": "judge",
+      "max_points": 8.0,
+      "awarded": 8.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          8.0
+        ],
+        "raw_totals": [
+          8.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "q18_solution",
+              "points": 8.0,
+              "rationale": "The student's work matches the official reference solution exactly: it correctly derives the feasible region as the quadrilateral with vertices (0,0), (15,5), (15,9), (8,16), states the correct objective function P(x,y)=6x+7y, and correctly justifies (via three valid methods: vertex substitution, parallel-line/slope comparison, and inequality manipulation) that the maximum profit is 160 (at x=8, y=16). All three required elements (feasible region, objective function, correct justified answer) are present and correct."
+            }
+          ],
+          "total_points": 8.0,
+          "overall_rationale": "Full marks: the description of the feasible region, the objective function, and the reasoning for the maximum profit of 160 万元 all match the reference solution precisely."
+        }
+      ]
+    },
+    "ast-113-math-jia--q17": {
+      "question_id": "ast-113-math-jia--q17",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "solution",
+              "points": 6.0,
+              "rationale": "The student correctly finds the two intersection points (1,3) and (7,3), correctly determines that Γ lies below L on [1,7] using f'(x), and correctly integrates to obtain the area 108, exactly matching the reference derivation and answer."
+            }
+          ],
+          "total_points": 6.0,
+          "overall_rationale": "The solution is fully correct and clearly reasoned, matching the reference answer's method and final result (area = 108) exactly."
+        }
+      ]
+    },
+    "ast-114-math-jia--q12.b": {
+      "question_id": "ast-114-math-jia--q12.b",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "overall",
+              "points": 4.0,
+              "rationale": "The student correctly expresses the expected number of trials using the summation formula $\\sum_{k=1}^{\\infty}k\\times(3/5)^{k-1}\\times(2/5)$, correctly identifies this as a geometric distribution with p=2/5, and correctly evaluates the expectation as 1/p = 5/2, matching the reference answer exactly."
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "Both required elements (correct summation expression and correct evaluation via the geometric distribution) are present and correct, matching the reference solution exactly."
+        }
+      ]
+    },
+    "ast-115-geography--q20.b": {
+      "question_id": "ast-115-geography--q20.b",
+      "mode": "judge",
+      "max_points": 3.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "location_mark",
+              "points": 3.0,
+              "rationale": "The student's described drawing (an empty circle of the same size as the example, marking the Strait of Hormuz between the Musandam Peninsula/Oman and the Iranian coastline) matches the reference answer's description exactly in shape, size, and location."
+            }
+          ],
+          "total_points": 3.0,
+          "overall_rationale": "The described circle matches the reference answer's location and symbol specification exactly, earning full marks."
+        }
+      ]
+    },
+    "ast-113-biology--q37": {
+      "question_id": "ast-113-biology--q37",
+      "mode": "judge",
+      "max_points": 2.0,
+      "awarded": 2.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          2.0
+        ],
+        "raw_totals": [
+          2.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "complete",
+              "points": 2.0,
+              "rationale": "The student explicitly states that both linkage (連鎖) and crossing-over (互換) occurred simultaneously, matching the reference answer exactly and satisfying the requirement to name both phenomena."
+            }
+          ],
+          "total_points": 2.0,
+          "overall_rationale": "The answer explicitly and correctly names both linkage and crossing-over, which is the exact requirement for full credit."
+        }
+      ]
+    },
+    "ast-113-physics--q25.a": {
+      "question_id": "ast-113-physics--q25.a",
+      "mode": "judge",
+      "max_points": 1.0,
+      "awarded": 1.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          1.0
+        ],
+        "raw_totals": [
+          1.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "answer",
+              "points": 1.0,
+              "rationale": "The student's answer, $FL$, is exactly the correct torque magnitude given in the reference answer."
+            }
+          ],
+          "total_points": 1.0,
+          "overall_rationale": "The answer $FL$ exactly matches the reference answer, earning full marks."
+        }
+      ]
+    },
+    "gsat-114-chinese-writing--q2": {
+      "question_id": "gsat-114-chinese-writing--q2",
+      "mode": "judge",
+      "max_points": 25.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "overall_quality",
+              "points": 0.0,
+              "rationale": "No essay content was submitted (only the \"(no reference published)\" placeholder), which is equivalent to a blank submission and falls under the 0-point descriptor (空白卷)."
+            }
+          ],
+          "total_points": 0.0,
+          "overall_rationale": "The submission contains no actual essay text, equivalent to a blank paper, so it receives 0 points per the rubric's blank-submission criterion."
+        }
+      ]
+    },
+    "gsat-115-chinese-writing--q1.b": {
+      "question_id": "gsat-115-chinese-writing--q1.b",
+      "mode": "judge",
+      "max_points": 21.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "holistic",
+              "points": 0.0,
+              "rationale": "No essay content was submitted (only the \"(no reference published)\" placeholder), equivalent to a blank submission, which falls under the 0-point descriptor (空白卷)."
+            }
+          ],
+          "total_points": 0.0,
+          "overall_rationale": "The submission contains no actual essay text, equivalent to a blank paper, so it receives 0 points."
+        }
+      ]
+    },
+    "ast-115-civics--q35": {
+      "question_id": "ast-115-civics--q35",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "q35-holistic",
+              "points": 6.0,
+              "rationale": "The student correctly identifies the official's presumption as 乙 with the policy preference of shared/apportioned care-cost responsibility, and the association's presumption as 甲 with the concern that poor families would fall into unaffordable care difficulties — matching both A1/A2 and B1/B2 elements of the reference answer exactly with no contradictory information."
+            }
+          ],
+          "total_points": 6.0,
+          "overall_rationale": "All four required elements (A1, A2, B1, B2) are correctly and precisely stated, matching the reference answer exactly, earning full marks."
+        }
+      ]
+    },
+    "ast-113-civics--q36.b": {
+      "question_id": "ast-113-civics--q36.b",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 5.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          5.0
+        ],
+        "raw_totals": [
+          5.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "overall",
+              "points": 5.0,
+              "rationale": "The student correctly selects the property that the right \"cannot generally be inherited\" (A) and correctly states both legal justifications: that the act served the public interest (B1) and that the benefit outweighed the harm (B2), exactly matching the reference answer with no contradictory statements."
+            }
+          ],
+          "total_points": 5.0,
+          "overall_rationale": "Both the left-column selection and the right-column two legal justifications exactly match the reference answer, earning full marks."
+        }
+      ]
+    },
+    "gsat-113-english--q19.a": {
+      "question_id": "gsat-113-english--q19.a",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "translation_accuracy",
+              "points": 4.0,
+              "rationale": "The student's translation is identical to both accepted versions given in the reference answer, correctly conveying the target vocabulary (election season, politicians, visit, famous temples, in different places/areas) with correct grammar, capitalization, and punctuation — no errors."
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "The translation is accurate, fluent, and faithful, with no identifiable errors, matching the reference answer exactly and earning full marks."
+        }
+      ]
+    },
+    "ast-113-geography--q36": {
+      "question_id": "ast-113-geography--q36",
+      "mode": "judge",
+      "max_points": 3.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "choropleth",
+              "points": 3.0,
+              "rationale": "The student's described choropleth assignment (甲=horizontal lines for 538 elderly residents in the 301–600 band, 乙=vertical lines for 218 in the 0–300 band, 丙=crossed diagonal lines for 992 in the 601–1200 band) exactly matches the correct classification per Table 2 and the legend, and matches the reference answer precisely."
+            }
+          ],
+          "total_points": 3.0,
+          "overall_rationale": "All three villages (甲, 乙, 丙) are assigned the correct choropleth pattern based on their elderly population counts, exactly matching the reference answer."
+        }
+      ]
+    },
+    "gsat-113-english--q20": {
+      "question_id": "gsat-113-english--q20",
+      "mode": "judge",
+      "max_points": 20.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "content",
+              "points": 0.0,
+              "rationale": "No essay content was submitted (only the \"(no reference published)\" placeholder); per the rubric, an unanswered/off-topic submission scores 0 on all dimensions."
+            },
+            {
+              "criterion_id": "organization",
+              "points": 0.0,
+              "rationale": "No essay content was submitted, so there is no organizational structure to evaluate; scored 0 per the blank-submission rule."
+            },
+            {
+              "criterion_id": "grammar_and_sentence_structure",
+              "points": 0.0,
+              "rationale": "No essay content was submitted, so there is no grammar or sentence structure to evaluate; scored 0 per the blank-submission rule."
+            },
+            {
+              "criterion_id": "vocabulary_and_spelling",
+              "points": 0.0,
+              "rationale": "No essay content was submitted, so there is no vocabulary or spelling to evaluate; scored 0 per the blank-submission rule."
+            }
+          ],
+          "total_points": 0.0,
+          "overall_rationale": "The submission contains no actual essay text (only a placeholder), which the grading instructions treat as blank/off-topic, warranting 0 points across all four dimensions."
+        }
+      ]
+    },
+    "gsat-115-math-a--q20": {
+      "question_id": "gsat-115-math-a--q20",
+      "mode": "judge",
+      "max_points": 8.0,
+      "awarded": 8.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          8.0
+        ],
+        "raw_totals": [
+          8.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "ap-vector",
+              "points": 2.0,
+              "rationale": "The student correctly derives $\\overrightarrow{AP}=\\pm(4,4,-2)$ using the correct perpendicularity/cross-product method, matching the reference solution."
+            },
+            {
+              "criterion_id": "volume",
+              "points": 2.0,
+              "rationale": "The student correctly computes the scalar triple product $|\\overrightarrow{AP}\\cdot(\\overrightarrow{AB}\\times\\overrightarrow{AD})| = 10$, matching the reference solution."
+            },
+            {
+              "criterion_id": "base-vectors",
+              "points": 2.0,
+              "rationale": "The student correctly derives $\\overrightarrow{AB}=(1,-1,2)$ and $\\overrightarrow{AD}=(2,3,-1)$ under a consistent sign choice, matching the reference solution."
+            },
+            {
+              "criterion_id": "maximum-distance",
+              "points": 2.0,
+              "rationale": "The student correctly computes all relevant vertex-to-A distances and correctly identifies the maximum distance as $\\sqrt{94}$ (at vertex S), matching the reference solution."
+            }
+          ],
+          "total_points": 8.0,
+          "overall_rationale": "The full derivation matches the official reference solution exactly at every step — AP, the volume, the base vectors, and the maximum distance — earning full marks."
+        }
+      ]
+    },
+    "ast-115-geography--q23.c": {
+      "question_id": "ast-115-geography--q23.c",
+      "mode": "judge",
+      "max_points": 7.0,
+      "awarded": 7.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          7.0
+        ],
+        "raw_totals": [
+          7.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "topographic_profile",
+              "points": 3.0,
+              "rationale": "The student's described profile correctly connects the endpoint of the already-drawn line (120 m) to 乙 (118 m), 丙 (116 m), and 丁 (114 m) with three line segments, exactly matching the reference answer's required elevations and connections."
+            },
+            {
+              "criterion_id": "disaster_inference",
+              "points": 4.0,
+              "rationale": "The student correctly explains both required elements from a disaster perspective: that the riverbed is relatively higher than the right (south) bank, and that this caused floodwaters to surge into the Guangfu township area, exactly matching the reference answer's reasoning about relative riverbed elevation and flood pathway."
+            }
+          ],
+          "total_points": 7.0,
+          "overall_rationale": "Both the topographic profile description and the disaster-inference explanation exactly match the reference answer's required content, earning full marks on both criteria."
+        }
+      ]
+    },
+    "ast-114-geography--q42.b": {
+      "question_id": "ast-114-geography--q42.b",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "short_term_emissions",
+              "points": 3.0,
+              "rationale": "The student correctly explains that global trade slowdown could cause a short-term drop in carbon emissions specifically because China's export/shipping volume to the U.S. declines, matching the reference answer's full-credit descriptor exactly."
+            },
+            {
+              "criterion_id": "long_term_transition",
+              "points": 3.0,
+              "rationale": "The student correctly explains that this would be detrimental to U.S. energy transition/green tech long-term because the cost of solar panels (needed for U.S. solar development) increases, matching the reference answer's full-credit descriptor exactly."
+            }
+          ],
+          "total_points": 6.0,
+          "overall_rationale": "Both viewpoints are explained precisely and correctly, referencing only Data 1 as required, matching the reference answer exactly and earning full marks."
+        }
+      ]
+    },
+    "ast-113-geography--q37": {
+      "question_id": "ast-113-geography--q37",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 5.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          5.0
+        ],
+        "raw_totals": [
+          5.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "village",
+              "points": 2.0,
+              "rationale": "The student correctly selects 丙里, matching the reference answer."
+            },
+            {
+              "criterion_id": "reason",
+              "points": 3.0,
+              "rationale": "The student correctly cites three of the four accepted justifications (highest elderly population, highest dependency ratio, and high elderly-support ratio), meeting the requirement for full credit on this sub-criterion."
+            }
+          ],
+          "total_points": 5.0,
+          "overall_rationale": "The correct village (丙) is selected and the reasoning cites three of the four valid justification factors, matching the reference answer and earning full marks."
+        }
+      ]
+    },
+    "ast-113-chemistry--q25": {
+      "question_id": "ast-113-chemistry--q25",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "compound_a",
+              "points": 1.0,
+              "rationale": "The student correctly identifies compound 甲 as $(NH_4)_2Cr_2O_7$, matching the reference answer."
+            },
+            {
+              "criterion_id": "product_b",
+              "points": 1.0,
+              "rationale": "The student correctly identifies product 乙 as $Cr_2O_3$, matching the reference answer."
+            },
+            {
+              "criterion_id": "product_c",
+              "points": 1.0,
+              "rationale": "The student correctly identifies product 丙 as $N_2$, matching the reference answer."
+            },
+            {
+              "criterion_id": "product_d",
+              "points": 1.0,
+              "rationale": "The student correctly identifies product 丁 as $H_2O$, matching the reference answer."
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "All four chemical formulas are correctly identified, exactly matching the reference answer, earning full marks."
+        }
+      ]
+    }
+  },
+  "section_totals": {
+    "stratum-A": {
+      "awarded": 4.0,
+      "max_points": 106.0
+    },
+    "stratum-B": {
+      "awarded": 24.0,
+      "max_points": 24.0
+    },
+    "stratum-C": {
+      "awarded": 18.0,
+      "max_points": 64.0
+    },
+    "stratum-D": {
+      "awarded": 30.0,
+      "max_points": 50.0
+    }
+  },
+  "total_awarded": 76.0,
+  "total_max": 244.0,
+  "percentage": 31.147540983606557,
+  "skipped_count": 0,
+  "skipped_points": 0.0,
+  "covered_max": 244.0,
+  "covered_percentage": 31.147540983606557,
+  "warnings": [
+    "single judge model — inter-judge agreement cannot be measured; pass a second --judge-model to see how much of the score is judge-dependent"
+  ],
+  "judge_agreement": {
+    "requested_judge_models": [
+      "claude:claude-sonnet-5"
+    ],
+    "judged_questions": 24,
+    "multi_judge_questions": 0,
+    "disagreed_questions": 0,
+    "mean_spread": 0.0,
+    "max_spread": 0.0,
+    "mean_normalized_spread": 0.0,
+    "per_judge_mean": {
+      "claude:claude-sonnet-5": 3.1666666666666665
+    }
+  },
+  "usage": {
+    "total": {
+      "requests": 11,
+      "input_tokens": 18,
+      "output_tokens": 11795,
+      "reasoning_tokens": 0,
+      "cache_read_tokens": 291427,
+      "cache_write_tokens": 91078
+    },
+    "phases": {
+      "judge:claude:claude-sonnet-5": {
+        "requests": 11,
+        "input_tokens": 18,
+        "output_tokens": 11795,
+        "reasoning_tokens": 0,
+        "cache_read_tokens": 291427,
+        "cache_write_tokens": 91078
+      }
+    }
+  }
+}

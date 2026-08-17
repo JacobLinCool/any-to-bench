@@ -1,0 +1,1318 @@
+{
+  "schema_version": "1",
+  "exam_id": "judge-reliability-pilot",
+  "taker": "claude:claude-sonnet-5",
+  "graded_at": "2026-08-16T22:51:52.107543Z",
+  "results": {
+    "tve-113-chinese--q39": {
+      "question_id": "tve-113-chinese--q39",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 23.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          23.0
+        ],
+        "raw_totals": [
+          23.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 23.0,
+          "overall_rationale": "以校慶攤位為具體事例，完整呈現投入帶來的凝聚、成長與自豪，也寫出拒絕建言的負面影響；結構完整，反思成熟，文辭流暢。"
+        }
+      ]
+    },
+    "tve-113-english--q44": {
+      "question_id": "tve-113-english--q44",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 6.0,
+          "overall_rationale": "五段提示字詞均使用且順序正確，句意完整，句末標點適當。"
+        }
+      ]
+    },
+    "ast-114-physics--q19": {
+      "question_id": "ast-114-physics--q19",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "正確辨識鎖死後使用輪胎與地面的動摩擦，求得減速度 5.0 m/s²，並由運動公式算出停止距離 1.6 m，推理完整。"
+        }
+      ]
+    },
+    "tve-113-foreign-language-english-2--q8": {
+      "question_id": "tve-113-foreign-language-english-2--q8",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 23.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          23.0
+        ],
+        "raw_totals": [
+          23.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 23.0,
+          "overall_rationale": "正確比較各類型 2020 至 2021 的增減趨勢，選出娛樂與音樂並具體說明理由；英文表達清楚流暢，內容略有概括但已充分完成提示。"
+        }
+      ]
+    },
+    "tve-114-chinese--q39": {
+      "question_id": "tve-114-chinese--q39",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 23.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          23.0
+        ],
+        "raw_totals": [
+          23.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 23.0,
+          "overall_rationale": "以與表姊相處為具體經驗，細緻呈現界線被侵犯、溝通調整及關係改善，並兼顧親密與疏離的兩面；結構嚴謹，體會完整，文辭成熟。"
+        }
+      ]
+    },
+    "tve-114-foreign-language-english-2--q9": {
+      "question_id": "tve-114-foreign-language-english-2--q9",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 22.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          22.0
+        ],
+        "raw_totals": [
+          22.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 22.0,
+          "overall_rationale": "正確掌握歷史文物與自然科學先降後升、海洋生物與藝術作品相對穩定的趨勢，並選擇自然科學博物館說明理由；英文通順，對部分年度變化概括較簡略。"
+        }
+      ]
+    },
+    "ast-114-math-yi--q18": {
+      "question_id": "ast-114-math-yi--q18",
+      "mode": "judge",
+      "max_points": 8.0,
+      "awarded": 8.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          8.0
+        ],
+        "raw_totals": [
+          8.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "q18_solution",
+              "points": 8.0,
+              "rationale": "正確列出邊界與非負限制，描述並標出四個頂點及斜線可行區域，建立 P=6x+7y，逐一代入比較後正確得到最大獲利 160 萬元。"
+            }
+          ],
+          "total_points": 8.0,
+          "overall_rationale": "作圖、目標函數、頂點比較與結論均符合 rubric。"
+        }
+      ]
+    },
+    "ast-113-math-jia--q17": {
+      "question_id": "ast-113-math-jia--q17",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 0.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          0.0
+        ],
+        "raw_totals": [
+          0.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "solution",
+              "points": 0.0,
+              "rationale": "將第 16 題直線誤設為通過兩極值點的直線 y=-8x+11，因而求得錯誤交點與面積 8；參考題設的 L 應為 y=3，正確面積為 108。"
+            }
+          ],
+          "total_points": 0.0,
+          "overall_rationale": "未依正確題設的直線 L 求解，交點與面積均錯。"
+        }
+      ]
+    },
+    "ast-114-math-jia--q12.b": {
+      "question_id": "ast-114-math-jia--q12.b",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "overall",
+              "points": 4.0,
+              "rationale": "正確以幾何分布寫出 P(N=n)=(3/5)^(n-1)(2/5)，依期望值定義使用無窮和，並正確求得 1/p=5/2。"
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "期望值表示與計算完整正確。"
+        }
+      ]
+    },
+    "ast-115-geography--q20.b": {
+      "question_id": "ast-115-geography--q20.b",
+      "mode": "judge",
+      "max_points": 3.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "location_mark",
+              "points": 3.0,
+              "rationale": "描述在波斯灣東端、伊朗海岸與阿曼穆桑代姆半島之間，以一個與範例同大小的圓圈標示荷莫茲海峽，位置符合要求。"
+            }
+          ],
+          "total_points": 3.0,
+          "overall_rationale": "繪圖描述包含正確位置、單一空心圓圈及大小要求。"
+        }
+      ]
+    },
+    "ast-113-biology--q37": {
+      "question_id": "ast-113-biology--q37",
+      "mode": "judge",
+      "max_points": 2.0,
+      "awarded": 2.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          2.0
+        ],
+        "raw_totals": [
+          2.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "complete",
+              "points": 2.0,
+              "rationale": "明確指出兩基因位於同一染色體而連鎖，且減數分裂時發生互換並產生少量重組型。"
+            }
+          ],
+          "total_points": 2.0,
+          "overall_rationale": "同時回答連鎖與互換，且以比例現象作合理說明。"
+        }
+      ]
+    },
+    "ast-113-physics--q25.a": {
+      "question_id": "ast-113-physics--q25.a",
+      "mode": "judge",
+      "max_points": 1.0,
+      "awarded": 1.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          1.0
+        ],
+        "raw_totals": [
+          1.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "answer",
+              "points": 1.0,
+              "rationale": "正確使用力矩量值為力乘以垂直力臂，得到 τ=FL。"
+            }
+          ],
+          "total_points": 1.0,
+          "overall_rationale": "答案與計算均正確。"
+        }
+      ]
+    },
+    "gsat-114-chinese-writing--q2": {
+      "question_id": "gsat-114-chinese-writing--q2",
+      "mode": "judge",
+      "max_points": 25.0,
+      "awarded": 24.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          24.0
+        ],
+        "raw_totals": [
+          24.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "overall_quality",
+              "points": 24.0,
+              "rationale": "以童年畫連環畫的經驗具體書寫自己的獨特頻率，轉折、回應與結尾完整，意象貫串，情感真摯且文辭洗練。"
+            }
+          ],
+          "total_points": 24.0,
+          "overall_rationale": "屬 A+ 高段表現：故事具體、結構嚴謹、反思深刻，語言成熟。"
+        }
+      ]
+    },
+    "gsat-115-chinese-writing--q1.b": {
+      "question_id": "gsat-115-chinese-writing--q1.b",
+      "mode": "judge",
+      "max_points": 21.0,
+      "awarded": 20.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          20.0
+        ],
+        "raw_totals": [
+          20.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "holistic",
+              "points": 20.0,
+              "rationale": "以協助拾荒阿嬤為具體事例，清楚呈現先逃避、後因看見對方的臉而承擔責任，並提出省思；結構與文辭佳，但全文超過 400 字限制，故不給 A+ 最高段分數。"
+            }
+          ],
+          "total_points": 20.0,
+          "overall_rationale": "內容切題且說服力強，屬 A 級高段；篇幅超限使分數略扣。"
+        }
+      ]
+    },
+    "ast-115-civics--q35": {
+      "question_id": "ast-115-civics--q35",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "q35-holistic",
+              "points": 3.0,
+              "rationale": "官員填乙且正確說明共同分攤照護費用，A 組完整；協會應填甲但誤填丙，雖正確指出貧窮家庭陷入無法負擔困境，B 組不完整，依 rubric 得 3 分。"
+            }
+          ],
+          "total_points": 3.0,
+          "overall_rationale": "官員組完全正確，協會的制度預設代號錯誤。"
+        }
+      ]
+    },
+    "ast-113-civics--q36.b": {
+      "question_id": "ast-113-civics--q36.b",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "overall",
+              "points": 4.0,
+              "rationale": "正確勾選隱私權原則上不能由繼承取得，並明確提出揭發不實廣告、維護消費者公益的理由；未明確說出公益利益大於店主受損害的利益衡量要件，且另加的錄音說明不構成矛盾。"
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "A 與 B1 正確，B2 未完整回答，符合 rubric 的 4 分級。"
+        }
+      ]
+    },
+    "gsat-113-english--q19.a": {
+      "question_id": "gsat-113-english--q19.a",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "translation_accuracy",
+              "points": 4.0,
+              "rationale": "Every election season、politicians、visiting famous temples、around the country 均正確傳達原句，英文自然通順，無可扣分錯誤。"
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "翻譯正確、通順且達意。"
+        }
+      ]
+    },
+    "ast-113-geography--q36": {
+      "question_id": "ast-113-geography--q36",
+      "mode": "judge",
+      "max_points": 3.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "choropleth",
+              "points": 3.0,
+              "rationale": "依人口數正確將甲里標為水平線、乙里標為垂直線、丙里標為交叉斜線，且描述完整覆蓋各里。"
+            }
+          ],
+          "total_points": 3.0,
+          "overall_rationale": "三個里的面量圖樣皆與圖例及參考答案一致。"
+        }
+      ]
+    },
+    "gsat-113-english--q20": {
+      "question_id": "gsat-113-english--q20",
+      "mode": "judge",
+      "max_points": 20.0,
+      "awarded": 20.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          20.0
+        ],
+        "raw_totals": [
+          20.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "content",
+              "points": 5.0,
+              "rationale": "明確選擇 Caring What Others Think，具體說明其對學習、興趣與自我表達的影響，並完整回答機器人的能力與合作方式。"
+            },
+            {
+              "criterion_id": "organization",
+              "points": 5.0,
+              "rationale": "依要求分成兩段，第一段選題與理由、第二段機器人特質及分工清楚，轉承自然且前後連貫。"
+            },
+            {
+              "criterion_id": "grammar_and_sentence_structure",
+              "points": 5.0,
+              "rationale": "句構多樣，文法、格式與標點幾乎無誤，全文表意清楚。"
+            },
+            {
+              "criterion_id": "vocabulary_and_spelling",
+              "points": 5.0,
+              "rationale": "用字精確得宜，如 overthinking、empathy、steady support 等使用自然，無明顯拼字或大小寫錯誤。"
+            }
+          ],
+          "total_points": 20.0,
+          "overall_rationale": "內容完整切題，組織清楚，英文表達成熟，四項均達最高級。"
+        }
+      ]
+    },
+    "gsat-115-math-a--q20": {
+      "question_id": "gsat-115-math-a--q20",
+      "mode": "judge",
+      "max_points": 8.0,
+      "awarded": 8.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          8.0
+        ],
+        "raw_totals": [
+          8.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "ap-vector",
+              "points": 2.0,
+              "rationale": "由外積關係求得 AP=(-4,-4,2)，是 rubric 允許的 ±(4,4,-2) 等價結果。"
+            },
+            {
+              "criterion_id": "volume",
+              "points": 2.0,
+              "rationale": "以純量三重積求得平行六面體體積 10，並有外積驗證。"
+            },
+            {
+              "criterion_id": "base-vectors",
+              "points": 2.0,
+              "rationale": "在同一符號選擇下求得 AB=(-1,1,-2)、AD=(-2,-3,1)，與參考向量整體取反，且交叉乘積驗證正確。"
+            },
+            {
+              "criterion_id": "maximum-distance",
+              "points": 2.0,
+              "rationale": "計算對角頂點向量並比較，得到最長距離 sqrt(86)；雖頂點名稱與參考的符號取向不同，但幾何距離判斷正確。"
+            }
+          ],
+          "total_points": 8.0,
+          "overall_rationale": "採用整體反向的向量符號並保持幾何一致性，體積與最長距離均正確。"
+        }
+      ]
+    },
+    "ast-115-geography--q23.c": {
+      "question_id": "ast-115-geography--q23.c",
+      "mode": "judge",
+      "max_points": 7.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "topographic_profile",
+              "points": 0.0,
+              "rationale": "描述將乙、丙、丁誤置於約 90–100 公尺，且繪製中段隆起的平滑曲線；未正確連接 120→118→116→114 公尺的三個線段。"
+            },
+            {
+              "criterion_id": "disaster_inference",
+              "points": 4.0,
+              "rationale": "明確指出河床高於光復市街，並說明潰壩洪水由高處向低窪聚落傾洩，涵蓋河床相對高度與洪水動線兩項依據。"
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "剖面圖判讀錯誤，但災情原因的兩項推論均正確。"
+        }
+      ]
+    },
+    "ast-114-geography--q42.b": {
+      "question_id": "ast-114-geography--q42.b",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "short_term_emissions",
+              "points": 3.0,
+              "rationale": "指出中國為主要太陽能板製造與出口國，關稅使板材產銷與運輸減少，能支持貿易減速後短期碳排下降。"
+            },
+            {
+              "criterion_id": "long_term_transition",
+              "points": 3.0,
+              "rationale": "指出美國依賴中國供應鏈，關稅推升太陽能板成本，將阻礙太陽能擴張與綠色科技，符合長期觀點。"
+            }
+          ],
+          "total_points": 6.0,
+          "overall_rationale": "兩項佐證均抓到資料一的供應鏈與美國能源優勢，並正確推論關稅影響。"
+        }
+      ]
+    },
+    "ast-113-geography--q37": {
+      "question_id": "ast-113-geography--q37",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 5.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          5.0
+        ],
+        "raw_totals": [
+          5.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "village",
+              "points": 2.0,
+              "rationale": "正確選擇丙里。"
+            },
+            {
+              "criterion_id": "reason",
+              "points": 3.0,
+              "rationale": "指出丙里老年人口最多、扶老比高，並補充里內沒有巷弄長照站；符合四項理由中的三項。"
+            }
+          ],
+          "total_points": 5.0,
+          "overall_rationale": "選里與理由均正確，且理由在字數要求內完成。"
+        }
+      ]
+    },
+    "ast-113-chemistry--q25": {
+      "question_id": "ast-113-chemistry--q25",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "requested_judge_models": [
+          "codex:gpt-5.6-luna"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "compound_a",
+              "points": 1.0,
+              "rationale": "正確寫出固體甲為 (NH4)2Cr2O7。"
+            },
+            {
+              "criterion_id": "product_b",
+              "points": 1.0,
+              "rationale": "正確寫出產物乙為 Cr2O3。"
+            },
+            {
+              "criterion_id": "product_c",
+              "points": 1.0,
+              "rationale": "正確寫出產物丙為 N2。"
+            },
+            {
+              "criterion_id": "product_d",
+              "points": 1.0,
+              "rationale": "正確寫出產物丁為 H2O。"
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "四個化學式皆正確，且分解反應式與判斷依據一致。"
+        }
+      ]
+    }
+  },
+  "section_totals": {
+    "stratum-A": {
+      "awarded": 101.0,
+      "max_points": 106.0
+    },
+    "stratum-B": {
+      "awarded": 18.0,
+      "max_points": 24.0
+    },
+    "stratum-C": {
+      "awarded": 58.0,
+      "max_points": 64.0
+    },
+    "stratum-D": {
+      "awarded": 47.0,
+      "max_points": 50.0
+    }
+  },
+  "total_awarded": 224.0,
+  "total_max": 244.0,
+  "percentage": 91.80327868852459,
+  "skipped_count": 0,
+  "skipped_points": 0.0,
+  "covered_max": 244.0,
+  "covered_percentage": 91.80327868852459,
+  "warnings": [
+    "single judge model — inter-judge agreement cannot be measured; pass a second --judge-model to see how much of the score is judge-dependent"
+  ],
+  "judge_agreement": {
+    "requested_judge_models": [
+      "codex:gpt-5.6-luna"
+    ],
+    "judged_questions": 24,
+    "multi_judge_questions": 0,
+    "disagreed_questions": 0,
+    "mean_spread": 0.0,
+    "max_spread": 0.0,
+    "mean_normalized_spread": 0.0,
+    "per_judge_mean": {
+      "codex:gpt-5.6-luna": 9.333333333333334
+    }
+  },
+  "usage": {
+    "total": {
+      "requests": 1,
+      "input_tokens": 979455,
+      "output_tokens": 9225,
+      "reasoning_tokens": 2460,
+      "cache_read_tokens": 904832,
+      "cache_write_tokens": 0
+    },
+    "phases": {
+      "judge:codex:gpt-5.6-luna": {
+        "requests": 1,
+        "input_tokens": 979455,
+        "output_tokens": 9225,
+        "reasoning_tokens": 2460,
+        "cache_read_tokens": 904832,
+        "cache_write_tokens": 0
+      }
+    }
+  }
+}

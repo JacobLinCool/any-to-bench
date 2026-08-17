@@ -198,3 +198,11 @@ examples/
 node_modules/
 .svelte-kit/
 *.tsbuildinfo
+
+# Research build artifacts (regenerate from the stored grading reports)
+/research/**/*.pdf
+/research/**/*.aux
+/research/**/*.out
+/research/**/*.log
+/research/**/*.fls
+/research/**/*.fdb_latexmk

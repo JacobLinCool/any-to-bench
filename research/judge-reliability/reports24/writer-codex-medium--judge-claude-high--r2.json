@@ -1,0 +1,1318 @@
+{
+  "schema_version": "1",
+  "exam_id": "judge-reliability-pilot",
+  "taker": "codex:gpt-5.6-luna",
+  "graded_at": "2026-08-16T22:41:16.445800Z",
+  "results": {
+    "tve-113-chinese--q39": {
+      "question_id": "tve-113-chinese--q39",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 19.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          19.0
+        ],
+        "raw_totals": [
+          19.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 19.0,
+          "overall_rationale": "考生以校慶園遊會共同製作攤位為具體事例，清楚呈現IKEA效應的正面影響（投入產生成就感、凝聚同儕）與負面影響（自我感覺良好、忽略使用者意見），並提出邀請他人試玩、依意見修改的反思，扣合題旨完整。文章結構清楚（正面經驗、負面反思、結論），文辭通順但較為平實，未有明顯的文學技巧或深刻的哲理昇華，屬清楚完整而非精煉深刻的等級，故評為19/24。"
+        }
+      ]
+    },
+    "tve-113-english--q44": {
+      "question_id": "tve-113-english--q44",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 6.0,
+          "overall_rationale": "五段提示字詞正確重組為「It is good to see that more people work on solving pollution problems.」，語意通順、文法正確，未增減或改變字詞，並於句尾加上句點，符合題目要求，給予滿分6分。"
+        }
+      ]
+    },
+    "ast-114-physics--q19": {
+      "question_id": "ast-114-physics--q19",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 4.0,
+          "overall_rationale": "考生正確求出兩輪鎖死後的動摩擦力 f=500N 及減速度 a=5.0 m/s²，並利用 v²=v0²−2as 正確求得停止距離 s=1.6 m，概念、公式與最終答案皆與參考答案（方法二）一致，解題過程清楚，給予滿分4分。"
+        }
+      ]
+    },
+    "tve-113-foreign-language-english-2--q8": {
+      "question_id": "tve-113-foreign-language-english-2--q8",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 22.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          22.0
+        ],
+        "raw_totals": [
+          22.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 22.0,
+          "overall_rationale": "短文完整回應兩項提示：逐一比較2020與2021年七類影片占比的升降趨勢，數據引用精確；並清楚說明最喜愛的前兩類（娛樂、音樂）及理由。文法正確、用字精確、句構有變化、段落安排合理，僅稍嫌逐項條列略顯冗長、超出約120字要求，未有精簡整合，故未達滿分，評為22/24。"
+        }
+      ]
+    },
+    "tve-114-chinese--q39": {
+      "question_id": "tve-114-chinese--q39",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 20.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          20.0
+        ],
+        "raw_totals": [
+          20.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 20.0,
+          "overall_rationale": "考生以朋友間手機隱私被侵犯的具體事例，清楚敘述人際邊界被跨越時的不適、坦誠溝通後達成新默契的過程，並以「築牆」與「開門」的譬喻收束反思，扣合題旨、結構完整、文辭流暢，情感表達真摯，惟敘事層次與辭藻仍屬清楚達意而非高度精煉洗練，故評為20/24。"
+        }
+      ]
+    },
+    "tve-114-foreign-language-english-2--q9": {
+      "question_id": "tve-114-foreign-language-english-2--q9",
+      "mode": "judge",
+      "max_points": 24.0,
+      "awarded": 22.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          22.0
+        ],
+        "raw_totals": [
+          22.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [],
+          "total_points": 22.0,
+          "overall_rationale": "短文正確描述四類博物館五年來的升降趨勢（歷史文物、自然科學、海洋生物、藝術作品），數據引用精確且與圖表資訊相符，並清楚說明選擇免費參觀自然科學博物館的理由，文法正確、用字精確、組織清楚。因內容詳盡略超出約120字之提示篇幅，且部分敘述可更精簡，故未達滿分，評為22/24。"
+        }
+      ]
+    },
+    "ast-114-math-yi--q18": {
+      "question_id": "ast-114-math-yi--q18",
+      "mode": "judge",
+      "max_points": 8.0,
+      "awarded": 8.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          8.0
+        ],
+        "raw_totals": [
+          8.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "q18_solution",
+              "points": 8.0,
+              "rationale": "考生正確列出所有限制式並得出與參考答案一致的可行解區域頂點(0,0)、(8,16)、(15,9)、(15,5)（僅排列順序不同），並標示斜線；正確建立目標函數Z=6x+7y；以頂點法代入四頂點得出0、160、153、125四個正確數值並比較，得出最大獲利為160萬元於(8,16)達成，三項要求均正確，給予滿分8分。"
+            }
+          ],
+          "total_points": 8.0,
+          "overall_rationale": "作圖區域、目標函數與頂點法求解過程皆正確且完整，最終答案160萬元正確，符合滿分給分原則。"
+        }
+      ]
+    },
+    "ast-113-math-jia--q17": {
+      "question_id": "ast-113-math-jia--q17",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "solution",
+              "points": 6.0,
+              "rationale": "考生利用第16題結果得切線L:y=3，代入f(x)=3解得(x−7)(x−1)²=0，正確求出交點x=1（切點）及x=7，並正確列出面積積分式∫₁⁷[3−f(x)]dx，最終得到與參考答案一致的面積108，推論過程與答案均正確，給予滿分6分。"
+            }
+          ],
+          "total_points": 6.0,
+          "overall_rationale": "交點求解、面積積分設定與最終數值皆與滿分參考答案一致，解題過程合理完整，給予滿分。"
+        }
+      ]
+    },
+    "ast-114-math-jia--q12.b": {
+      "question_id": "ast-114-math-jia--q12.b",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "overall",
+              "points": 4.0,
+              "rationale": "考生正確寫出P(X=k)=(3/5)^(k-1)(2/5)並依期望值定義以Σ符號表示E(X)=Σk(3/5)^(k-1)(2/5)（k=1至∞），雖未明言「幾何分布」一詞，但已正確運用等價的等比冪級數求和公式（2/5）×1/(1−3/5)²，得到與參考答案一致的5/2，推論過程正確、答案正確，給予滿分4分。"
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "期望值定義式與最終數值5/2均正確，推論過程雖略去「幾何分布」用語但數學等價且完整正確，給予滿分。"
+        }
+      ]
+    },
+    "ast-115-geography--q20.b": {
+      "question_id": "ast-115-geography--q20.b",
+      "mode": "judge",
+      "max_points": 3.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "location_mark",
+              "points": 3.0,
+              "rationale": "考生描述在伊朗南岸與阿曼（含穆桑代姆半島）北岸之間、波斯灣出口最狹窄處圈出荷莫茲海峽，位置說明與滿分參考答案（阿曼半島與伊朗海岸線之間）完全相符，給予滿分3分。"
+            }
+          ],
+          "total_points": 3.0,
+          "overall_rationale": "所描述之標示位置與官方參考答案地圖位置一致，符合滿分給分原則。"
+        }
+      ]
+    },
+    "ast-113-biology--q37": {
+      "question_id": "ast-113-biology--q37",
+      "mode": "judge",
+      "max_points": 2.0,
+      "awarded": 2.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          2.0
+        ],
+        "raw_totals": [
+          2.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "complete",
+              "points": 2.0,
+              "rationale": "考生明確寫出「兩基因位於同一條染色體上而呈連鎖」及「互換率低」，同時提及連鎖與互換兩項，符合滿分給分原則，給予2分。"
+            }
+          ],
+          "total_points": 2.0,
+          "overall_rationale": "同時明確寫出連鎖與互換，符合官方滿分要求。"
+        }
+      ]
+    },
+    "ast-113-physics--q25.a": {
+      "question_id": "ast-113-physics--q25.a",
+      "mode": "judge",
+      "max_points": 1.0,
+      "awarded": 1.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          1.0
+        ],
+        "raw_totals": [
+          1.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "answer",
+              "points": 1.0,
+              "rationale": "考生答案τ=FL與參考答案完全一致，給予滿分1分。"
+            }
+          ],
+          "total_points": 1.0,
+          "overall_rationale": "答案正確，符合滿分參考答案。"
+        }
+      ]
+    },
+    "gsat-114-chinese-writing--q2": {
+      "question_id": "gsat-114-chinese-writing--q2",
+      "mode": "judge",
+      "max_points": 25.0,
+      "awarded": 20.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          20.0
+        ],
+        "raw_totals": [
+          20.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "overall_quality",
+              "points": 20.0,
+              "rationale": "考生以自身經驗（課堂追問問題、深夜寫詩）具體呼應52赫茲鯨魚的孤獨處境，敘及與同好交流後體悟「獨特不代表無人理解，而是在遇見同頻者前仍願意持續歌唱」，並延伸出兼顧溝通與保留真實自我的反思，內容具體、結構完整、情感真摯，文辭尚稱流暢並有若干譬喻（鯨魚微光）增色，但整體佈局與辭藻仍略遜於結構嚴謹、文辭洗練的最高等級，故評為A級上段20分。"
+            }
+          ],
+          "total_points": 20.0,
+          "overall_rationale": "文章具體書寫個人獨特之52赫茲故事，結構完整、情感深刻，文辭暢達，屬A級表現，評為20分。"
+        }
+      ]
+    },
+    "gsat-115-chinese-writing--q1.b": {
+      "question_id": "gsat-115-chinese-writing--q1.b",
+      "mode": "judge",
+      "max_points": 21.0,
+      "awarded": 19.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          19.0
+        ],
+        "raw_totals": [
+          19.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "holistic",
+              "points": 19.0,
+              "rationale": "考生以雨中清潔工撿拾傳單為具體事例，清楚敘述由「幾乎迴避」到「停下協助」的轉折，並扣合題文「臉」的召喚與倫理責任概念，結尾「倫理責任不是高尚口號，而是看見之後願意停下來的選擇」呼應題旨深刻、具說服力，結構嚴謹，層次井然，文辭暢達，符合A+級（21-19分）之要求，然舉例本身較為單一、未及最頂尖之豐富層次，故評為A+級下段19分。"
+            }
+          ],
+          "total_points": 19.0,
+          "overall_rationale": "事例切題具體，看法與省思清楚深刻，結構嚴謹具說服力，文辭暢達，屬A+級表現，評為19分。"
+        }
+      ]
+    },
+    "ast-115-civics--q35": {
+      "question_id": "ast-115-civics--q35",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "q35-holistic",
+              "points": 3.0,
+              "rationale": "官員部分（A組）：預設答對「乙」，政策偏好「讓失能者家庭分攤照護費用」正確對應「共同承擔／分攤照護費用之責任」，A組完全正確。協會部分（B組）：預設答為「丙」，與官方答案「甲」不符，B1錯誤；提醒內容「減少使用照護服務」亦非官方要求之「陷入無法負擔的照護困境」，B2亦有偏差。依評分原則，A組完全正確但B1錯誤，符合「A或B任一組完全正確」之條件，給予3分。"
+            }
+          ],
+          "total_points": 3.0,
+          "overall_rationale": "官員的預設與政策偏好（A組）完全正確，惟協會的預設代號答錯（丙非甲），提醒內容亦與官方要求有出入，依部分給分原則給予3分。"
+        }
+      ]
+    },
+    "ast-113-civics--q36.b": {
+      "question_id": "ast-113-civics--q36.b",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "overall",
+              "points": 4.0,
+              "rationale": "左欄（A）正確勾選「原則上不能經由繼承取得」。右欄（B）僅正確提及公益理由（「公共利益優先」對應B1），但未提及利益衡量（B2，即小恩之公益利益大於店主所受損害），改以「保障消費者知情選擇權」替代，此非官方兩項法律理由之一，且非明顯矛盾訊息。依評分原則：A正確，B僅正確回答B1或B2且無矛盾訊息，給予4分。"
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "左欄正確，右欄僅答對公益（B1）一項法律理由，未答出利益衡量（B2），依部分給分原則給予4分。"
+        }
+      ]
+    },
+    "gsat-113-english--q19.a": {
+      "question_id": "gsat-113-english--q19.a",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "translation_accuracy",
+              "points": 4.0,
+              "rationale": "譯文「During every election season, we often see politicians visiting famous temples in various places.」正確傳達原句語意，各標的字詞（election season、politicians、visit、famous、temples、in various places）翻譯精確，句構、時態、大小寫及標點皆無錯誤，通順達意，未見任何獨立錯誤，給予滿分4分。"
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "譯文正確、通順且達意，未發現可扣分之獨立錯誤，給予滿分。"
+        }
+      ]
+    },
+    "ast-113-geography--q36": {
+      "question_id": "ast-113-geography--q36",
+      "mode": "judge",
+      "max_points": 3.0,
+      "awarded": 3.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          3.0
+        ],
+        "raw_totals": [
+          3.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "choropleth",
+              "points": 3.0,
+              "rationale": "考生依表2老年人口數，將甲里（538人，屬301-600）繪為水平線、乙里（218人，屬0-300）繪為垂直（直）線、丙里（992人，屬601-1200）繪為交叉斜線，三里的圖例對應與人口區間判斷皆與滿分參考答案一致，給予滿分3分。"
+            }
+          ],
+          "total_points": 3.0,
+          "overall_rationale": "甲、乙、丙三里面量符號皆正確對應圖例與人口數區間，與參考答案完全相符，給予滿分。"
+        }
+      ]
+    },
+    "gsat-113-english--q20": {
+      "question_id": "gsat-113-english--q20",
+      "mode": "judge",
+      "max_points": 20.0,
+      "awarded": 20.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          20.0
+        ],
+        "raw_totals": [
+          20.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "content",
+              "points": 5.0,
+              "rationale": "主題明確切題（選擇解決情緒起伏問題），並具體說明原因（課業、人際、家庭壓力同時來襲時情緒失控之影響），第二段清楚描述機器人應具備之特質與分工方式，內容具體完整且充分支持主題。"
+            },
+            {
+              "criterion_id": "organization",
+              "points": 5.0,
+              "rationale": "全文依提示分為兩段，重點分明，開頭、發展、結尾俱全，前後連貫，並適當使用轉承語（If、When、Together等），組織清楚流暢。"
+            },
+            {
+              "criterion_id": "grammar_and_sentence_structure",
+              "points": 5.0,
+              "rationale": "全文文法、格式、標點幾無錯誤，句構富有變化（含條件句、時間子句、分號並列句等），表達清晰準確。"
+            },
+            {
+              "criterion_id": "vocabulary_and_spelling",
+              "points": 5.0,
+              "rationale": "用字精確得宜（patient, observant, respectful, without judging等），拼字與大小寫幾無錯誤，未見重複或不當用字。"
+            }
+          ],
+          "total_points": 20.0,
+          "overall_rationale": "文章完整依提示分兩段作答，字數充足，內容具體切題、組織清楚、文法句構富變化、用字精確，四項皆達最高等級，總分給予滿分20分。"
+        }
+      ]
+    },
+    "gsat-115-math-a--q20": {
+      "question_id": "gsat-115-math-a--q20",
+      "mode": "judge",
+      "max_points": 8.0,
+      "awarded": 6.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          6.0
+        ],
+        "raw_totals": [
+          6.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "ap-vector",
+              "points": 2.0,
+              "rationale": "考生利用(v×w)×(w×u)=[u,v,w]w之向量恆等式正確求出該向量為(−40,−40,20)，配合|AP|=6正確定出AP=(−4,−4,2)，即±(4,4,−2)之一組，方法與答案正確。"
+            },
+            {
+              "criterion_id": "volume",
+              "points": 2.0,
+              "rationale": "考生正確利用純量三重積關係求得|[u,v,w]|=60/6=10，體積計算方法與答案皆正確，與參考答案一致。"
+            },
+            {
+              "criterion_id": "base-vectors",
+              "points": 2.0,
+              "rationale": "考生以相同符號選擇下正確驗證並求得AB=(−1,1,−2)、AD=(−2,−3,1)（為參考答案(1,−1,2)、(2,3,−1)之整體反號等價解，且與AP同步取反號，符號選擇一致），並驗證各叉積關係吻合已知條件，答案正確。"
+            },
+            {
+              "criterion_id": "maximum-distance",
+              "points": 0.0,
+              "rationale": "考生僅計算AR=u+v+w=(−7,−6,1)、距離√86，並宣稱此即為最大值，但依考生自身向量計算，AS=v+w=(−6,−7,3)，距離應為√94＞√86，考生未完整比較所有六個頂點組合，導致最終判斷之最長距離√86有誤，正確應為√94，故未能正確判斷最長距離。"
+            }
+          ],
+          "total_points": 6.0,
+          "overall_rationale": "AP、體積、AB與AD三項求解方法與答案均正確，惟比較各頂點至A距離時漏未檢查AS=AD+AP之組合，導致最終最長距離誤答為√86（正確應為√94），依部分給分原則給予6分（滿分8分中扣除最長距離2分）。"
+        }
+      ]
+    },
+    "ast-115-geography--q23.c": {
+      "question_id": "ast-115-geography--q23.c",
+      "mode": "judge",
+      "max_points": 7.0,
+      "awarded": 1.5,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          1.5
+        ],
+        "raw_totals": [
+          1.5
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "topographic_profile",
+              "points": 1.5,
+              "rationale": "考生描述剖面「越過河谷南側上升，之後向丁方向緩降」，大致掌握已繪折線右端點（120公尺）之後應持續下降至丁（114公尺）之整體趨勢方向，但未具體標明乙（118公尺）、丙（116公尺）兩個中間點之確切高程與線段轉折，無法確認是否精確連接三個線段，僅能認定部分正確。"
+            },
+            {
+              "criterion_id": "disaster_inference",
+              "points": 0.0,
+              "rationale": "官方答案強調「河床高度較右岸（南岸、光復市街）高，因此洪水衝入光復市街」，考生卻描述「河床相對低窪，洪水沿河谷快速下泄，易越堤漫流至低地聚落」，其河床相對高度之判斷與官方推論方向相反，且未具體指出洪水流向南岸光復市街之動線依據，兩項推論依據皆未能正確說明。"
+            }
+          ],
+          "total_points": 1.5,
+          "overall_rationale": "地形剖面圖僅大致掌握下降趨勢但未精確標示乙、丙、丁的高程轉折，給予部分分數；災情原因說明將河床相對高度判斷反向（誤為低窪而非較高），與官方推論依據不符，未予計分。"
+        }
+      ]
+    },
+    "ast-114-geography--q42.b": {
+      "question_id": "ast-114-geography--q42.b",
+      "mode": "judge",
+      "max_points": 6.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "short_term_emissions",
+              "points": 1.0,
+              "rationale": "考生說明「貿易減速使生產運輸減少」，雖點出中國生產與運輸量下降之趨勢，但未明確指出是「出口至美國」的貿易量或運輸量下降，僅符合部分給分之敘述。"
+            },
+            {
+              "criterion_id": "long_term_transition",
+              "points": 3.0,
+              "rationale": "考生明確說明「關稅提高設備成本」，並將此設備成本連結至「美國太陽能擴張需中國供應鏈」之脈絡，實質對應官方答案「美國（發展光電所需的）太陽能板成本增加」，正確說明成本增加且與太陽能設備相關，給予滿分3分。"
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "第二項觀點（長期不利能源轉型，因太陽能設備成本增加）完整正確；第一項觀點（貿易減速使碳排短降）僅說明中國生產運輸減少之趨勢，未具體指明出口至美國，依部分給分原則給予4分（滿分6分）。"
+        }
+      ]
+    },
+    "ast-113-geography--q37": {
+      "question_id": "ast-113-geography--q37",
+      "mode": "judge",
+      "max_points": 5.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "village",
+              "points": 2.0,
+              "rationale": "考生正確勾選「丙」里，與參考答案一致，給予滿分2分。"
+            },
+            {
+              "criterion_id": "reason",
+              "points": 2.0,
+              "rationale": "考生說明丙里「老年人口數最多（992人）」及「扶養比最高（46.52%）」兩項理由正確，惟未提及扶老比高或附近巷弄長照站不足等其餘項目，符合四項中答對二項之部分給分標準，給予2分。"
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "正確勾選丙里，並正確說明其中兩項理由（老年人口數最多、扶養比最高），依部分給分原則給予4分（滿分5分）。"
+        }
+      ]
+    },
+    "ast-113-chemistry--q25": {
+      "question_id": "ast-113-chemistry--q25",
+      "mode": "judge",
+      "max_points": 4.0,
+      "awarded": 4.0,
+      "detail": {
+        "judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "requested_judge_models": [
+          "claude:claude-sonnet-5"
+        ],
+        "aggregation": "mean",
+        "totals": [
+          4.0
+        ],
+        "raw_totals": [
+          4.0
+        ],
+        "snap_changed": [
+          false
+        ],
+        "agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        },
+        "raw_agreement": {
+          "judge_count": 1,
+          "spread": 0.0,
+          "stdev": 0.0,
+          "normalized_spread": 0.0,
+          "unanimous": true
+        }
+      },
+      "judge_verdicts": [
+        {
+          "criteria": [
+            {
+              "criterion_id": "compound_a",
+              "points": 1.0,
+              "rationale": "正確寫出甲之化學式(NH₄)₂Cr₂O₇，與參考答案一致，給予1分。"
+            },
+            {
+              "criterion_id": "product_b",
+              "points": 1.0,
+              "rationale": "正確寫出乙之化學式Cr₂O₃，與參考答案一致，給予1分。"
+            },
+            {
+              "criterion_id": "product_c",
+              "points": 1.0,
+              "rationale": "正確寫出丙之化學式N₂，與參考答案一致，給予1分。"
+            },
+            {
+              "criterion_id": "product_d",
+              "points": 1.0,
+              "rationale": "正確寫出丁之化學式H₂O，與參考答案一致，給予1分。"
+            }
+          ],
+          "total_points": 4.0,
+          "overall_rationale": "甲、乙、丙、丁四個化學式皆與參考答案完全一致，給予滿分4分。"
+        }
+      ]
+    }
+  },
+  "section_totals": {
+    "stratum-A": {
+      "awarded": 93.0,
+      "max_points": 106.0
+    },
+    "stratum-B": {
+      "awarded": 24.0,
+      "max_points": 24.0
+    },
+    "stratum-C": {
+      "awarded": 53.0,
+      "max_points": 64.0
+    },
+    "stratum-D": {
+      "awarded": 39.5,
+      "max_points": 50.0
+    }
+  },
+  "total_awarded": 209.5,
+  "total_max": 244.0,
+  "percentage": 85.86065573770492,
+  "skipped_count": 0,
+  "skipped_points": 0.0,
+  "covered_max": 244.0,
+  "covered_percentage": 85.86065573770492,
+  "warnings": [
+    "single judge model — inter-judge agreement cannot be measured; pass a second --judge-model to see how much of the score is judge-dependent"
+  ],
+  "judge_agreement": {
+    "requested_judge_models": [
+      "claude:claude-sonnet-5"
+    ],
+    "judged_questions": 24,
+    "multi_judge_questions": 0,
+    "disagreed_questions": 0,
+    "mean_spread": 0.0,
+    "max_spread": 0.0,
+    "mean_normalized_spread": 0.0,
+    "per_judge_mean": {
+      "claude:claude-sonnet-5": 8.729166666666666
+    }
+  },
+  "usage": {
+    "total": {
+      "requests": 25,
+      "input_tokens": 36,
+      "output_tokens": 43674,
+      "reasoning_tokens": 0,
+      "cache_read_tokens": 1392598,
+      "cache_write_tokens": 126434
+    },
+    "phases": {
+      "judge:claude:claude-sonnet-5": {
+        "requests": 25,
+        "input_tokens": 36,
+        "output_tokens": 43674,
+        "reasoning_tokens": 0,
+        "cache_read_tokens": 1392598,
+        "cache_write_tokens": 126434
+      }
+    }
+  }
+}
