@@ -32,7 +32,7 @@
 
   /* A register is ordered and sectioned, not a flat wall of stubs. a2b names a
    * bundle <exam>-<year>-<subject>, so the first two segments are real structure
-   * we already have without fetching 164 files. Any repo whose names do not
+   * we already have without fetching 182 files. Any repo whose names do not
    * follow that convention falls back to one ungrouped section, because this
    * viewer must open anyone's dataset, not only ours. */
   const NAMED = /^([A-Za-z]+)-(\d{2,4})-/

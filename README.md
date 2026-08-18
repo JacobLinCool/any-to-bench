@@ -67,16 +67,21 @@ report token usage.
 ## Example dataset
 
 [**JacobLinCool/taiwan-exams**](https://huggingface.co/datasets/JacobLinCool/taiwan-exams)
-is a corpus built with this tool: 164 Taiwanese university-entrance exams, 7,121
-questions, ingested from the official papers, answer keys, and marking schemes
-with `codex:gpt-5.6-sol`. One subset per exam, named `<exam>-<year>-<subject>`,
-where the year is the ROC academic year (113–115 = 2024–2026):
+is a corpus built with this tool: 182 Taiwanese national exams, 7,772 questions,
+ingested from the official papers, answer keys, and marking schemes with
+`codex:gpt-5.6-sol` (`cap` with `claude:claude-opus-5`). One subset per exam, named
+`<exam>-<year>-<subject>`, where the year is the ROC year the exam is named for
+(113–115 = 2024–2026):
 
 | Prefix | Exam | Subsets |
 |---|---|---|
 | `gsat` | 學測 General Scholastic Ability Test | 21 — three years × 7 subjects |
 | `ast` | 分科測驗 Advanced Subjects Test | 23 — three years, every subject |
 | `tve` | 統測 vocational Unified Entrance Examination | 120 — three years × 5 common + 35 group papers |
+| `cap` | 會考 Comprehensive Assessment Program, end of junior high | 18 — three years × 6 papers |
+
+英語（聽力）is the one paper left out: its questions are spoken and published as
+audio, and a bundle carries text and images.
 
 The dataset viewer shows the extracted questions with their figures embedded;
 `<subset>/bundle/` holds the bundle itself. Benchmark against any of them:

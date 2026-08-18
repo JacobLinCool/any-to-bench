@@ -52,6 +52,7 @@
     { label: '學測 General Scholastic Ability Test', code: 'gsat', subsets: 21, years: '113–115' },
     { label: '分科測驗 Advanced Subjects Test', code: 'ast', subsets: 23, years: '113–115' },
     { label: '統測 vocational Unified Entrance Exam', code: 'tve', subsets: 120, years: '113–115' },
+    { label: '會考 Comprehensive Assessment Program', code: 'cap', subsets: 18, years: '113–115' },
   ]
 
   let sealed = $state(true)
@@ -307,9 +308,12 @@
           Already issued
         </h2>
         <p class="mt-5 max-w-[68ch] leading-relaxed text-[var(--omr-graphite-soft)]">
-          Three Taiwanese university-entrance examinations, three academic years, ingested with
-          <code class="font-mono text-[0.9em] text-[var(--omr-graphite)]">codex:gpt-5.6-sol</code>
-          and published as one dataset.
+          Four Taiwanese national examinations across the same three years: the three that open
+          university, ingested with
+          <code class="font-mono text-[0.9em] text-[var(--omr-graphite)]">codex:gpt-5.6-sol</code>,
+          and the one that closes junior high, ingested with
+          <code class="font-mono text-[0.9em] text-[var(--omr-graphite)]">claude:claude-opus-5</code
+          > — published as one dataset.
         </p>
 
         <!-- A table cannot shrink below its min-content width, so it scrolls in its own
@@ -340,11 +344,11 @@
               {/each}
               <tr class="border-t-2 border-[var(--omr-graphite)]">
                 <th scope="row" class="py-3.5 pr-4 font-semibold text-[var(--omr-graphite)]">
-                  7,121 questions — 6,811 graded by rule, 310 by judge
+                  7,772 questions — 7,453 graded by rule, 319 by judge
                 </th>
                 <td></td>
                 <td></td>
-                <td class="py-3.5 text-right font-mono text-lg font-semibold tabular-nums">164</td>
+                <td class="py-3.5 text-right font-mono text-lg font-semibold tabular-nums">182</td>
               </tr>
             </tbody>
           </table>

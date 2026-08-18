@@ -100,9 +100,11 @@ and to be bit-for-bit reproducible.
 
 Real, verifiable, and already public — nothing here needs inventing:
 
-- **`JacobLinCool/taiwan-exams`** — 164 exams, 7,121 questions, ingested with
-  `codex:gpt-5.6-sol`. Covers three Taiwanese university-entrance exams across
-  three academic years: 學測 GSAT (21 subsets), 分科測驗 AST (23), 統測 TVE (120).
+- **`JacobLinCool/taiwan-exams`** — 182 exams, 7,772 questions, all across the
+  same three years (113–115). Three Taiwanese university-entrance exams — 學測
+  GSAT (21 subsets), 分科測驗 AST (23), 統測 TVE (120), ingested with
+  `codex:gpt-5.6-sol` — plus 會考 CAP (18), the exam at the end of junior high,
+  ingested with `claude:claude-opus-5`.
 - Per-bundle statistics are computable live from the bundles themselves:
   question counts, auto-graded vs LLM-judged split, type breakdown, total points,
   and provenance — the names of the official source documents a bundle was built
