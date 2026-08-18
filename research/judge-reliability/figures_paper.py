@@ -37,9 +37,25 @@ def f_dial(rows) -> None:
         for e, v in zip(EFFORTS, w):
             a1.annotate(f"{v:.3f}", (EFFORTS.index(e), v), textcoords="offset points",
                         xytext=dy, ha="center", fontsize=6.0, color=MUTED)
-        for e, v in zip(EFFORTS, j):
-            a2.annotate(f"{v:.3f}", (EFFORTS.index(e), v), textcoords="offset points",
-                        xytext=dy, ha="center", fontsize=6.0, color=MUTED)
+        # No numeric labels on the judge panel: four lines live there now and
+        # the numbers are in the text.
+
+    # Frontier judges, graded once: dashed lines on the judge panel only.
+    import json
+    from pathlib import Path as _P
+    HERE = _P(__file__).resolve().parent
+    FRONTIER = (("sol", "#123f4f", "Sol"), ("opus", "#6e3419", "Opus 5"))
+    for fam, col, disp in FRONTIER:
+        means = []
+        for e in EFFORTS:
+            vals = []
+            for sheet in [f"writer-{f}-{ef}" for f in ("codex", "claude") for ef in EFFORTS]:
+                f = HERE / "reports_frontier" / f"{sheet}--judge-{fam}-{e}.json"
+                for qid, q in json.loads(f.read_text())["results"].items():
+                    if q["mode"] == "judge":
+                        vals.append(q["awarded"] / q["max_points"])
+            means.append(sum(vals) / len(vals))
+        a2.plot(range(3), means, color=col, lw=1.3, ls="--", marker="o", ms=3.0, label=disp)
     for ax, title in ((a1, "effort turned on the writer"), (a2, "same dial turned on the judge")):
         ax.set_xticks(range(3), EFFORTS)
         ax.set_ylim(0.75, 0.97)
@@ -49,6 +65,7 @@ def f_dial(rows) -> None:
     a1.set_ylabel("mean score received")
     a2.set_ylabel("mean score given")
     a1.legend(frameon=False, fontsize=7, loc="lower right")
+    a2.legend(frameon=False, fontsize=6.2, loc="lower right", ncols=2)
     fig.savefig(FIG / "s24-dial.pdf")
     plt.close(fig)
     print("s24-dial")

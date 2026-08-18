@@ -57,7 +57,9 @@ questions, and each also grades every answer sheet three times, yielding
 being graded: answer identity explains 95.6\,\% of score variance, whereas
 judge identity explains only 0.2\,\%. Raising a writer's reasoning effort
 moves earned scores by as much as 0.143 of full marks, while raising a
-judge's reasoning effort moves assigned scores by at most 0.006. Two
+judge's reasoning effort moves assigned scores by at most 0.006. Six
+frontier-tier judges, added as a check, reproduce these scores and are no
+more reliable as a panel. Two
 ablations then decompose the rubric on the same questions and answers. Removing its criteria and levels while keeping the official
 answer changes nothing measurable. Removing the official answer as well
 collapses reliability (ICC 0.888 to 0.628), inflates scores, and makes judge
@@ -107,6 +109,7 @@ marks, so capability registers when it sits on the answering side. The same
 dial moves what a judge \emph{gives} by at most 0.006. Judge identity
 accounts for 0.2\,\% of score variance, and replacing the entire panel with
 its cheapest members changes per-answer scores by 0.019 on average.
+Frontier-tier judges reproduce the same scores.
 \item \textbf{The rubric is the mechanism, and its answer key is the
 load-bearing part} (\S\ref{sec:rubric}). Two ablations decompose the rubric
 on the same questions and answers. Stripping its criteria and levels while
@@ -217,6 +220,12 @@ $p = \text{awarded}/\text{maximum}$, so a 25-point essay and a 1-point short
 answer weigh alike. A difference of 0.10 in $p$ corresponds to 10 points on a
 100-point scale.
 
+Six further configurations at the frontier tier of each family also served
+as judges: GPT-5.6 Sol, which performed ingestion, and Claude Opus~5, at the
+same three efforts. Each graded all eight sheets once, as a direct check on
+the pool's ceiling (\S\ref{sec:asym}). With the ablations of
+\S\ref{sec:ablations}, the experiment totals 5{,}760 verdicts.
+
 One design detail protects the results from our own tooling.
 \textsc{any-to-bench} snaps each judged criterion score onto the rubric's
 defined levels. Snapping mechanically increases apparent agreement: judges who
@@ -318,9 +327,9 @@ $\pm 0.012$ of the panel mean.
 \includegraphics[width=0.9\linewidth]{fig/s24-dial.pdf}
 \caption{The same dial, both sides. Left: mean score \emph{received} by each
 family's answers as writer effort rises. Right: mean score \emph{given} by
-each family's judges as judge effort rises, over the identical answers. Both
-panels span the same 0.22 of the scale; on equal axes, the judge side stays
-flat.}
+each family's judges as judge effort rises, over the identical answers;
+dashed lines are the frontier tier, graded once. Both panels span the same
+0.22 of the scale; on equal axes, the judge side stays flat.}
 \label{fig:dial}
 \end{figure}
 
@@ -344,14 +353,20 @@ already included in the single-pass figures above. It changes no comparison
 between answers. Nowhere in 3{,}456 verdicts does effort change what an
 answer is worth.
 
-We chose this judge pool deliberately: the small tier of one family, the mid
-tier of another, and never the frontier tier that performed ingestion. The
-cheapest configurations tested already grade both anchors perfectly
-(\S\ref{sec:validity}). They sit within noise of the most expensive pool
-members. And judge identity holds 0.2\,\% of the variance. This confirms the
-grading half of the tool's asymmetry: the intelligence was spent at
-ingestion, and a more intelligent judge would have almost nothing left to
-improve.
+The main judge pool is deliberately downmarket: the small tier of one
+family and the mid tier of another. As a direct check on its ceiling, six
+frontier-tier configurations, GPT-5.6 Sol (the ingestion model's own tier)
+and Claude Opus~5 at the same three efforts, graded every sheet once. They
+change nothing. Each frontier judge deviates from the cheap panel's
+consensus by 0.030 to 0.039, inside the cheap judges' own internal range
+(0.019 to 0.035). Their effort dial is as flat as the cheap judges'
+(Figure~\ref{fig:dial}, dashed lines). Their anchors hold, with one
+reference miss in 96 gradings. And the most expensive pair available, Sol
+and Opus~5 at high effort, is slightly \emph{less} reliable as a panel (ICC
+0.813) than the two cheapest judges (0.913). From 5.6~Luna at low effort to
+Opus~5 at high, judge capability buys grading nothing. This confirms the
+grading half of the tool's asymmetry directly: the intelligence was spent at
+ingestion, and a more intelligent judge has nothing left to improve.
 
 \section{The rubric carries the judgment}
 \label{sec:rubric}
@@ -543,13 +558,9 @@ minimum.}
 \section{Limitations}
 \label{sec:limits}
 
-\textbf{A saturation argument.} No frontier judge sits in the pool, so
-we cannot show small $=$ frontier directly. The argument is saturation: the
-cheapest configurations already grade both anchors perfectly, sit within
-noise of the most expensive pool members, and judge identity retains 0.2\,\%
-of score variance. There is little left for a stronger judge to improve. The
-\emph{floor} is equally untested: GPT-5.6 Luna and Claude Sonnet~5 are small
-only relative to their frontier siblings,
+\textbf{The floor.} The frontier comparison closes the question upward:
+Sol and Opus~5 grade no better than 5.6~Luna and Sonnet~5. Downward it stays
+open: the cheap judges are small only relative to their frontier siblings,
 and nothing here shows how far down the capability scale rubric application
 remains intact.
 
@@ -710,6 +721,7 @@ They are:
 judge, repeat);
 \item the 96 ablation grading reports: \texttt{reports\_ab} for the
 key-only condition and \texttt{reports\_bare} for zero guidance;
+\item the 48 frontier-judge reports (\texttt{reports\_frontier});
 \item \texttt{data.csv}, a tidy table with one row per main-study verdict
 (3{,}456 rows);
 \item the analysis and figure scripts, which read only the reports above.

@@ -12,7 +12,10 @@ corpus, then graded all eight answer sheets (six writers plus two anchors)
 three times each: 144 grading passes, 3,456 verdicts. Two ablations then
 re-graded the twelve stratum-C/D questions with the rubric's criteria
 stripped (key only) and with the official answer stripped as well (zero
-guidance): 96 further passes, 1,152 further verdicts.
+guidance): 96 further passes, 1,152 further verdicts. Six frontier-tier
+judges (GPT-5.6 Sol and Claude Opus 5 at three efforts each) then graded all
+eight main-study sheets once as a ceiling check: 48 more passes, 1,152 more
+verdicts, 5,760 in total.
 
 ## Layout
 
@@ -20,6 +23,8 @@ guidance): 96 further passes, 1,152 further verdicts.
 |---|---|
 | `reports24/` | the 144 main-study grading reports, one per (sheet, judge, repeat) |
 | `reports_ab/`, `reports_bare/` | the 48+48 ablation reports (key only; zero guidance) |
+| `reports_frontier/` | the 48 frontier-judge reports (Sol and Opus 5) |
+| `analyse_frontier.py` | frontier-vs-cheap equivalence analysis |
 | `study24-answers-*.json` | the eight answer sheets that were graded |
 | `ablate12-answers-*.json`, `ablate12bare-answers-*.json` | the same sheets filtered to the 12 ablated questions |
 | `build_ablate.py` | derives the ablation bundles from the study24 bundle |
