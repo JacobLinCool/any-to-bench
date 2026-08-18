@@ -44,7 +44,7 @@ def f_dial(rows) -> None:
     import json
     from pathlib import Path as _P
     HERE = _P(__file__).resolve().parent
-    FRONTIER = (("sol", "#123f4f", "Sol"), ("opus", "#6e3419", "Opus 5"))
+    FRONTIER = (("sol", "#123f4f", "5.6 Sol"), ("opus", "#6e3419", "Opus 5"))
     for fam, col, disp in FRONTIER:
         means = []
         for e in EFFORTS:
