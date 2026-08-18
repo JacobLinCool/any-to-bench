@@ -206,3 +206,9 @@ node_modules/
 /research/**/*.log
 /research/**/*.fls
 /research/**/*.fdb_latexmk
+
+# macOS
+.DS_Store
+
+# arXiv submission bundles (rebuild with report/make-arxiv.sh)
+/research/**/*.tar.gz

@@ -35,6 +35,7 @@ verdicts, 5,760 in total.
 | `asymmetry.py` | the effort-dial and variance-decomposition analysis |
 | `figures24.py`, `figures_paper.py` | draw the paper's figures into `report/fig/` |
 | `report/` | `paper.tex` and `data.csv` (one row per verdict) |
+| `report/make-arxiv.sh` | packages the arXiv bundle and clean-room compiles it |
 
 ## Regenerating
 
@@ -48,8 +49,14 @@ uv run --with matplotlib python study24.py        # statistics
 uv run --with matplotlib python asymmetry.py      # asymmetry cuts
 uv run --with matplotlib python figures24.py      # figures 1, 3, 4
 uv run --with matplotlib python figures_paper.py  # figures 2, 5 + data.csv numbers
+uv run --with matplotlib python figures_ablate.py # the ablation figure
 cd report && latexmk -pdf paper.tex
 ```
+
+To package the arXiv submission, run `report/make-arxiv.sh`. It stages
+`paper.tex`, the NeurIPS style file, and the figures, then compiles the staged
+copy in a clean room and fails if its page count differs from the local build.
+The bundle is an artifact and is not committed.
 
 The grading itself was run with `a2b grade` using `codex:gpt-5.6-luna` and
 `claude:claude-sonnet-5` as judges; the raw (pre-snap) verdicts in the
