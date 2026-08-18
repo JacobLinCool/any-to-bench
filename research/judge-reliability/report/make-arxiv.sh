@@ -40,5 +40,22 @@ want=$(pages paper.pdf)
 over=$(grep -c Overfull "$STAGE/paper.log" || true)
 [ "$got" = "$want" ] || { echo "page mismatch: bundle $got vs local $want" >&2; exit 1; }
 
+# The plain-text abstract for the arXiv form, derived from paper.tex so the
+# two cannot drift apart. Fails loudly rather than shipping stray markup.
+python3 - <<'ABS'
+import re, textwrap
+from pathlib import Path
+a = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}",
+              Path("paper.tex").read_text(), re.S).group(1)
+a = a.replace("\\noindent", "").replace("\\textsc{any-to-bench}", "any-to-bench")
+a = re.sub(r"\\,\\%", "%", a).replace("{,}", ",")
+a = re.sub(r"\s+", " ", a.replace("~", " ")).strip()
+leftover = [c for c in a if c in "\\{}"]
+assert not leftover, f"unconverted markup in abstract: {leftover}"
+assert len(a) <= 1920, f"abstract is {len(a)} chars, over the arXiv limit"
+Path("arxiv-abstract.txt").write_text(textwrap.fill(a, 79) + "\n")
+print(f"arxiv-abstract.txt  ({len(a.split())} words, {len(a)}/1920 chars)")
+ABS
+
 echo "$OUT  ($(du -h "$OUT" | cut -f1), $(tar tzf "$OUT" | grep -vc '/$') files)"
 echo "clean-room build ok: $got pages, $over overfull"
