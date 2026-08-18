@@ -30,9 +30,14 @@ NAME = "ablate12bare" if BARE else "ablate12"
 OUT = HERE / NAME
 EXAM_ID = f"judge-reliability-{NAME}"
 SHEETS = [
-    "writer-codex-low", "writer-codex-medium", "writer-codex-high",
-    "writer-claude-low", "writer-claude-medium", "writer-claude-high",
-    "anchor-reference", "anchor-empty",
+    "writer-codex-low",
+    "writer-codex-medium",
+    "writer-codex-high",
+    "writer-claude-low",
+    "writer-claude-medium",
+    "writer-claude-high",
+    "anchor-reference",
+    "anchor-empty",
 ]
 
 
@@ -70,7 +75,7 @@ def main() -> None:
         for q in s["questions"]:
             leaf_ids(q, leaves)
             walk_assets(q, assets)
-    assert leaves == keep, (leaves ^ keep)
+    assert leaves == keep, leaves ^ keep
 
     questions: dict[str, QuestionGrading] = {}
     for qid in sorted(keep):
@@ -118,9 +123,7 @@ def main() -> None:
         )
         problems = bundle.validate_answer_sheet(sheet)
         assert not problems, (name, problems)
-        (HERE / f"{NAME}-answers-{name}.json").write_text(
-            sheet.model_dump_json(indent=2), "utf-8"
-        )
+        (HERE / f"{NAME}-answers-{name}.json").write_text(sheet.model_dump_json(indent=2), "utf-8")
         print(f"{NAME}-answers-{name}.json ({len(sheet.answers)} answers)")
 
 

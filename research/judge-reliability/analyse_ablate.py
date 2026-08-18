@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import json
 import statistics as st
-from collections import defaultdict
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -68,7 +67,11 @@ def main() -> None:
         print(f"{lbl}: {len(c)} verdicts")
     print()
 
-    print(f"{'question':<40} {'strat':<5} " + " ".join(f"{lbl.strip():>11}" for lbl, _ in conds) + "   (writer spread)")
+    print(
+        f"{'question':<40} {'strat':<5} "
+        + " ".join(f"{lbl.strip():>11}" for lbl, _ in conds)
+        + "   (writer spread)"
+    )
     pairs: dict[str, list[float]] = {}
     for qid in KEEP:
         vals = [spread(c, qid) for _, c in conds]
@@ -79,14 +82,21 @@ def main() -> None:
     print(f"\n高鑑別題 retention vs key+rubric ({len(hi)}):")
     for q in hi:
         base = pairs[q][0]
-        rest = "  ".join(f"{lbl.strip()}={v / base:.0%}" for (lbl, _), v in zip(conds[1:], pairs[q][1:]))
+        rest = "  ".join(
+            f"{lbl.strip()}={v / base:.0%}"
+            for (lbl, _), v in zip(conds[1:], pairs[q][1:], strict=False)
+        )
         print(f"  {q:<40} {rest}")
     for i, (lbl, _) in enumerate(conds[1:], start=1):
         med = st.median(pairs[q][i] / pairs[q][0] for q in hi)
         print(f"  median retention {lbl.strip()}: {med:.0%}")
 
-    print(f"\n{'condition':<12} {'ICC':>6} {'judge分歧':>9} {'writer mean':>12} {'empty':>7} {'reference':>10}")
+    print(
+        f"\n{'condition':<12} {'ICC':>6} {'judge分歧':>9} {'writer mean':>12} "
+        f"{'empty':>7} {'reference':>10}"
+    )
     from study24 import icc
+
     for lbl, cells in conds:
         tg = sorted({(q, s) for (q, s, _) in cells if s in WRITERS})
         m = [[cells.get((q, s, j)) for j in JUDGES] for (q, s) in tg]
@@ -94,8 +104,15 @@ def main() -> None:
         sp = st.fmean([max(r) - min(r) for r in m])
         wm = st.fmean([v for (q, s, j), v in cells.items() if s in WRITERS])
         emp = [v for (q, s, j), v in cells.items() if s == "anchor-empty"]
-        ref = [v for (q, s, j), v in cells.items() if s == "anchor-reference" and prov[q]["has_reference"]]
-        print(f"{lbl:<12} {icc(m):>6.3f} {sp:>9.3f} {wm:>12.3f} {st.fmean(emp):>7.3f} {st.fmean(ref):>10.3f}")
+        ref = [
+            v
+            for (q, s, j), v in cells.items()
+            if s == "anchor-reference" and prov[q]["has_reference"]
+        ]
+        print(
+            f"{lbl:<12} {icc(m):>6.3f} {sp:>9.3f} {wm:>12.3f} "
+            f"{st.fmean(emp):>7.3f} {st.fmean(ref):>10.3f}"
+        )
 
 
 if __name__ == "__main__":

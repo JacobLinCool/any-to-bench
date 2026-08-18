@@ -12,9 +12,8 @@ import itertools
 import statistics as st
 
 import matplotlib.pyplot as plt
-
 from figures24 import CLAUDE, CODEX, FIG, INK, MUTED
-from study24 import JUDGES, cells, icc, load, mat
+from study24 import JUDGES, cells, icc, load
 
 EFFORTS = ["low", "medium", "high"]
 
@@ -25,24 +24,29 @@ def f_dial(rows) -> None:
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(5.4, 2.2), gridspec_kw={"wspace": 0.3})
     for fam, col, disp in (("codex", CODEX, "5.6 Luna"), ("claude", CLAUDE, "Sonnet 5")):
         w = [st.fmean([r["p"] for r in W if r["sheet"] == f"writer-{fam}-{e}"]) for e in EFFORTS]
-        j = [
-            st.fmean([v for (q, s, jj), v in cm.items() if jj == f"{fam}-{e}"])
-            for e in EFFORTS
-        ]
+        j = [st.fmean([v for (q, s, jj), v in cm.items() if jj == f"{fam}-{e}"]) for e in EFFORTS]
         a1.plot(range(3), w, color=col, lw=1.6, marker="o", ms=3.6, label=disp)
         a2.plot(range(3), j, color=col, lw=1.6, marker="o", ms=3.6, label=disp)
         # codex labels above the point, claude below: the lines cross on the
         # left panel and hug each other on the right, so one-sided offsets collide
         dy = (0, 5) if fam == "codex" else (0, -11)
-        for e, v in zip(EFFORTS, w):
-            a1.annotate(f"{v:.3f}", (EFFORTS.index(e), v), textcoords="offset points",
-                        xytext=dy, ha="center", fontsize=6.0, color=MUTED)
+        for e, v in zip(EFFORTS, w, strict=False):
+            a1.annotate(
+                f"{v:.3f}",
+                (EFFORTS.index(e), v),
+                textcoords="offset points",
+                xytext=dy,
+                ha="center",
+                fontsize=6.0,
+                color=MUTED,
+            )
         # No numeric labels on the judge panel: four lines live there now and
         # the numbers are in the text.
 
     # Frontier judges, graded once: dashed lines on the judge panel only.
     import json
     from pathlib import Path as _P
+
     HERE = _P(__file__).resolve().parent
     FRONTIER = (("sol", "#123f4f", "5.6 Sol"), ("opus", "#6e3419", "Opus 5"))
     for fam, col, disp in FRONTIER:
@@ -51,7 +55,7 @@ def f_dial(rows) -> None:
             vals = []
             for sheet in [f"writer-{f}-{ef}" for f in ("codex", "claude") for ef in EFFORTS]:
                 f = HERE / "reports_frontier" / f"{sheet}--judge-{fam}-{e}.json"
-                for qid, q in json.loads(f.read_text())["results"].items():
+                for q in json.loads(f.read_text())["results"].values():
                     if q["mode"] == "judge":
                         vals.append(q["awarded"] / q["max_points"])
             means.append(sum(vals) / len(vals))

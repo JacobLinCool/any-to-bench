@@ -10,12 +10,14 @@ from __future__ import annotations
 import statistics as st
 
 import matplotlib.pyplot as plt
-
-from analyse_ablate import KEEP, load, prov, spread
+from analyse_ablate import KEEP, load, spread
 from figures24 import CLAUDE, CODEX, FIG, INK, MUTED, RULE
 
-CONDS = [("full rubric", "reports24", "--r1"), ("answer key only", "reports_ab", ""),
-         ("nothing", "reports_bare", "")]
+CONDS = [
+    ("full rubric", "reports24", "--r1"),
+    ("answer key only", "reports_ab", ""),
+    ("nothing", "reports_bare", ""),
+]
 SHORT = {
     "ast-113-civics--q36.b": "civics 36",
     "ast-115-civics--q35": "civics 35",
@@ -32,12 +34,24 @@ def main() -> None:
         ys = [spread(c, qid) for c in cells]
         hi = qid in SHORT
         color = (CODEX if "civics" in qid or "math" in qid else CLAUDE) if hi else RULE
-        ax.plot(range(3), ys, color=color, lw=1.5 if hi else 1.0,
-                marker="o", ms=3.2 if hi else 2.2, zorder=3 if hi else 2)
+        ax.plot(
+            range(3),
+            ys,
+            color=color,
+            lw=1.5 if hi else 1.0,
+            marker="o",
+            ms=3.2 if hi else 2.2,
+            zorder=3 if hi else 2,
+        )
         if hi:
-            ax.annotate(SHORT[qid], (2, ys[2]), textcoords="offset points",
-                        xytext=(6, -2 if qid != "ast-113-civics--q36.b" else 4),
-                        fontsize=6.2, color=INK)
+            ax.annotate(
+                SHORT[qid],
+                (2, ys[2]),
+                textcoords="offset points",
+                xytext=(6, -2 if qid != "ast-113-civics--q36.b" else 4),
+                fontsize=6.2,
+                color=INK,
+            )
     ax.text(2.02, 0.005, "essays", fontsize=6.2, color=MUTED, transform=ax.transData)
     ax.set_xticks(range(3), [c for c, _, _ in CONDS])
     ax.set_xlim(-0.15, 2.75)

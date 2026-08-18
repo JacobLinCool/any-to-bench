@@ -75,15 +75,21 @@ def main() -> None:
     print(f"{'judge':<12} {'mean given':>10} {'MAE vs cheap panel':>19}")
     for j in CHEAP + FRONT:
         vals = [v for (q, s, jj), v in cells.items() if jj == j and s in WRITERS]
-        mae = [abs(cells[(q, s, j)] - consensus[(q, s)]) for (q, s) in consensus if (q, s, j) in cells]
+        mae = [
+            abs(cells[(q, s, j)] - consensus[(q, s)]) for (q, s) in consensus if (q, s, j) in cells
+        ]
         tier = "cheap" if j in CHEAP else "FRONTIER"
         if vals:
             print(f"{j:<12} {st.fmean(vals):>10.3f} {st.fmean(mae):>19.3f}   {tier}")
 
     print()
-    for lbl, js in (("cheap 6", CHEAP), ("frontier 6", FRONT), ("all 12", CHEAP + FRONT),
-                    ("cheapest pair {luna-low, sonnet-low}", ["codex-low", "claude-low"]),
-                    ("priciest pair {sol-high, opus-high}", ["sol-high", "opus-high"])):
+    for lbl, js in (
+        ("cheap 6", CHEAP),
+        ("frontier 6", FRONT),
+        ("all 12", CHEAP + FRONT),
+        ("cheapest pair {luna-low, sonnet-low}", ["codex-low", "claude-low"]),
+        ("priciest pair {sol-high, opus-high}", ["sol-high", "opus-high"]),
+    ):
         m = mat(cells, js, WRITERS)
         if len(m) > 1:
             print(f"ICC({lbl}) = {icc(m):.3f}   n={len(m)}")
@@ -92,14 +98,24 @@ def main() -> None:
     a = mat(cells, ["codex-low", "claude-low", "sol-high", "opus-high"], WRITERS)
     if a:
         d = [abs(st.fmean(r[:2]) - st.fmean(r[2:])) for r in a]
-        print(f"\n|cheapest pair - priciest frontier pair| per answer: mean={st.fmean(d):.3f}  max={max(d):.3f}")
+        print(
+            f"\n|cheapest pair - priciest frontier pair| per answer: "
+            f"mean={st.fmean(d):.3f}  max={max(d):.3f}"
+        )
 
     for j in FRONT:
         emp = [v for (q, s, jj), v in cells.items() if jj == j and s == "anchor-empty"]
-        ref = [v for (q, s, jj), v in cells.items() if jj == j and s == "anchor-reference" and prov[q]["has_reference"]]
+        ref = [
+            v
+            for (q, s, jj), v in cells.items()
+            if jj == j and s == "anchor-reference" and prov[q]["has_reference"]
+        ]
         if emp:
-            print(f"anchors {j:<11} empty={st.fmean(emp):.3f} ({sum(x <= 0.1 for x in emp)}/{len(emp)} zero-ish)  "
-                  f"reference={st.fmean(ref):.3f} ({sum(x >= 0.9 for x in ref)}/{len(ref)} >=0.9)")
+            print(
+                f"anchors {j:<11} empty={st.fmean(emp):.3f} "
+                f"({sum(x <= 0.1 for x in emp)}/{len(emp)} zero-ish)  "
+                f"reference={st.fmean(ref):.3f} ({sum(x >= 0.9 for x in ref)}/{len(ref)} >=0.9)"
+            )
 
 
 if __name__ == "__main__":

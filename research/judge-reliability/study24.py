@@ -6,7 +6,6 @@ rather than quality, and whether a judge favours prose from its own family.
 
 from __future__ import annotations
 
-import itertools
 import json
 import statistics as st
 from collections import defaultdict
@@ -14,9 +13,14 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 SHEETS = [
-    "writer-codex-low", "writer-codex-medium", "writer-codex-high",
-    "writer-claude-low", "writer-claude-medium", "writer-claude-high",
-    "anchor-reference", "anchor-empty",
+    "writer-codex-low",
+    "writer-codex-medium",
+    "writer-codex-high",
+    "writer-claude-low",
+    "writer-claude-medium",
+    "writer-claude-high",
+    "anchor-reference",
+    "anchor-empty",
 ]
 JUDGES = [f"{f}-{e}" for f in ("codex", "claude") for e in ("low", "medium", "high")]
 REPS = [1, 2, 3]
@@ -44,15 +48,25 @@ def load():
                     d = q.get("detail") or {}
                     raw = (d.get("raw_totals") or [None])[0]
                     mx = q["max_points"]
-                    rows.append({
-                        "qid": qid, "stratum": prov[qid]["stratum"], "max": mx,
-                        "type": prov[qid]["type"], "sheet": sheet, "judge": judge,
-                        "jfam": judge.split("-")[0], "wfam": sheet.split("-")[1] if sheet.startswith("writer-") else "anchor",
-                        "rep": rep, "p": q["awarded"] / mx if mx else 0.0,
-                        "p_raw": (raw / mx) if (raw is not None and mx) else None,
-                        "snapped": bool((d.get("snap_changed") or [False])[0]),
-                        "len": lengths.get((sheet, qid), 0),
-                    })
+                    rows.append(
+                        {
+                            "qid": qid,
+                            "stratum": prov[qid]["stratum"],
+                            "max": mx,
+                            "type": prov[qid]["type"],
+                            "sheet": sheet,
+                            "judge": judge,
+                            "jfam": judge.split("-")[0],
+                            "wfam": sheet.split("-")[1]
+                            if sheet.startswith("writer-")
+                            else "anchor",
+                            "rep": rep,
+                            "p": q["awarded"] / mx if mx else 0.0,
+                            "p_raw": (raw / mx) if (raw is not None and mx) else None,
+                            "snapped": bool((d.get("snap_changed") or [False])[0]),
+                            "len": lengths.get((sheet, qid), 0),
+                        }
+                    )
     return rows, prov
 
 
@@ -104,12 +118,13 @@ def spearman(xs, ys):
         for pos, i in enumerate(order):
             r[i] = pos
         return r
+
     rx, ry = rank(xs), rank(ys)
     n = len(xs)
     if n < 3:
         return float("nan")
     mx, my = st.fmean(rx), st.fmean(ry)
-    num = sum((a - mx) * (b - my) for a, b in zip(rx, ry))
+    num = sum((a - mx) * (b - my) for a, b in zip(rx, ry, strict=False))
     den = (sum((a - mx) ** 2 for a in rx) * sum((b - my) ** 2 for b in ry)) ** 0.5
     return num / den if den else float("nan")
 
@@ -117,9 +132,7 @@ def spearman(xs, ys):
 def main():
     rows, prov = load()
     got = len({(r["sheet"], r["judge"], r["rep"]) for r in rows})
-    complete = sum(
-        1 for _ in {(r["sheet"], r["judge"], r["rep"]) for r in rows}
-    )
+    complete = sum(1 for _ in {(r["sheet"], r["judge"], r["rep"]) for r in rows})
     per_pass = defaultdict(int)
     for r in rows:
         per_pass[(r["sheet"], r["judge"], r["rep"])] += 1
@@ -133,32 +146,46 @@ def main():
     for s in SHEETS:
         v = [r["p"] for r in rows if r["sheet"] == s]
         if v:
-            print(f"  {s:<22} n={len(v):>4} mean={st.fmean(v):.3f} sd={st.pstdev(v):.3f} min={min(v):.2f}")
+            print(
+                f"  {s:<22} n={len(v):>4} mean={st.fmean(v):.3f} "
+                f"sd={st.pstdev(v):.3f} min={min(v):.2f}"
+            )
 
     if len(have) >= 2:
         print("\n=== agreement, writer answers only ===")
-        for lbl, js in (("codex judges", JUDGES[:3]), ("claude judges", JUDGES[3:]), ("all six", JUDGES)):
+        for lbl, js in (
+            ("codex judges", JUDGES[:3]),
+            ("claude judges", JUDGES[3:]),
+            ("all six", JUDGES),
+        ):
             js = [j for j in js if j in have]
             if len(js) < 2:
                 continue
             m, m1 = mat(W, js), mat([r for r in W if r["rep"] == 1], js)
             if len(m) > 1:
                 sp = [max(r) - min(r) for r in m]
-                print(f"  {lbl:<15} n={len(m):>3} ICC={icc(m):.3f} spread={st.fmean(sp):.3f} | single-run ICC={icc(m1):.3f}")
+                print(
+                    f"  {lbl:<15} n={len(m):>3} ICC={icc(m):.3f} "
+                    f"spread={st.fmean(sp):.3f} | single-run ICC={icc(m1):.3f}"
+                )
 
     print("\n=== verbosity: do judges pay for length? ===")
     cm = cells(W)
     lens = {(r["qid"], r["sheet"]): r["len"] for r in W}
     for j in [j for j in JUDGES if j in have]:
-        pts = [(lens[(q, s)], cm[(q, s, j)]) for (q, s, jj) in cm if jj == j]
         by_q = defaultdict(list)
         for (q, s, jj), v in cm.items():
             if jj == j:
                 by_q[q].append((lens[(q, s)], v))
-        rhos = [spearman([a for a, _ in v], [b for _, b in v]) for v in by_q.values() if len(v) >= 4]
+        rhos = [
+            spearman([a for a, _ in v], [b for _, b in v]) for v in by_q.values() if len(v) >= 4
+        ]
         rhos = [x for x in rhos if x == x]
         if rhos:
-            print(f"  {j:<15} median within-question rho(length, score) = {st.median(rhos):+.2f}  over {len(rhos)} questions")
+            print(
+                f"  {j:<15} median within-question rho(length, score) = "
+                f"{st.median(rhos):+.2f}  over {len(rhos)} questions"
+            )
 
     print("\n=== self-preference: judge family vs writer family ===")
     for jf in ("codex", "claude"):
@@ -183,7 +210,9 @@ def main():
         if len(m) > 1:
             sp = [max(r) - min(r) for r in m]
             sd, _ = within_sd(sub)
-            print(f"  {s}  n={len(m):>3} ICC={icc(m):.3f} spread={st.fmean(sp):.3f} withinSD={sd:.4f}")
+            print(
+                f"  {s}  n={len(m):>3} ICC={icc(m):.3f} spread={st.fmean(sp):.3f} withinSD={sd:.4f}"
+            )
 
 
 if __name__ == "__main__":
