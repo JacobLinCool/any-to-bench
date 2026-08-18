@@ -357,9 +357,10 @@ The main judge pool is deliberately downmarket: the small tier of one
 family and the mid tier of another. As a direct check on its ceiling, six
 frontier-tier configurations, GPT-5.6 Sol (the ingestion model's own tier)
 and Claude Opus~5 at the same three efforts, graded every sheet once. They
-change nothing. Each frontier judge deviates from the cheap panel's
-consensus by 0.030 to 0.039, inside the cheap judges' own internal range
-(0.019 to 0.035). Their effort dial is as flat as the cheap judges'
+change nothing (Table~\ref{tab:judges}). Each frontier judge deviates from
+the cheap panel's consensus by 0.030 to 0.039, strictly inside the cheap
+judges' own leave-one-out range (0.023 to 0.042). Their effort dial is as
+flat as the cheap judges'
 (Figure~\ref{fig:dial}, dashed lines). Their anchors hold, with one
 reference miss in 96 gradings. And the most expensive pair available, Sol
 and Opus~5 at high effort, is slightly \emph{less} reliable as a panel (ICC
@@ -367,6 +368,35 @@ and Opus~5 at high effort, is slightly \emph{less} reliable as a panel (ICC
 Opus~5 at high, judge capability buys grading nothing. This confirms the
 grading half of the tool's asymmetry directly: the intelligence was spent at
 ingestion, and a more intelligent judge has nothing left to improve.
+
+\begin{table}[!ht]
+\centering\small
+\caption{All twelve judges, single pass, over the six writer sheets.
+\emph{Deviation} is the mean absolute difference from the cheap panel's
+consensus on the same answer; for the six cheap judges the consensus
+excludes their own verdict. The frontier tier sits inside the cheap tier's
+own range on both columns.}
+\label{tab:judges}
+\begin{tabular}{@{}llcc@{}}
+\toprule
+\textbf{Tier} & \textbf{Judge} & \textbf{Mean score given} & \textbf{Deviation} \\
+\midrule
+cheap    & 5.6 Luna low     & 0.873 & 0.032 \\
+cheap    & 5.6 Luna medium  & 0.889 & 0.042 \\
+cheap    & 5.6 Luna high    & 0.881 & 0.035 \\
+cheap    & Sonnet 5 low     & 0.864 & 0.030 \\
+cheap    & Sonnet 5 medium  & 0.864 & 0.030 \\
+cheap    & Sonnet 5 high    & 0.862 & 0.023 \\
+\midrule
+frontier & Sol low          & 0.867 & 0.030 \\
+frontier & Sol medium       & 0.865 & 0.036 \\
+frontier & Sol high         & 0.866 & 0.039 \\
+frontier & Opus 5 low       & 0.845 & 0.036 \\
+frontier & Opus 5 medium    & 0.850 & 0.034 \\
+frontier & Opus 5 high      & 0.852 & 0.032 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{The rubric carries the judgment}
 \label{sec:rubric}
