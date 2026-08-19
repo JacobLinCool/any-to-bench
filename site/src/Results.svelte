@@ -613,8 +613,9 @@
               </button>
             </div>
             <p class="mt-2 max-w-[70ch] text-sm leading-relaxed text-[var(--omr-graphite-soft)]">
-              One line per model, its points ordered along the effort dial. The heavy step line is
-              the frontier: everything below and right of it is beaten on both axes at once.
+              One line per model, its points ordered along the effort dial and its ends named. The
+              heavy step line is the frontier: everything below and right of it is beaten on both
+              axes at once. Every point's exact effort is in the table below.
             </p>
             {#if ranked.length}
               <div class="mt-5">

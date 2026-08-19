@@ -51,39 +51,59 @@ export function buildParetoOption(scores: EntryScore[], opts: ChartOptions) {
   const min = scoreFloor(usable, origin)
   const families = byModel(usable)
 
-  const series: Record<string, unknown>[] = families.map((family, i) => ({
-    type: 'line',
-    name: family.model,
-    data: family.scores.map((s) => ({
-      value: [s.cost, s.score],
-      name: `${family.model} · ${effortLabel(s.entry.effort)}`,
-    })),
-    symbol: 'rect',
-    symbolSize: [10, 7],
-    itemStyle: { color: p.graphite, borderRadius: 0 },
-    lineStyle: { color: p.graphiteSoft, width: 1, type: DASH[i % DASH.length] },
-    label: {
-      show: true,
-      position: 'top',
-      distance: 8,
-      formatter: (item: { data: { name: string } }) => item.data.name.split(' · ')[1] ?? '',
-      color: p.graphiteSoft,
-      fontFamily: MONO,
-      fontSize: 9,
-    },
-    // Identity belongs on the chart, not behind a pointer.
-    endLabel: {
-      show: true,
-      distance: 9,
-      formatter: family.model,
-      color: p.graphite,
-      fontFamily: MONO,
-      fontSize: 11,
-      fontWeight: 600,
-    },
-    emphasis: { focus: 'series', lineStyle: { color: p.graphite, width: 2 } },
-    z: 3,
-  }))
+  const series: Record<string, unknown>[] = families.map((family, i) => {
+    // A model that sat a single effort has no polyline for a name to trail off,
+    // and two labels on one point is one too many: fold the model name into the
+    // point label and skip the end label entirely. Fewer labels is what actually
+    // keeps a crowded band readable — models cluster within a point or two of
+    // each other up here, and every label placed is one more thing to dodge.
+    const lone = family.scores.length === 1
+    return {
+      type: 'line',
+      name: family.model,
+      data: family.scores.map((s) => ({
+        value: [s.cost, s.score],
+        name: `${family.model} · ${effortLabel(s.entry.effort)}`,
+      })),
+      symbol: 'rect',
+      symbolSize: [10, 7],
+      itemStyle: { color: p.graphite, borderRadius: 0 },
+      lineStyle: { color: p.graphiteSoft, width: 1, type: DASH[i % DASH.length] },
+      label: {
+        show: true,
+        position: 'top',
+        distance: 8,
+        // Only the ends of the line are named. Effort is ordered along the
+        // polyline, so labelling both ends says which way it runs; labelling
+        // every point just fills the band where the models actually compete
+        // with text that then has to dodge itself.
+        formatter: (item: { dataIndex: number; data: { name: string } }) => {
+          if (lone) return item.data.name
+          const ends = item.dataIndex === 0 || item.dataIndex === family.scores.length - 1
+          return ends ? (item.data.name.split(' · ')[1] ?? '') : ''
+        },
+        color: lone ? p.graphite : p.graphiteSoft,
+        fontFamily: MONO,
+        fontSize: lone ? 11 : 9,
+        fontWeight: lone ? 600 : 'normal',
+      },
+      // Identity belongs on the chart, not behind a pointer.
+      endLabel: {
+        show: !lone,
+        distance: 9,
+        formatter: family.model,
+        color: p.graphite,
+        fontFamily: MONO,
+        fontSize: 11,
+        fontWeight: 600,
+      },
+      emphasis: { focus: 'series', lineStyle: { color: p.graphite, width: 2 } },
+      // Nudge the survivors apart rather than drop one: an unlabelled point is a
+      // point nobody can identify, and hiding is what ECharts does by default.
+      labelLayout: { moveOverlap: 'shiftY', hideOverlap: false },
+      z: 3,
+    }
+  })
 
   // The frontier is a boundary, so it gets the world's boundary weight: 2px graphite.
   const front = usable

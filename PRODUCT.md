@@ -115,14 +115,17 @@ Real, verifiable, and already public — nothing here needs inventing:
   the official answer key was amended, a question was voided, or a marking scheme
   contradicted itself.
 - The repo's own README, `docs/*.md`, and the PyPI package are existing copy.
-- **`JacobLinCool/taiwan-exams-results`** — the first published scores: eight
-  taker configurations (`codex:gpt-5.6-luna` and `claude:claude-sonnet-5`, each
-  at low/medium/high/xhigh) over all 21 papers of the 115 year, 1,748 points
-  apiece. Rule-graded and judged points are published separately, so the
-  program-scored half can be compared without trusting a judge.
+- **`JacobLinCool/taiwan-exams-results`** — the first published scores: ten
+  taker configurations (`codex:gpt-5.6-luna` and `claude:claude-sonnet-5` at
+  low/medium/high/xhigh, plus `codex:gpt-5.6-sol` and `claude:claude-opus-5` at
+  low) over all 21 papers of the 115 year, 1,748 points apiece. Rule-graded and
+  judged points are published separately, so the program-scored half can be
+  compared without trusting a judge. Cost and score do not move together: the
+  two low-effort frontier models score 95.0% and 95.6% for a fraction of the
+  output tokens the highest-effort runs spend.
 - **Absent, do not fabricate:** user testimonials, adoption numbers, funding or
   affiliation claims. Scores exist only for the 115 papers and only for those
-  eight configurations, one run each — there is no error bar to quote.
+  ten configurations, one run each — there is no error bar to quote.
 
 ## Product Principles
 

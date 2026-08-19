@@ -98,17 +98,23 @@ a2b grade bundle answers.json -o report.json
 ## Published results
 
 [**JacobLinCool/taiwan-exams-results**](https://huggingface.co/datasets/JacobLinCool/taiwan-exams-results)
-holds the first scores against that corpus: eight taker configurations —
-`codex:gpt-5.6-luna` and `claude:claude-sonnet-5`, each at low, medium, high and
-xhigh — over all 21 papers of the 115 year, 1,748 points apiece.
+holds the first scores against that corpus: ten taker configurations —
+`codex:gpt-5.6-luna` and `claude:claude-sonnet-5` at low, medium, high and xhigh,
+plus `codex:gpt-5.6-sol` and `claude:claude-opus-5` at low — over all 21 papers of
+the 115 year, 1,748 points apiece.
 
-| Configuration | Score | Rule-graded |
-|---|---|---|
-| `codex:gpt-5.6-luna` xhigh | 98.1% | 98.2% |
-| `codex:gpt-5.6-luna` high | 95.6% | 95.3% |
-| `claude:claude-sonnet-5` xhigh | 94.3% | 94.8% |
-| `claude:claude-sonnet-5` low | 92.2% | 93.1% |
-| `codex:gpt-5.6-luna` low | 78.8% | 80.0% |
+| Configuration | Score | Rule-graded | Solve output tokens |
+|---|---|---|---|
+| `codex:gpt-5.6-luna` xhigh | 98.1% | 98.2% | 343k |
+| `codex:gpt-5.6-luna` high | 95.6% | 95.3% | 257k |
+| `claude:claude-opus-5` low | 95.6% | 96.0% | 183k |
+| `codex:gpt-5.6-sol` low | 95.0% | 95.2% | 102k |
+| `claude:claude-sonnet-5` xhigh | 94.3% | 94.8% | 1,385k |
+| `codex:gpt-5.6-luna` low | 78.8% | 80.0% | 99k |
+
+Six of the ten; the dataset card ranks all of them. Effort is not the whole
+story — `codex:gpt-5.6-sol` at low effort lands within 0.6 points of
+`codex:gpt-5.6-luna` at high for 40% of the output tokens.
 
 Rule-graded points are scored by program, so that column compares across any two
 rows; judged points depend on the judge model, which is named per entry. One run
