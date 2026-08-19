@@ -54,6 +54,9 @@ a2b bench out/bundle -o out/bench \
 # Share bundles via Hugging Face datasets (viewer-friendly, byte-faithful round trip)
 a2b upload out/bundle user/my-exams --name matha
 a2b download user/my-exams --name matha -o local/bundle
+
+# Publish what you measured, so it accumulates into a leaderboard
+a2b results publish out/bench user/my-results --source-repo user/my-exams
 ```
 
 `a2b` is a shorthand alias for `any-to-bench` — every command works with both. In a
@@ -92,6 +95,34 @@ a2b solve bundle --model google:gemini-3.7-flash -o answers.json
 a2b grade bundle answers.json -o report.json
 ```
 
+## Published results
+
+[**JacobLinCool/taiwan-exams-results**](https://huggingface.co/datasets/JacobLinCool/taiwan-exams-results)
+holds the first scores against that corpus: eight taker configurations —
+`codex:gpt-5.6-luna` and `claude:claude-sonnet-5`, each at low, medium, high and
+xhigh — over all 21 papers of the 115 year, 1,748 points apiece.
+
+| Configuration | Score | Rule-graded |
+|---|---|---|
+| `codex:gpt-5.6-luna` xhigh | 98.1% | 98.2% |
+| `codex:gpt-5.6-luna` high | 95.6% | 95.3% |
+| `claude:claude-sonnet-5` xhigh | 94.3% | 94.8% |
+| `claude:claude-sonnet-5` low | 92.2% | 93.1% |
+| `codex:gpt-5.6-luna` low | 78.8% | 80.0% |
+
+Rule-graded points are scored by program, so that column compares across any two
+rows; judged points depend on the judge model, which is named per entry. One run
+per paper, so there is no error bar — read small gaps as unresolved.
+
+```bash
+a2b bench bundle -o out --model your:model --effort high
+a2b results publish out user/your-results --source-repo JacobLinCool/taiwan-exams
+```
+
+[Browse it as a leaderboard](https://jacoblincool.github.io/any-to-bench/results.html)
+— pick the papers, decide whether judged questions count, and compare cost
+against score. See [docs/results.md](docs/results.md) for the layout.
+
 ## Design principles
 
 The three phases have deliberately **asymmetric goals**:
@@ -122,6 +153,7 @@ exactly once, so that grading needs almost none, forever.
 - [Grading semantics](docs/grading.md) — deterministic rules and LLM judges
 - [Benchmarking](docs/bench.md) — the `bench` model matrix and its metrics
 - [Publishing](docs/publish.md) — sharing bundles as Hugging Face datasets
+- [Publishing results](docs/results.md) — leaderboard entries, and how scores are counted
 - [Models, effort, usage](docs/models.md) — model strings, `--effort`, token reporting
 
 ## Development

@@ -335,3 +335,121 @@ def validate(
 
 if __name__ == "__main__":
     app()
+
+
+results_app = typer.Typer(
+    name="results",
+    help="Publish and fetch benchmark results (leaderboard entries).",
+    no_args_is_help=True,
+)
+app.add_typer(results_app)
+
+
+@results_app.command("publish")
+def results_publish(
+    run_dirs: Annotated[
+        list[Path],
+        typer.Argument(exists=True, file_okay=False, help="Directories holding bench.json files"),
+    ],
+    repo_id: Annotated[str, typer.Argument(help="Hub dataset repo for results")],
+    source_repo: Annotated[
+        str, typer.Option(help="Exam dataset the papers came from, e.g. 'user/my-exams'")
+    ],
+    bundles_root: Annotated[
+        Path,
+        typer.Option(
+            help="Directory the bundles live under; bench.json records a local path, "
+            "so the papers must be resolvable to split rule-graded from judged points"
+        ),
+    ] = Path(),
+    name: Annotated[
+        str | None,
+        typer.Option(help="Entry name; default: the model and effort, slugified"),
+    ] = None,
+    model: Annotated[
+        str | None,
+        typer.Option(help="Publish only this taker model, when a bench run holds several"),
+    ] = None,
+    note: Annotated[
+        str | None,
+        typer.Option(
+            help="Free text stamped into the entry, e.g. how many runs shared the machine"
+        ),
+    ] = None,
+    private: Annotated[bool, typer.Option("--private", help="Create the repo private")] = False,
+    license: Annotated[str | None, typer.Option(help="License identifier for the card")] = None,
+    allow_mode_fallback: Annotated[
+        bool,
+        typer.Option(
+            "--allow-mode-fallback",
+            help="Classify questions by grading outcome when a bundle cannot be "
+            "loaded. Less accurate: a judged question nobody could grade then "
+            "counts as rule-graded",
+        ),
+    ] = False,
+    verify_source: Annotated[
+        bool,
+        typer.Option("--verify-source/--no-verify-source", help="Check the papers exist upstream"),
+    ] = True,
+    dry_run: Annotated[
+        Path | None,
+        typer.Option(help="Write what would be published into this directory and stop"),
+    ] = None,
+) -> None:
+    """Publish one taker configuration's bench results as a leaderboard entry."""
+    from any_to_bench.results import ResultsError, publish_results
+
+    try:
+        target = publish_results(
+            run_dirs,
+            repo_id,
+            source_repo=source_repo,
+            bundles_root=bundles_root,
+            name=name,
+            model=model,
+            note=note,
+            private=private,
+            license=license,
+            allow_mode_fallback=allow_mode_fallback,
+            verify_source=verify_source,
+            dry_run=dry_run,
+        )
+    except ResultsError as e:
+        typer.echo(str(e), err=True)
+        raise typer.Exit(code=1) from e
+    if dry_run is not None:
+        typer.echo(f"Dry run written to {target}")
+    else:
+        typer.echo(f"Results published to {target}")
+
+
+@results_app.command("reindex")
+def results_reindex(
+    repo_id: Annotated[str, typer.Argument(help="Hub dataset repo holding results")],
+) -> None:
+    """Rebuild the results index from every entry in the repo."""
+    from any_to_bench.results import ResultsError, reindex_results
+
+    try:
+        index = reindex_results(repo_id)
+    except ResultsError as e:
+        typer.echo(str(e), err=True)
+        raise typer.Exit(code=1) from e
+    typer.echo(f"Indexed {len(index.entries)} entrie(s) over {len(index.papers)} paper(s)")
+
+
+@results_app.command("fetch")
+def results_fetch(
+    repo_id: Annotated[str, typer.Argument(help="Hub dataset repo holding results")],
+    output: Annotated[Path, typer.Option("--output", "-o", help="Directory to write into")],
+    entry: Annotated[str | None, typer.Option(help="Fetch only this entry")] = None,
+) -> None:
+    """Fetch published results back, byte-faithful."""
+    from any_to_bench.results import ResultsError, fetch_results
+
+    try:
+        out = fetch_results(repo_id, output, entry=entry)
+    except ResultsError as e:
+        typer.echo(str(e), err=True)
+        raise typer.Exit(code=1) from e
+    typer.echo(f"Results written to {out}")

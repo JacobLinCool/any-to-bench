@@ -354,20 +354,36 @@
           </table>
         </div>
 
-        <a
-          href="{BASE}viewer.html"
-          class="group mt-9 inline-flex items-center gap-2.5 border-b-2 border-[var(--omr-graphite)]
-                 pb-1 font-semibold text-[var(--omr-graphite)] transition-colors
-                 hover:border-[var(--omr-dropout-ink)] hover:text-[var(--omr-dropout-ink)]"
-        >
-          Read any of them
-          <ArrowRight
-            size={17}
-            strokeWidth={2.5}
-            class="transition-transform group-hover:translate-x-1"
-            aria-hidden="true"
-          />
-        </a>
+        <div class="mt-9 flex flex-wrap items-center gap-x-10 gap-y-4">
+          <a
+            href="{BASE}viewer.html"
+            class="group inline-flex items-center gap-2.5 border-b-2 border-[var(--omr-graphite)]
+                   pb-1 font-semibold text-[var(--omr-graphite)] transition-colors
+                   hover:border-[var(--omr-dropout-ink)] hover:text-[var(--omr-dropout-ink)]"
+          >
+            Read any of them
+            <ArrowRight
+              size={17}
+              strokeWidth={2.5}
+              class="transition-transform group-hover:translate-x-1"
+              aria-hidden="true"
+            />
+          </a>
+          <a
+            href="{BASE}results.html"
+            class="group inline-flex items-center gap-2.5 border-b-2 border-[var(--omr-graphite)]
+                   pb-1 font-semibold text-[var(--omr-graphite)] transition-colors
+                   hover:border-[var(--omr-dropout-ink)] hover:text-[var(--omr-dropout-ink)]"
+          >
+            See what models scored
+            <ArrowRight
+              size={17}
+              strokeWidth={2.5}
+              class="transition-transform group-hover:translate-x-1"
+              aria-hidden="true"
+            />
+          </a>
+        </div>
       </Sheet>
     </section>
 

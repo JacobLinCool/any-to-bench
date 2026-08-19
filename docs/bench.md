@@ -95,3 +95,9 @@ If a taker model also appears in the effective judge list (`--judge-model`, or t
 bundle's default judges when the flag is omitted), `bench` warns: self-judging tends
 to be optimistic. Prefer judges that differ from every taker — see
 [Grading semantics](grading.md).
+
+## Publishing what you measured
+
+`bench.json` is a local artifact. To put a run somewhere it can accumulate into
+a leaderboard — and be compared against other people's — see
+[Publishing results](results.md).

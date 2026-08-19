@@ -5,16 +5,22 @@
  * items are stringified) and returns 500 whenever its queue is behind. The raw
  * bundle files are static objects on the CDN and are the canonical artifact.
  *
- * Subset discovery uses the same rule the CLI does — a top-level directory
- * containing bundle/exam.json — so the site and `a2b download` can never
- * disagree about what counts as a bundle.
+ * Subset discovery follows the CLI's rule as closely as one listing allows: a
+ * top-level directory, minus the results- namespace, which holds leaderboard
+ * entries rather than bundles and would otherwise read as a phantom exam.
  */
 
 import type { Bundle, Exam, Grading, Manifest } from './bundle'
+import type { IndexEntry, ResultsEntry, ResultsIndex } from './results'
 
 const HOST = 'https://huggingface.co'
 
 export const DEFAULT_REPO = 'JacobLinCool/taiwan-exams'
+export const DEFAULT_RESULTS_REPO = 'JacobLinCool/taiwan-exams-results'
+
+/** Results carry a reserved prefix, so one repo can hold exams and scores. */
+export const RESULTS_PREFIX = 'results-'
+export const RESULTS_INDEX = 'results-index.json'
 
 export class HubError extends Error {
   constructor(
@@ -85,7 +91,9 @@ export async function listSubsets(repo: string): Promise<string[]> {
     `${HOST}/api/datasets/${repo}/tree/main`,
     `the dataset ${repo}`,
   )
-  const dirs = tree.filter((e) => e.type === 'directory').map((e) => e.path)
+  const dirs = tree
+    .filter((e) => e.type === 'directory' && !e.path.startsWith(RESULTS_PREFIX))
+    .map((e) => e.path)
   if (!dirs.length) {
     throw new HubError(
       `${repo} holds no bundles.`,
@@ -115,4 +123,12 @@ export async function peek(repo: string, subset: string): Promise<SubsetCard> {
   } catch (error) {
     return { name: subset, error: error instanceof Error ? error.message : 'unreadable' }
   }
+}
+
+export async function loadResultsIndex(repo: string): Promise<ResultsIndex> {
+  return getJson<ResultsIndex>(fileUrl(repo, RESULTS_INDEX), `the leaderboard in ${repo}`)
+}
+
+export async function loadResultsEntry(repo: string, entry: IndexEntry): Promise<ResultsEntry> {
+  return getJson<ResultsEntry>(fileUrl(repo, entry.path), `the results for ${entry.entry_id}`)
 }

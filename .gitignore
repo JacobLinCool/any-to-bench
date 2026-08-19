@@ -198,6 +198,8 @@ examples/
 node_modules/
 .svelte-kit/
 *.tsbuildinfo
+# The figure renderer is bundled on demand (site/scripts/.out)
+/site/scripts/.out/
 
 # Research build artifacts (regenerate from the stored grading reports)
 /research/**/*.pdf

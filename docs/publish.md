@@ -69,3 +69,9 @@ it on **every** upload to the repo or the line comes back.
   visibility later in the repo settings on the Hub).
 - The dataset viewer on **private** repos requires a PRO account or a Team/Enterprise
   organization; public repos get the viewer for free.
+
+## Results are published the same way
+
+Scores live in their own namespace (`results-*`) with the same shape: a derived
+viewer table beside the byte-faithful artifact. One repo can hold exams and
+scores without collision — see [Publishing results](results.md).
