@@ -24,6 +24,22 @@ def _load_env() -> None:
     load_dotenv()
 
 
+def main() -> None:
+    """Entry point. Wraps the app so a misconfigured provider reads as one line.
+
+    Every command builds a model, so this is the one error worth catching at the
+    top rather than in each command: a traceback is the wrong shape for "you
+    forgot an environment variable".
+    """
+    from any_to_bench.llm import ModelConfigError
+
+    try:
+        app()
+    except ModelConfigError as e:
+        typer.echo(str(e), err=True)
+        raise SystemExit(1) from e
+
+
 DEFAULT_MODEL = "openai:gpt-5.6-sol"
 
 EffortOption = Annotated[

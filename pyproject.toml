@@ -35,8 +35,8 @@ Repository = "https://github.com/JacobLinCool/any-to-bench"
 Issues = "https://github.com/JacobLinCool/any-to-bench/issues"
 
 [project.scripts]
-any-to-bench = "any_to_bench.cli:app"
-a2b = "any_to_bench.cli:app"
+any-to-bench = "any_to_bench.cli:main"
+a2b = "any_to_bench.cli:main"
 
 [dependency-groups]
 dev = [

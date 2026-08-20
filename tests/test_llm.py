@@ -1,10 +1,13 @@
-"""Effort-to-provider mapping and usage accumulation."""
+"""Effort-to-provider mapping, model construction, and usage accumulation."""
 
+import json
 from types import SimpleNamespace
 
 import pytest
+from pydantic import BaseModel
 
-from any_to_bench.llm import UsageTracker, resolve_model_settings
+from any_to_bench import llm
+from any_to_bench.llm import ModelConfigError, UsageTracker, build_agent, resolve_model_settings
 from any_to_bench.schemas.usage import Effort
 
 
@@ -31,6 +34,16 @@ class TestResolveModelSettings:
     def test_google_mapping(self, effort, level):
         settings = resolve_model_settings("google:gemini-3.7-flash", effort)
         assert settings == {"google_thinking_config": {"thinking_level": level}}
+
+    @pytest.mark.parametrize(
+        ("effort", "level"),
+        [(Effort.low, "LOW"), (Effort.xhigh, "HIGH")],
+    )
+    def test_vertex_maps_like_the_gemini_api(self, effort, level):
+        """Same models, different front door: the effort dial must reach both."""
+        assert resolve_model_settings("google-cloud:gemini-3.7-flash", effort) == {
+            "google_thinking_config": {"thinking_level": level}
+        }
 
     def test_accepts_plain_strings(self):
         settings = resolve_model_settings("openai:gpt-5.6-sol", "low")
@@ -79,3 +92,129 @@ class TestUsageTracker:
         assert "10 out" in line
         assert "reasoning 42" in line
         assert "1 request(s)" in line
+
+
+class Provider:
+    """Stands in for GoogleCloudProvider, whose construction resolves ADC."""
+
+    def __init__(self, project: str) -> None:
+        self.project = project
+
+
+class TestVertexModel:
+    """`google-cloud:` is the Vertex AI route: same Google models, Google Cloud
+    credentials (a service account) instead of an API key."""
+
+    @pytest.fixture(autouse=True)
+    def _seam(self, monkeypatch):
+        self.calls: list[str] = []
+
+        def provider(project: str):
+            self.calls.append(project)
+            return Provider(project)
+
+        monkeypatch.setattr(llm, "_google_cloud_provider", provider)
+        for name in ("GOOGLE_CLOUD_PROJECT", "GOOGLE_APPLICATION_CREDENTIALS"):
+            monkeypatch.delenv(name, raising=False)
+
+    def _key_file(self, tmp_path, **extra):
+        path = tmp_path / "sa.json"
+        path.write_text(json.dumps({"type": "service_account", **extra}))
+        return str(path)
+
+    def test_other_providers_pass_through_untouched(self):
+        assert llm.resolve_model("google:gemini-3.7-flash") == "google:gemini-3.7-flash"
+        assert llm.resolve_model("openai:gpt-5.6-sol") == "openai:gpt-5.6-sol"
+        assert self.calls == []
+
+    def test_project_comes_from_the_key_file(self, tmp_path, monkeypatch):
+        monkeypatch.setenv(
+            "GOOGLE_APPLICATION_CREDENTIALS", self._key_file(tmp_path, project_id="from-key")
+        )
+        model = llm.resolve_model("google-cloud:gemini-3.7-flash")
+        assert self.calls == ["from-key"]
+        assert model.model_name == "gemini-3.7-flash"
+
+    def test_explicit_project_wins_over_the_key_file(self, tmp_path, monkeypatch):
+        """The key's project is the default, not the only choice: quota can be
+        billed to a different project than the one the key belongs to."""
+        monkeypatch.setenv(
+            "GOOGLE_APPLICATION_CREDENTIALS", self._key_file(tmp_path, project_id="from-key")
+        )
+        monkeypatch.setenv("GOOGLE_CLOUD_PROJECT", "explicit")
+        llm.resolve_model("google-cloud:gemini-3.7-flash")
+        assert self.calls == ["explicit"]
+
+    def test_refuses_before_touching_credentials(self):
+        """An API key must never stand in for Google Cloud credentials.
+
+        pydantic-ai's own provider inference falls back to Vertex AI Express
+        Mode when GOOGLE_API_KEY is set and nothing else is — a different
+        product, silently, under the model string that asked for a service
+        account. Passing an explicit project is what shuts that path off, so
+        with no project there is nothing safe to build.
+        """
+        with pytest.raises(ModelConfigError) as caught:
+            llm.resolve_model("google-cloud:gemini-3.7-flash")
+        assert self.calls == []
+        message = str(caught.value)
+        assert "GOOGLE_APPLICATION_CREDENTIALS" in message
+        assert "GOOGLE_CLOUD_PROJECT" in message
+
+    @pytest.mark.parametrize("contents", ["not json at all", '{"type": "service_account"}', "[]"])
+    def test_unusable_key_file_is_not_a_project(self, tmp_path, monkeypatch, contents):
+        path = tmp_path / "sa.json"
+        path.write_text(contents)
+        monkeypatch.setenv("GOOGLE_APPLICATION_CREDENTIALS", str(path))
+        with pytest.raises(ModelConfigError):
+            llm.resolve_model("google-cloud:gemini-3.7-flash")
+        assert self.calls == []
+
+    def test_missing_key_file_is_not_a_project(self, tmp_path, monkeypatch):
+        monkeypatch.setenv("GOOGLE_APPLICATION_CREDENTIALS", str(tmp_path / "nope.json"))
+        with pytest.raises(ModelConfigError):
+            llm.resolve_model("google-cloud:gemini-3.7-flash")
+        assert self.calls == []
+
+    def test_build_agent_routes_through_the_provider(self, tmp_path, monkeypatch):
+        monkeypatch.setenv(
+            "GOOGLE_APPLICATION_CREDENTIALS", self._key_file(tmp_path, project_id="p")
+        )
+
+        class Out(BaseModel):
+            value: str
+
+        agent = build_agent(
+            "google-cloud:gemini-3.7-flash", Out, "instructions", effort=Effort.high
+        )
+        assert self.calls == ["p"]
+        assert agent.model.model_name == "gemini-3.7-flash"
+
+
+class TestVertexAuthPath:
+    """The seam is stubbed above; this pins the real provider's behaviour.
+
+    Constructing GoogleCloudProvider is offline — google-genai resolves
+    credentials lazily at request time — so the auth route it picked is
+    readable without a network call, and the endpoint says which route it was.
+    """
+
+    EXPRESS = "https://aiplatform.googleapis.com/"
+
+    def test_an_api_key_cannot_stand_in_for_a_service_account(self, tmp_path, monkeypatch):
+        key = tmp_path / "sa.json"
+        key.write_text(json.dumps({"type": "service_account", "project_id": "real-project"}))
+        monkeypatch.setenv("GOOGLE_APPLICATION_CREDENTIALS", str(key))
+        monkeypatch.setenv("GOOGLE_API_KEY", "an-api-key-for-the-gemini-api")
+        monkeypatch.delenv("GOOGLE_CLOUD_PROJECT", raising=False)
+        monkeypatch.delenv("GOOGLE_CLOUD_LOCATION", raising=False)
+
+        model = llm.resolve_model("google-cloud:gemini-3.7-flash")
+
+        # A regional endpoint, not the Express Mode one an API key would buy.
+        assert model.client._api_client.project == "real-project"
+        assert model.client._api_client.api_key is None
+        assert llm.GOOGLE_CLOUD in model.system
+        base_url = model.client._api_client._http_options.base_url
+        assert base_url != self.EXPRESS
+        assert "aiplatform.googleapis.com" in base_url

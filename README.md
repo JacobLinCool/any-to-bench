@@ -22,7 +22,9 @@ a2b --help
 
 Set the API keys for the providers you use as environment variables (or in a
 `.env` file in your working directory): `OPENAI_API_KEY`, `GOOGLE_API_KEY`,
-`HF_TOKEN`, ...
+`HF_TOKEN`, ... Google models can also run through Vertex AI on a service
+account — `google-cloud:gemini-3.7-flash` with `GOOGLE_APPLICATION_CREDENTIALS`
+set; see [docs/models.md](docs/models.md).
 
 For development, clone the repo and:
 

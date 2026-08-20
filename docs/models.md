@@ -11,14 +11,37 @@ Note `claude:` is the agentic prefix, distinct from pydantic-ai's own `anthropic
 provider prefix: `claude:opus` drives the Claude Code CLI over a workspace, while
 `anthropic:*` would be a direct API call.
 
+### Vertex AI (`google-cloud:`)
+
+`google-cloud:gemini-3.7-flash` runs the same Google models through Vertex AI with
+Google Cloud credentials instead of an API key — a service-account key, or whatever
+`gcloud auth application-default login` left behind:
+
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
+a2b solve bundle --model google-cloud:gemini-3.7-flash -o answers.json
+```
+
+A service-account key names its own project, so that is all it takes. Set
+`GOOGLE_CLOUD_PROJECT` to bill a different project (or when using `gcloud` ADC
+rather than a key file), and `GOOGLE_CLOUD_LOCATION` to pick a region —
+`us-central1` otherwise, which carries the most models.
+
+**`GOOGLE_API_KEY` is not an alternative here.** Left to provider inference, a
+`google-cloud:` model with an API key in the environment quietly runs on Vertex AI
+Express Mode — a different product, and not the credentials you asked for. `a2b`
+requires a project instead, which turns that path off, and fails with a message
+naming both variables when it cannot find one.
+
 Ingest, solve, and judge models are all independent, so you can extract with one
 provider and benchmark another. For unbiased benchmarks, prefer a judge model different
 from the taker model.
 
 API keys come from the environment or `.env` (`OPENAI_API_KEY`, `GOOGLE_API_KEY`;
-`CODEX_API_KEY` or `codex login` state for `codex:*`; `ANTHROPIC_API_KEY` or
-`claude` login state for `claude:*`). The CLI loads `.env`
-automatically; real environment variables take precedence.
+`GOOGLE_APPLICATION_CREDENTIALS` for `google-cloud:*`; `CODEX_API_KEY` or
+`codex login` state for `codex:*`; `ANTHROPIC_API_KEY` or `claude` login state for
+`claude:*`). The CLI loads `.env` automatically; real environment variables take
+precedence.
 
 ## Reasoning effort
 
@@ -27,7 +50,7 @@ automatically; real environment variables take precedence.
 | Provider | Mapping |
 |---|---|
 | OpenAI | `reasoning.effort`, passed through directly |
-| Google | `thinking_level` (`MINIMAL`/`LOW`/`MEDIUM`/`HIGH`; `xhigh` and `max` collapse to `HIGH`) |
+| Google (`google:`, `google-cloud:`) | `thinking_level` (`MINIMAL`/`LOW`/`MEDIUM`/`HIGH`; `xhigh` and `max` collapse to `HIGH`) |
 | codex | `model_reasoning_effort` (`max` collapses to `xhigh`) |
 | claude | `--effort` (`minimal` collapses to `low`) |
 

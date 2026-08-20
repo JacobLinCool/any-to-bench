@@ -7,6 +7,9 @@ provider escape hatch stays a one-file change.
 
 from __future__ import annotations
 
+import json
+import os
+from pathlib import Path
 from typing import Any, Literal
 
 from pydantic import BaseModel
@@ -16,7 +19,13 @@ from any_to_bench.schemas.usage import Effort, PhaseUsage, UsageSummary
 
 OutputMode = Literal["native", "prompted", "tool"]
 
-# Google's ThinkingLevel has no xhigh/max — collapse to its ceiling.
+# pydantic-ai's provider name for what Google's docs still call Vertex AI. Same
+# models as `google:`, reached with Google Cloud credentials instead of an API key.
+GOOGLE_CLOUD = "google-cloud"
+
+# Both Google providers take the same thinking config; Google's ThinkingLevel has
+# no xhigh/max, so those collapse to its ceiling.
+_GOOGLE_PROVIDERS = frozenset({"google", GOOGLE_CLOUD})
 _GOOGLE_THINKING_LEVEL: dict[Effort, str] = {
     Effort.minimal: "MINIMAL",
     Effort.low: "LOW",
@@ -27,6 +36,10 @@ _GOOGLE_THINKING_LEVEL: dict[Effort, str] = {
 }
 
 
+class ModelConfigError(RuntimeError):
+    """A model string the environment cannot satisfy."""
+
+
 def resolve_model_settings(model: str, effort: Effort | str | None) -> dict[str, Any] | None:
     """Provider-specific model settings for a generic effort level (None = provider default)."""
     if effort is None:
@@ -35,9 +48,63 @@ def resolve_model_settings(model: str, effort: Effort | str | None) -> dict[str,
     provider = model.split(":", 1)[0]
     if provider == "openai":
         return {"openai_reasoning_effort": effort.value}
-    if provider == "google":
+    if provider in _GOOGLE_PROVIDERS:
         return {"google_thinking_config": {"thinking_level": _GOOGLE_THINKING_LEVEL[effort]}}
     return None
+
+
+def _service_account_project(path: str | None) -> str | None:
+    """The project a service-account JSON names, or None if it names none.
+
+    A service-account key file already carries `project_id`, so pointing
+    GOOGLE_APPLICATION_CREDENTIALS at one is enough — GOOGLE_CLOUD_PROJECT is
+    only needed to bill a different project than the key belongs to.
+    """
+    if not path:
+        return None
+    try:
+        data = json.loads(Path(path).read_text())
+    except (OSError, ValueError):
+        return None
+    project = data.get("project_id") if isinstance(data, dict) else None
+    return project if isinstance(project, str) and project else None
+
+
+def _google_cloud_provider(project: str) -> Any:
+    """Seam: constructing this resolves Application Default Credentials."""
+    from pydantic_ai.providers.google_cloud import GoogleCloudProvider
+
+    # Location is left to the provider, which reads GOOGLE_CLOUD_LOCATION and
+    # otherwise picks the region carrying the most models.
+    return GoogleCloudProvider(project=project)
+
+
+def resolve_model(model: str) -> Any:
+    """A pydantic-ai model string, or a Model instance where inference is unsafe.
+
+    `google-cloud:` is built here rather than left to pydantic-ai's provider
+    inference, which falls back to API-key auth: with GOOGLE_API_KEY set — which
+    it usually is, since that is what `google:` uses — a `google-cloud:` model
+    would quietly run on Vertex AI Express Mode instead of the Google Cloud
+    credentials the caller asked for, and nothing in the output would say so.
+    Passing an explicit project shuts that path off.
+    """
+    provider, _, model_name = model.partition(":")
+    if provider != GOOGLE_CLOUD or not model_name:
+        return model
+
+    project = os.getenv("GOOGLE_CLOUD_PROJECT") or _service_account_project(
+        os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    )
+    if not project:
+        raise ModelConfigError(
+            f"{model} needs a Google Cloud project: point GOOGLE_APPLICATION_CREDENTIALS at a "
+            "service-account JSON key (it names its own project), or set GOOGLE_CLOUD_PROJECT"
+        )
+
+    from pydantic_ai.models.google import GoogleModel
+
+    return GoogleModel(model_name, provider=_google_cloud_provider(project))
 
 
 def build_agent[T: BaseModel](
@@ -50,8 +117,9 @@ def build_agent[T: BaseModel](
 ) -> Agent[None, T]:
     """Build an agent that returns a validated instance of output_type.
 
-    model: a pydantic-ai model string, e.g. 'openai:gpt-5.6-terra' or
-    'google:gemini-3.7-flash'. output_mode 'native' uses the provider's
+    model: a pydantic-ai model string, e.g. 'openai:gpt-5.6-terra',
+    'google:gemini-3.7-flash', or 'google-cloud:gemini-3.7-flash' for the same
+    Google models over Vertex AI. output_mode 'native' uses the provider's
     structured-output API; 'prompted'/'tool' are fallbacks for providers or
     schemas that reject native mode. effort tunes reasoning depth; None keeps
     the provider default (OpenAI: medium, Google: dynamic HIGH).
@@ -63,7 +131,7 @@ def build_agent[T: BaseModel](
     else:
         output = output_type
     return Agent(
-        model,
+        resolve_model(model),
         output_type=output,
         instructions=instructions,
         retries=retries,
