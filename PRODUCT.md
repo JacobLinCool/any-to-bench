@@ -115,18 +115,19 @@ Real, verifiable, and already public — nothing here needs inventing:
   the official answer key was amended, a question was voided, or a marking scheme
   contradicted itself.
 - The repo's own README, `docs/*.md`, and the PyPI package are existing copy.
-- **`JacobLinCool/taiwan-exams-results`** — the first published scores: twelve
-  taker configurations (`codex:gpt-5.6-luna` and `claude:claude-sonnet-5` at
-  low/medium/high/xhigh, plus `codex:gpt-5.6-sol` and `claude:claude-opus-5` at
-  low and medium) over all 21 papers of the 115 year, 1,748 points apiece.
-  Rule-graded and judged points are published separately, so the program-scored
-  half can be compared without trusting a judge. Cost and score do not move
-  together: the top score, 99.1%, is a medium-effort run costing 150k output
-  tokens, less than half what the second-place xhigh run spends, and only three
-  of the twelve rows survive on the cost/score frontier.
+- **`JacobLinCool/taiwan-exams-results`** — the first published scores:
+  fourteen taker configurations (`codex:gpt-5.6-luna` and
+  `claude:claude-sonnet-5` at low/medium/high/xhigh, plus `codex:gpt-5.6-sol`
+  and `claude:claude-opus-5` at low/medium/high) over all 21 papers of the 115
+  year, 1,748 points apiece. Rule-graded and judged points are published
+  separately, so the program-scored half can be compared without trusting a
+  judge. Cost and score do not move together: the top score, 99.1%, is a
+  medium-effort run costing 150k output tokens, and the same model at high
+  effort spent 20% more to score 0.2 points lower. Only three of the fourteen
+  rows survive on the cost/score frontier.
 - **Absent, do not fabricate:** user testimonials, adoption numbers, funding or
   affiliation claims. Scores exist only for the 115 papers and only for those
-  twelve configurations, one run each — there is no error bar to quote.
+  fourteen configurations, one run each — there is no error bar to quote.
 
 ## Product Principles
 

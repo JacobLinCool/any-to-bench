@@ -98,24 +98,27 @@ a2b grade bundle answers.json -o report.json
 ## Published results
 
 [**JacobLinCool/taiwan-exams-results**](https://huggingface.co/datasets/JacobLinCool/taiwan-exams-results)
-holds the first scores against that corpus: twelve taker configurations —
+holds the first scores against that corpus: fourteen taker configurations —
 `codex:gpt-5.6-luna` and `claude:claude-sonnet-5` at low, medium, high and xhigh,
-plus `codex:gpt-5.6-sol` and `claude:claude-opus-5` at low and medium — over all
-21 papers of the 115 year, 1,748 points apiece.
+plus `codex:gpt-5.6-sol` and `claude:claude-opus-5` at low, medium and high —
+over all 21 papers of the 115 year, 1,748 points apiece.
 
 | Configuration | Score | Rule-graded | Solve output tokens | |
 |---|---|---|---|---|
 | `codex:gpt-5.6-sol` medium | 99.1% | 99.2% | 150k | frontier |
+| `codex:gpt-5.6-sol` high | 98.9% | 99.0% | 180k | |
 | `codex:gpt-5.6-luna` xhigh | 98.1% | 98.2% | 343k | |
-| `claude:claude-opus-5` medium | 96.6% | 97.3% | 298k | |
+| `claude:claude-opus-5` high | 96.8% | 97.4% | 471k | |
 | `codex:gpt-5.6-sol` low | 95.0% | 95.2% | 102k | frontier |
 | `claude:claude-sonnet-5` xhigh | 94.3% | 94.8% | 1,385k | |
 | `codex:gpt-5.6-luna` low | 78.8% | 80.0% | 99k | frontier |
 
-Six of the twelve; the dataset card ranks all of them. Effort is not the whole
-story, and neither is spending: `codex:gpt-5.6-sol` at medium effort outscores
-every other configuration on 44% of the output tokens the runner-up spends, and
-three rows are all that survive on the cost/score frontier.
+Seven of the fourteen; the dataset card ranks all of them. Effort is not the
+whole story, and neither is spending. `codex:gpt-5.6-sol` at medium effort
+outscores every other configuration on 44% of the output tokens the runner-up
+spends; turning its dial up to high cost 20% more tokens and scored 0.2 points
+lower, a difference one run cannot resolve. Only three rows survive on the
+cost/score frontier.
 
 Rule-graded points are scored by program, so that column compares across any two
 rows; judged points depend on the judge model, which is named per entry. One run
