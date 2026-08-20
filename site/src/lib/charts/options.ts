@@ -15,7 +15,7 @@ import {
   type CostMetric,
   type EntryScore,
 } from '../results'
-import { DASH, MONO, base, palette, type Palette } from './theme'
+import { DASH, MONO, base, palette, seriesRule, type Palette } from './theme'
 
 export type ChartOptions = {
   cost: CostMetric
@@ -64,6 +64,7 @@ export function buildParetoOption(scores: EntryScore[], opts: ChartOptions) {
     // effort has no line to carry one — so that point names itself. Identity
     // goes on the chart exactly where the legend cannot reach it.
     const lone = family.scores.length === 1
+    const rule = seriesRule(i)
     return {
       type: 'line',
       name: family.model,
@@ -71,10 +72,10 @@ export function buildParetoOption(scores: EntryScore[], opts: ChartOptions) {
         value: [s.cost, s.score],
         name: `${family.model} · ${effortLabel(s.entry.effort)}`,
       })),
-      symbol: 'rect',
-      symbolSize: [10, 7],
+      symbol: rule.symbol,
+      symbolSize: rule.symbol === 'rect' ? [10, 7] : 9,
       itemStyle: { color: p.graphite, borderRadius: 0 },
-      lineStyle: { color: p.graphiteSoft, width: 1, type: DASH[i % DASH.length] },
+      lineStyle: { color: p.graphiteSoft, width: 1, type: rule.dash },
       label: {
         show: true,
         position: 'top',

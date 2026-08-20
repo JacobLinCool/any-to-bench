@@ -58,11 +58,23 @@ export function palette(): Palette {
 export const MONO =
   "'Spline Sans Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace"
 
-/** Series are told apart by rule, never by hue: this world has one ink for data.
- * Four rules is the practical ceiling — past that the outlines stop being
- * distinguishable and the chart should carry fewer series instead. */
+/** Series are told apart by rule and by symbol, never by hue: this world has one
+ * ink for data. Four rules is the ceiling on rule alone — past that the outlines
+ * stop being distinguishable — so a fifth series changes symbol instead of
+ * reusing a rule, which would put two models under one line style and make the
+ * legend wrong. Sixteen combinations before anything repeats. */
 export const DASH: (string | number[])[] = ['solid', 'dashed', 'dotted', [9, 3, 2, 3]]
+export const SYMBOLS = ['rect', 'circle', 'triangle', 'diamond'] as const
+
+/** Outlines have no symbols to fall back on, so the radar keeps the hard cap. */
 export const MAX_SERIES = 4
+
+export function seriesRule(i: number): { dash: string | number[]; symbol: string } {
+  return {
+    dash: DASH[i % DASH.length]!,
+    symbol: SYMBOLS[Math.floor(i / DASH.length) % SYMBOLS.length]!,
+  }
+}
 
 /** Shared option fragments. Zero radius, no shadow, no easing — the Mark is the
  * only thing in this design that animates. */

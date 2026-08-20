@@ -100,10 +100,11 @@ a2b grade bundle answers.json -o report.json
 ## Published results
 
 [**JacobLinCool/taiwan-exams-results**](https://huggingface.co/datasets/JacobLinCool/taiwan-exams-results)
-holds the first scores against that corpus: sixteen taker configurations — four
-models (`codex:gpt-5.6-sol`, `codex:gpt-5.6-luna`, `claude:claude-opus-5`,
-`claude:claude-sonnet-5`) at each of low, medium, high and xhigh — over all 21
-papers of the 115 year, 1,748 points apiece.
+holds the first scores against that corpus: nineteen taker configurations over
+all 21 papers of the 115 year, 1,748 points apiece — four agentic models
+(`codex:gpt-5.6-sol`, `codex:gpt-5.6-luna`, `claude:claude-opus-5`,
+`claude:claude-sonnet-5`) at each of low, medium, high and xhigh, plus
+`google-cloud:gemini-3.7-flash` through Vertex AI at low, medium and high.
 
 | Configuration | Score | Rule-graded | Solve output tokens | |
 |---|---|---|---|---|
@@ -111,16 +112,25 @@ papers of the 115 year, 1,748 points apiece.
 | `codex:gpt-5.6-sol` medium | 99.1% | 99.2% | 150k | frontier |
 | `codex:gpt-5.6-luna` xhigh | 98.1% | 98.2% | 343k | |
 | `claude:claude-opus-5` high | 96.8% | 97.4% | 471k | |
+| `google-cloud:gemini-3.7-flash` high | 95.2% | 95.6% | 696k | |
 | `codex:gpt-5.6-sol` low | 95.0% | 95.2% | 102k | frontier |
 | `claude:claude-sonnet-5` xhigh | 94.3% | 94.8% | 1,385k | |
 | `codex:gpt-5.6-luna` low | 78.8% | 80.0% | 99k | frontier |
 
-Seven of the sixteen; the dataset card ranks all of them. Effort is not the
+Eight of the nineteen; the dataset card ranks all of them. Effort is not the
 whole story, and neither is spending: four rows are all that survive on the
 cost/score frontier, and `codex:gpt-5.6-sol` holds three of them. Its dial
 barely moves the rule-graded column — 99.2%, 99.0%, 99.2% at medium, high and
 xhigh — so what separates its top three rows is the judged half, and that half
 is only as good as the judge model named in the entry.
+
+`google-cloud:gemini-3.7-flash` is the first taker here that is a plain API
+model rather than a coding agent, and the difference shows in a way worth
+naming: it loses 41, 34 and 24 points at low, medium and high to answering
+fill-in-blank questions with its own blank ids instead of the schema's, in the
+maths papers, even after the harness retries with the error. Following the
+answer schema is part of sitting the exam, so those points stay lost — but the
+gap is a formatting failure, not arithmetic, and the entries say so.
 
 Rule-graded points are scored by program, so that column compares across any two
 rows; judged points depend on the judge model, which is named per entry. One run
