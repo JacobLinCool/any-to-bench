@@ -153,9 +153,25 @@
     return paperSel.join(',')
   }
 
+  /* The opening view is the papers every configuration sat.
+   *
+   * A taker that sat a second corpus — 統測 on top of 會考 / 學測 / 分科 — would
+   * otherwise push everyone else out of the ranking on first load, because the
+   * board refuses to score a configuration on a shorter exam. The shared set
+   * makes the opening view a real comparison; the rest is one group toggle
+   * away, and an explicit `papers=all` still means all of them.
+   */
+  function commonPapers(): string[] {
+    const entries = index?.entries ?? []
+    if (!entries.length) return allPapers
+    const shared = allPapers.filter((s) => entries.every((e) => e.papers.includes(s)))
+    return shared.length ? shared : allPapers
+  }
+
   function decodePapers(raw: string | null): string[] {
     if (!index) return []
-    if (!raw || raw === 'all') return allPapers
+    if (!raw) return commonPapers()
+    if (raw === 'all') return allPapers
     const tokens = raw.split(',').filter(Boolean)
     const out = new Set<string>()
     for (const token of tokens) {

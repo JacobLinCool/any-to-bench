@@ -573,6 +573,16 @@ def format_board(index: ResultsIndex) -> str:
             f"| {entry.solve_output_tokens:,} "
             f"| {entry.solve_secs:,.0f} |"
         )
+    if len({tuple(sorted(e.papers)) for e in index.entries}) > 1:
+        # A taker that sat a second corpus is ranked here against takers who sat a
+        # different, usually smaller one. The column says so; without this line the
+        # rank column would still read as a like-for-like ordering.
+        lines += [
+            "",
+            "Not every configuration sat the same papers — see the **Papers** column. Each "
+            "percentage is over its own denominator, so this ordering is not a like-for-like "
+            f"ranking. Score them on a shared set of papers in the viewer: {SITE_URL}",
+        ]
     if any(e.any_mode_fallback for e in index.entries):
         lines += [
             "",

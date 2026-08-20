@@ -105,6 +105,10 @@ all 21 papers of the 115 year, 1,748 points apiece — four agentic models
 (`codex:gpt-5.6-sol`, `codex:gpt-5.6-luna`, `claude:claude-opus-5`,
 `claude:claude-sonnet-5`) at each of low, medium, high and xhigh, plus
 `google-cloud:gemini-3.7-flash` through Vertex AI at low, medium and high.
+`codex:gpt-5.6-luna` also sat the 40 papers of the 115 統測 at all four efforts,
+so its four rows cover 61 papers and 5,748 points.
+
+Over the 21 papers every configuration sat:
 
 | Configuration | Score | Rule-graded | Solve output tokens | |
 |---|---|---|---|---|
@@ -123,6 +127,12 @@ cost/score frontier, and `codex:gpt-5.6-sol` holds three of them. Its dial
 barely moves the rule-graded column — 99.2%, 99.0%, 99.2% at medium, high and
 xhigh — so what separates its top three rows is the judged half, and that half
 is only as good as the judge model named in the entry.
+
+On the 40 papers of the 統測 — 4,000 points, 1,844 questions, only 9 of them
+judged — `codex:gpt-5.6-luna` scores 84.8%, 91.9%, 96.4% and 98.2% at low,
+medium, high and xhigh. The dial is flatter there than on 會考/學測/分科 (13.4
+points of range against 19.3), because 37 of the 40 papers are multiple choice
+throughout and a low-effort reader already does well on them.
 
 `google-cloud:gemini-3.7-flash` is the first taker here that is a plain API
 model rather than a coding agent, and the difference shows in a way worth

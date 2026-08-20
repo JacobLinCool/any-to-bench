@@ -354,6 +354,41 @@ def test_board_ranks_every_entry_on_each_publish(tiny_bundle, tmp_path, monkeypa
     assert board.count("`test:solver`") == 2
 
 
+def test_board_says_so_when_the_takers_sat_different_papers():
+    """One taker sitting a second corpus makes the rank column a lie by omission:
+    98% over forty papers outranks 78% over twenty-one without having beaten it."""
+    from datetime import UTC, datetime
+
+    from any_to_bench.results import format_board
+    from any_to_bench.schemas.results import IndexEntry, ResultsIndex
+
+    def entry(entry_id: str, papers: list[str], pct: float) -> IndexEntry:
+        return IndexEntry(
+            entry_id=entry_id,
+            path=f"results-{entry_id}",
+            model="test:solver",
+            tool_version="0",
+            published_at=datetime.now(UTC),
+            papers=papers,
+            ok_papers=len(papers),
+            percentage=pct,
+        )
+
+    same = ResultsIndex(
+        generated_at=datetime.now(UTC),
+        tool_version="0",
+        entries=[entry("a", ["p1"], 90.0), entry("b", ["p1"], 80.0)],
+    )
+    assert "Not every configuration sat the same papers" not in format_board(same)
+
+    mixed = ResultsIndex(
+        generated_at=datetime.now(UTC),
+        tool_version="0",
+        entries=[entry("a", ["p1", "p2"], 90.0), entry("b", ["p1"], 80.0)],
+    )
+    assert "Not every configuration sat the same papers" in format_board(mixed)
+
+
 def test_dry_run_writes_the_repo_layout_and_touches_no_seam(tiny_bundle, tmp_path, monkeypatch):
     bench_dir = make_bench_dir(tiny_bundle, tmp_path / "bench", monkeypatch)
     seams = Seams(monkeypatch)

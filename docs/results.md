@@ -42,8 +42,10 @@ a cache the reindex can always rebuild.
 ## What a paper is keyed by
 
 The **subset name in the source repo** — `Path(bench.bundle_dir).name` — never
-`exam_id`. The two disagree in 6 of the 21 papers in `JacobLinCool/taiwan-exams`
-(`ast-115-history` carries `exam_id: ceec-115-history`), and only the subset name
+`exam_id`. The two disagree in 24 of the 61 papers published so far from
+`JacobLinCool/taiwan-exams` (`ast-115-history` carries `exam_id:
+ceec-115-history`; 18 of the 40 統測 papers carry an internal code such as
+`tve-115-4-09-2`), and only the subset name
 joins a score back to the exam it was earned against. `--source-repo` is checked
 against the Hub before anything is written, so a typo cannot publish scores that
 point at papers nobody can fetch.
