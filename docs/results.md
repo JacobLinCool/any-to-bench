@@ -78,7 +78,10 @@ rows with a dagger.
   tokens inside `input_tokens`; `claude:` reports them only under
   `cache_read_tokens`, leaving `input_tokens` near zero. Output tokens and wall
   time mean the same thing for every taker, so those are what the leaderboard
-  plots. The raw per-phase counts are published unaltered.
+  plots — each as a total over the selection and as a per-question figure. The
+  per-question denominator is every question the taker was asked, judged half
+  included, so that axis does not move when the grade filter changes what is
+  being scored. The raw per-phase counts are published unaltered.
 - **One sample unless it was repeated.** `bench --repeat N` publishes N samples
   per paper and a spread is computed from them; without it there is no error bar
   and the leaderboard says so rather than drawing one.

@@ -4,7 +4,7 @@
   import EChart from './lib/EChart.svelte'
   import Mark from './lib/Mark.svelte'
   import Sheet from './lib/Sheet.svelte'
-  import { buildParetoOption, buildRadarOption } from './lib/charts/options'
+  import { buildParetoOption, buildRadarOption, radarFloor } from './lib/charts/options'
   import { MAX_SERIES } from './lib/charts/theme'
   import {
     DEFAULT_RESULTS_REPO,
@@ -16,10 +16,12 @@
   } from './lib/hf'
   import {
     COST_LABEL,
+    COST_METRICS,
     byModel,
     droppedByFilter,
     effortLabel,
     effortRank,
+    entryLabel,
     axisNames,
     examGroups,
     groupByExam,
@@ -116,7 +118,27 @@
   const radarAxisNames = $derived(axisNames(radarSubsets))
   const chartOpts = $derived({ cost, average, origin })
   const paretoOption = $derived(buildParetoOption(ranked, chartOpts))
-  const radarOption = $derived(buildRadarOption(radarScores, radarSubsets, chartOpts))
+  /* Past four outlines one radar is a ball of wool, so the chart changes kind
+   * rather than degrading: a wall of small multiples, one panel per
+   * configuration, every panel on the scale computed once from all of them. */
+  const wall = $derived(radarScores.length > MAX_SERIES)
+  const radarScale = $derived(radarFloor(radarScores, origin))
+  const radarOption = $derived(
+    buildRadarOption(radarScores, radarSubsets, { ...chartOpts, floor: radarScale }),
+  )
+  // Mirrors the `named` rule in buildRadarOption: the caption has to say so.
+  const radarNamed = $derived(!wall || radarSubsets.length <= 6)
+  const soloOptions = $derived(
+    wall
+      ? radarScores.map((row) =>
+          buildRadarOption([row], radarSubsets, {
+            ...chartOpts,
+            floor: radarScale,
+            solo: true,
+          }),
+        )
+      : [],
+  )
 
   /* Selections travel in the URL, so a view can be sent to someone. Group
    * shorthands keep that URL short as the corpus grows: `papers=gsat,ast`
@@ -150,7 +172,8 @@
     if (repo) draft = repo
     grade = params.get('grade') === 'det' ? 'det' : 'all'
     average = params.get('avg') === 'macro' ? 'macro' : 'micro'
-    cost = params.get('x') === 'secs' ? 'secs' : 'output'
+    const x = params.get('x') as CostMetric | null
+    cost = x && COST_METRICS.includes(x) ? x : 'output'
   }
 
   function applySelectionFromUrl() {
@@ -288,6 +311,16 @@
     writeUrl()
   }
 
+  type CostBasis = 'output' | 'secs'
+  type CostPer = 'total' | 'question'
+  const costBasis = $derived<CostBasis>(cost.startsWith('output') ? 'output' : 'secs')
+  const costPer = $derived<CostPer>(cost.endsWith('-per-q') ? 'question' : 'total')
+
+  function setCost(basis: CostBasis, per: CostPer) {
+    cost = (per === 'question' ? `${basis}-per-q` : basis) as CostMetric
+    writeUrl()
+  }
+
   function setGrade(next: GradeFilter) {
     grade = next
     writeUrl()
@@ -315,6 +348,18 @@
 
   const fmtPct = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`)
   const fmtNum = (v: number) => v.toLocaleString('en-US', { maximumFractionDigits: 0 })
+  /* Cost spans four orders of magnitude across the four axes, so the precision
+     is chosen per column rather than fixed — but from the column's largest
+     value, not each cell's, or a column of tabular figures ends up ragged. */
+  const costDigits = $derived.by(() => {
+    const max = Math.max(0, ...ranked.map((r) => r.cost))
+    return max >= 100 ? 0 : max >= 10 ? 1 : 2
+  })
+  const fmtCost = (v: number) =>
+    v.toLocaleString('en-US', {
+      minimumFractionDigits: costDigits,
+      maximumFractionDigits: costDigits,
+    })
 
   const paretoDescription = $derived(
     ranked.length
@@ -324,6 +369,16 @@
         `${[...frontier].length} of them.`
       : 'No configuration covers every selected paper.',
   )
+  const soloDescription = (row: (typeof radarScores)[number]) =>
+    radarSubsets
+      .map(
+        (subset, i) =>
+          `${radarAxisNames[i]} ${fmtPct(
+            row.papers.find((paper) => paper.subset === subset)?.percentage ?? null,
+          )}`,
+      )
+      .join(', ')
+
   const radarDescription = $derived(
     `Per-subject scores over ${radarSubsets.length} ${radarGrouped ? 'examinations' : 'papers'} ` +
       `for ${radarScores.length} configurations.`,
@@ -496,19 +551,35 @@
               {#each [['output', 'Output tokens'], ['secs', 'Seconds']] as [value, label] (value)}
                 <button
                   type="button"
-                  onclick={() => {
-                    cost = value as CostMetric
-                    writeUrl()
-                  }}
-                  aria-pressed={cost === value}
+                  onclick={() => setCost(value as CostBasis, costPer)}
+                  aria-pressed={costBasis === value}
                   class="bg-[var(--omr-stock)] px-2 py-2 text-xs font-semibold
                          text-[var(--omr-graphite-soft)] transition-colors"
-                  class:on={cost === value}
+                  class:on={costBasis === value}
                 >
                   {label}
                 </button>
               {/each}
             </div>
+            <div class="mt-px grid grid-cols-2 gap-px bg-[var(--omr-dropout-soft)]">
+              {#each [['total', 'Total'], ['question', 'Per question']] as [value, label] (value)}
+                <button
+                  type="button"
+                  onclick={() => setCost(costBasis, value as CostPer)}
+                  aria-pressed={costPer === value}
+                  class="bg-[var(--omr-stock)] px-2 py-2 text-xs font-semibold
+                         text-[var(--omr-graphite-soft)] transition-colors"
+                  class:on={costPer === value}
+                >
+                  {label}
+                </button>
+              {/each}
+            </div>
+            <p class="mt-2 text-xs leading-relaxed text-[var(--omr-graphite-soft)]">
+              A total is what this selection cost; a per-question figure is what the taker costs
+              to run, and carries to a paper nobody here has sat. Both divide by every question
+              asked, judged half included, whatever the grade filter counts.
+            </p>
           </Sheet>
 
           <!-- ── Which papers ─────────────────────────────────────────────── -->
@@ -720,7 +791,7 @@
                           >{/if}
                       </td>
                       <td class="py-3 pr-4 text-right font-mono text-sm tabular-nums">
-                        {fmtNum(row.cost)}
+                        {fmtCost(row.cost)}
                       </td>
                       <td class="py-3 text-right font-mono text-sm">
                         {frontier.has(row.entry.entry_id) ? '●' : ''}
@@ -792,7 +863,7 @@
                             {fmtPct(row.score)}
                           </td>
                           <td class="py-2 text-right font-mono text-xs tabular-nums">
-                            {fmtNum(row.cost)}
+                            {fmtCost(row.cost)}
                           </td>
                         </tr>
                       {/each}
@@ -835,20 +906,53 @@
             <p class="mt-2 max-w-[70ch] text-sm leading-relaxed text-[var(--omr-graphite-soft)]">
               Each reasoning effort is its own outline. Area is not a score, and the shape depends
               on the order of the axes — read the vertices, not the size.
-              {#if radarHidden > 0}
+              {#if wall}
+                Outlines are told apart by rule alone and there are only four rules, so past four
+                configurations this becomes one panel each, every panel on the same rings and the
+                same axes in the same order.{#if !radarNamed}{' '}The axes are unlabelled at this
+                  size; the table below names them.{/if}
+              {:else if radarHidden > 0}
                 Outlines are told apart by rule alone, and past four they stop being
                 distinguishable, so the chart shows the leading {MAX_SERIES} and the table below
                 carries all {ranked.length}.{/if}
             </p>
             {#if ranked.length}
-              <div class="mt-5">
-                <EChart
-                  option={radarOption}
-                  height="30rem"
-                  label="Per-subject scores for every selected configuration"
-                  description={radarDescription}
-                />
-              </div>
+              {#if wall}
+                <div class="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3 xl:grid-cols-4">
+                  {#each radarScores as row, i (row.entry.entry_id)}
+                    <div class="min-w-0">
+                      <EChart
+                        option={soloOptions[i]!}
+                        height={radarNamed ? '10rem' : '9rem'}
+                        label="Per-subject scores for {entryLabel(row.entry)}"
+                        description={soloDescription(row)}
+                      />
+                      <p
+                        class="-mt-1 truncate text-center font-mono text-[0.6875rem]
+                               text-[var(--omr-graphite)]"
+                        title={entryLabel(row.entry)}
+                      >
+                        {row.entry.model}
+                      </p>
+                      <p
+                        class="truncate text-center font-mono text-[0.6875rem]
+                               text-[var(--omr-graphite-soft)]"
+                      >
+                        {effortLabel(row.entry.effort)} · {fmtPct(row.score)}
+                      </p>
+                    </div>
+                  {/each}
+                </div>
+              {:else}
+                <div class="mt-5">
+                  <EChart
+                    option={radarOption}
+                    height="30rem"
+                    label="Per-subject scores for every selected configuration"
+                    description={radarDescription}
+                  />
+                </div>
+              {/if}
               <details class="mt-3">
                 <summary class="field-label cursor-pointer">Read as a table</summary>
                 <div class="mt-3 overflow-x-auto">

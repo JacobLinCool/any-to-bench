@@ -9,6 +9,7 @@ import {
   COST_LABEL,
   axisNames,
   byModel,
+  costIsTokens,
   effortLabel,
   type Average,
   type CostMetric,
@@ -171,7 +172,7 @@ export function buildParetoOption(scores: EntryScore[], opts: ChartOptions) {
     },
     xAxis: {
       ...AXIS(p),
-      type: opts.cost === 'output' ? 'log' : 'value',
+      type: costIsTokens(opts.cost) ? 'log' : 'value',
       name: COST_LABEL[opts.cost],
       nameLocation: 'middle',
       nameGap: 32,
@@ -205,31 +206,80 @@ type ChartApi = {
   value: (index: number) => unknown
 }
 
+/** The inner edge of the rings.
+ *
+ * Exported because small multiples have to share it: panels drawn on different
+ * scales are shapes that cannot be compared, which is the one thing a wall of
+ * them is for.
+ */
+export function radarFloor(scores: EntryScore[], origin: 'zoom' | 'zero' = 'zoom'): number {
+  if (origin === 'zero') return 0
+  const perPaper = scores.flatMap((s) => s.papers.map((paper) => paper.percentage ?? 100))
+  return Math.min(floor5(Math.min(100, ...perPaper)), 80)
+}
+
+type RadarOptions = ChartOptions & {
+  grouped?: boolean
+  /** Pin the scale — see radarFloor. */
+  floor?: number
+  /** One panel of a wall: no legend, and the caption is HTML outside the chart. */
+  solo?: boolean
+}
+
 export function buildRadarOption(
   scores: EntryScore[],
   subsets: string[],
-  opts: ChartOptions & { grouped?: boolean },
+  opts: RadarOptions,
 ) {
   const p = palette()
-  const origin = opts.origin ?? 'zoom'
-  const perPaper = scores.flatMap((s) => s.papers.map((paper) => paper.percentage ?? 100))
-  const min = origin === 'zero' ? 0 : Math.min(floor5(Math.min(100, ...perPaper)), 80)
+  const min = opts.floor ?? radarFloor(scores, opts.origin ?? 'zoom')
 
+  /* A solo panel is small, so its axis names are the first thing to go: past a
+   * handful of axes they collide into a grey ring and stop being labels at all.
+   * The panels share an axis order, so the wall still reads by position, and
+   * the table under it names every column. */
+  const named = !opts.solo || subsets.length <= 6
   const names = axisNames(subsets)
-  const indicator = subsets.map((_, i) => ({ name: names[i]!, min, max: 100 }))
+  const indicator = subsets.map((_, i) => ({ name: named ? names[i]! : '', min, max: 100 }))
+
+  const series = {
+    type: 'radar',
+    symbol: 'rect',
+    symbolSize: opts.solo ? [5, 4] : [7, 5],
+    data: scores.map((s, i) => ({
+      name: `${s.entry.model} · ${effortLabel(s.entry.effort)}`,
+      value: subsets.map(
+        (subset) => s.papers.find((paper) => paper.subset === subset)?.percentage ?? null,
+      ),
+      itemStyle: { color: p.graphite },
+      lineStyle: {
+        color: opts.solo ? p.graphite : p.graphiteSoft,
+        width: 1,
+        type: opts.solo ? 'solid' : DASH[i % DASH.length],
+      },
+      areaStyle: undefined,
+      emphasis: { lineStyle: { color: p.graphite, width: 2 } },
+    })),
+  }
+
+  const radar = {
+    shape: 'polygon',
+    radius: opts.solo ? (named ? '58%' : '76%') : '62%',
+    center: ['50%', opts.solo ? '50%' : '44%'],
+    indicator,
+    axisName: { color: p.dropoutInk, fontFamily: MONO, fontSize: 10 },
+    axisLine: { lineStyle: { color: p.dropoutSoft } },
+    splitLine: { lineStyle: { color: p.dropoutSoft } },
+    splitArea: { show: false },
+  }
+
+  if (opts.solo) {
+    return { ...base(p), radar, tooltip: { ...base(p).tooltip, trigger: 'item' }, series: [series] }
+  }
 
   return {
     ...base(p),
-    radar: {
-      shape: 'polygon',
-      radius: '62%',
-      center: ['50%', '44%'],
-      indicator,
-      axisName: { color: p.dropoutInk, fontFamily: MONO, fontSize: 10 },
-      axisLine: { lineStyle: { color: p.dropoutSoft } },
-      splitLine: { lineStyle: { color: p.dropoutSoft } },
-      splitArea: { show: false },
-    },
+    radar,
     legend: {
       bottom: 0,
       orient: 'vertical',
@@ -242,22 +292,6 @@ export function buildRadarOption(
       data: scores.map((s) => `${s.entry.model} · ${effortLabel(s.entry.effort)}`),
     },
     tooltip: { ...base(p).tooltip, trigger: 'item' },
-    series: [
-      {
-        type: 'radar',
-        symbol: 'rect',
-        symbolSize: [7, 5],
-        data: scores.map((s, i) => ({
-          name: `${s.entry.model} · ${effortLabel(s.entry.effort)}`,
-          value: subsets.map(
-            (subset) => s.papers.find((paper) => paper.subset === subset)?.percentage ?? null,
-          ),
-          itemStyle: { color: p.graphite },
-          lineStyle: { color: p.graphiteSoft, width: 1, type: DASH[i % DASH.length] },
-          areaStyle: undefined,
-          emphasis: { lineStyle: { color: p.graphite, width: 2 } },
-        })),
-      },
-    ],
+    series: [series],
   }
 }

@@ -149,18 +149,36 @@ export type GradeFilter = 'all' | 'det'
 /** How papers of different sizes are weighed against each other. */
 export type Average = 'micro' | 'macro'
 
-/** What goes on the Pareto chart's cost axis.
+/** What goes on the Pareto chart's cost axis: two bases × two normalisations.
  *
  * Input tokens are deliberately absent: codex reports cache reads inside
  * input_tokens and claude reports them only under cache_read_tokens, so an
  * input-based axis compares accounting conventions rather than cost. Output
  * tokens and wall time mean the same thing for every taker.
+ *
+ * The totals answer "what did this selection cost"; the per-question figures
+ * answer "what does this taker cost to run", which is the number that carries
+ * to a paper nobody here has sat. They part company as soon as the selection
+ * changes size, so both are offered rather than one being called the cost.
  */
-export type CostMetric = 'output' | 'secs'
+export type CostMetric = 'output' | 'output-per-q' | 'secs' | 'secs-per-q'
 
 export const COST_LABEL: Record<CostMetric, string> = {
   output: 'solve output tokens',
+  'output-per-q': 'solve output tokens per question',
   secs: 'solve seconds',
+  'secs-per-q': 'solve seconds per question',
+}
+
+export const COST_METRICS = Object.keys(COST_LABEL) as CostMetric[]
+
+/** Tokens span more than a decade across takers and want a log axis; seconds do not. */
+export function costIsTokens(cost: CostMetric): boolean {
+  return cost.startsWith('output')
+}
+
+export function costIsPerQuestion(cost: CostMetric): boolean {
+  return cost.endsWith('-per-q')
 }
 
 export type PaperScore = {
@@ -184,6 +202,8 @@ export type EntryScore = {
   score: number | null
   cost: number
   papers: PaperScore[]
+  /** Questions the taker was asked across the selection, skipped ones excluded. */
+  questions: number
   /** Sample standard deviation, only when every paper has the same replicate count ≥ 2. */
   spread: number | null
   runs: number
@@ -244,6 +264,12 @@ export function scoreEntry(
   let awarded = 0
   let coveredMax = 0
   let costTotal = 0
+  /* The denominator for a per-question cost is every question the taker was
+   * actually asked — both halves, minus anything it could not attempt. Not the
+   * questions the grade filter counts: solving a paper costs what it costs, and
+   * dividing that by the rule-graded half alone would make the axis jump every
+   * time someone changed what is being scored. */
+  let attempted = 0
   const perPaper: PaperScore[] = []
   const replicateCounts = new Set<number>()
   for (const paper of papers) {
@@ -252,10 +278,12 @@ export function scoreEntry(
     const m = buckets.reduce((total, b) => total + b.covered_max, 0)
     awarded += a
     coveredMax += m
-    costTotal +=
-      cost === 'output'
-        ? paper.solve_usage.output_tokens
-        : (paper.solve_secs ?? 0)
+    costTotal += costIsTokens(cost)
+      ? paper.solve_usage.output_tokens
+      : (paper.solve_secs ?? 0)
+    for (const bucket of [paper.deterministic, paper.judge]) {
+      attempted += bucket.questions - bucket.skipped
+    }
     perPaper.push({
       subset: paper.subset,
       awarded: a,
@@ -299,7 +327,8 @@ export function scoreEntry(
     micro,
     macro,
     score: average === 'micro' ? micro : macro,
-    cost: costTotal,
+    cost: costIsPerQuestion(cost) && attempted > 0 ? costTotal / attempted : costTotal,
+    questions: attempted,
     papers: perPaper,
     spread,
     runs,
