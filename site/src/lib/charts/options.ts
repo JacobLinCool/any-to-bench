@@ -21,7 +21,6 @@ export type ChartOptions = {
   average: Average
   /** A 0–100 axis on scores that all sit above 90 is a row of flat lines. */
   origin?: 'zoom' | 'zero'
-  scanning?: boolean
 }
 
 function floor5(value: number): number {
@@ -45,7 +44,7 @@ const AXIS = (p: Palette) => ({
 })
 
 export function buildParetoOption(scores: EntryScore[], opts: ChartOptions) {
-  const p = palette(opts.scanning)
+  const p = palette()
   const origin = opts.origin ?? 'zoom'
   const usable = scores.filter((s) => s.score !== null && s.cost > 0)
   const min = scoreFloor(usable, origin)
@@ -59,36 +58,44 @@ export function buildParetoOption(scores: EntryScore[], opts: ChartOptions) {
    * more configuration before colliding again. A legend does not degrade as
    * entries accumulate, and it is what the radar on this page already uses.
    * Identity is still on screen and still not behind a pointer. */
-  const series: Record<string, unknown>[] = families.map((family, i) => ({
-    type: 'line',
-    name: family.model,
-    data: family.scores.map((s) => ({
-      value: [s.cost, s.score],
-      name: `${family.model} · ${effortLabel(s.entry.effort)}`,
-    })),
-    symbol: 'rect',
-    symbolSize: [10, 7],
-    itemStyle: { color: p.graphite, borderRadius: 0 },
-    lineStyle: { color: p.graphiteSoft, width: 1, type: DASH[i % DASH.length] },
-    label: {
-      show: true,
-      position: 'top',
-      distance: 8,
-      // Only the ends of the line are named: effort is ordered along it, so the
-      // two ends say which way it runs, and the exact value of every point is a
-      // row in the table under the chart.
-      formatter: (item: { dataIndex: number; data: { name: string } }) => {
-        const ends = item.dataIndex === 0 || item.dataIndex === family.scores.length - 1
-        return ends ? (item.data.name.split(' · ')[1] ?? '') : ''
+  const series: Record<string, unknown>[] = families.map((family, i) => {
+    // The legend tells models apart by line rule, and a model that sat one
+    // effort has no line to carry one — so that point names itself. Identity
+    // goes on the chart exactly where the legend cannot reach it.
+    const lone = family.scores.length === 1
+    return {
+      type: 'line',
+      name: family.model,
+      data: family.scores.map((s) => ({
+        value: [s.cost, s.score],
+        name: `${family.model} · ${effortLabel(s.entry.effort)}`,
+      })),
+      symbol: 'rect',
+      symbolSize: [10, 7],
+      itemStyle: { color: p.graphite, borderRadius: 0 },
+      lineStyle: { color: p.graphiteSoft, width: 1, type: DASH[i % DASH.length] },
+      label: {
+        show: true,
+        position: 'top',
+        distance: 8,
+        // Otherwise only the ends of the line are named: effort is ordered along
+        // it, so the two ends say which way it runs, and the exact value of
+        // every point is a row in the table under the chart.
+        formatter: (item: { dataIndex: number; data: { name: string } }) => {
+          if (lone) return item.data.name
+          const ends = item.dataIndex === 0 || item.dataIndex === family.scores.length - 1
+          return ends ? (item.data.name.split(' · ')[1] ?? '') : ''
+        },
+        color: lone ? p.graphite : p.graphiteSoft,
+        fontFamily: MONO,
+        fontSize: lone ? 11 : 9,
+        fontWeight: lone ? 600 : 'normal',
       },
-      color: p.graphiteSoft,
-      fontFamily: MONO,
-      fontSize: 9,
-    },
-    emphasis: { focus: 'series', lineStyle: { color: p.graphite, width: 2 } },
-    labelLayout: { moveOverlap: 'shiftY', hideOverlap: false },
-    z: 3,
-  }))
+      emphasis: { focus: 'series', lineStyle: { color: p.graphite, width: 2 } },
+      labelLayout: { moveOverlap: 'shiftY', hideOverlap: false },
+      z: 3,
+    }
+  })
 
   // The frontier is a boundary, so it gets the world's boundary weight: 2px graphite.
   const front = usable
@@ -203,7 +210,7 @@ export function buildRadarOption(
   subsets: string[],
   opts: ChartOptions & { grouped?: boolean },
 ) {
-  const p = palette(opts.scanning)
+  const p = palette()
   const origin = opts.origin ?? 'zoom'
   const perPaper = scores.flatMap((s) => s.papers.map((paper) => paper.percentage ?? 100))
   const min = origin === 'zero' ? 0 : Math.min(floor5(Math.min(100, ...perPaper)), 80)

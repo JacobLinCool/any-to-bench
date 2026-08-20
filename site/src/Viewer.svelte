@@ -4,7 +4,6 @@
   import Blocks from './lib/Blocks.svelte'
   import Mark from './lib/Mark.svelte'
   import QuestionCard from './lib/QuestionCard.svelte'
-  import ScannerToggle from './lib/ScannerToggle.svelte'
   import Sheet from './lib/Sheet.svelte'
   import { examLeaves, isDeterministic, stats, type Bundle, type Question } from './lib/bundle'
   import { DEFAULT_REPO, HubError, isRepoId, listSubsets, loadBundle, repoUrl } from './lib/hf'
@@ -233,7 +232,6 @@
         </div>
         {#if bundle}
           <div class="flex items-center gap-3">
-            <ScannerToggle />
             <button
               type="button"
               onclick={() => (revealed = !revealed)}
@@ -320,7 +318,7 @@
               <ArrowLeft size={13} strokeWidth={2.5} aria-hidden="true" /> All bundles
             </button>
             <p class="mb-1 font-mono text-sm break-all">{bundle.name}</p>
-            <p class="drops-out mb-4 text-[0.75rem] text-[var(--omr-graphite-soft)]">
+            <p class="mb-4 text-[0.75rem] text-[var(--omr-graphite-soft)]">
               {summary.questions} questions · {summary.points} points
             </p>
             <div
@@ -340,7 +338,7 @@
                 </button>
               {/each}
             </div>
-            <p class="drops-out mt-4 border-t border-[var(--omr-dropout-soft)] pt-3 text-[0.6875rem] leading-relaxed text-[var(--omr-graphite-soft)]">
+            <p class="mt-4 border-t border-[var(--omr-dropout-soft)] pt-3 text-[0.6875rem] leading-relaxed text-[var(--omr-graphite-soft)]">
               A filled square grades as a script. A blank one needs a judge — {summary.judged} here.
             </p>
           </Sheet>
@@ -354,7 +352,7 @@
             >
               {bundle.exam.title}
             </h1>
-            <dl class="drops-out mt-6 flex flex-wrap gap-x-9 gap-y-3 border-t border-[var(--omr-dropout-soft)] pt-5">
+            <dl class="mt-6 flex flex-wrap gap-x-9 gap-y-3 border-t border-[var(--omr-dropout-soft)] pt-5">
               {#if bundle.exam.subject}
                 <div>
                   <dt class="field-label">Subject</dt>
@@ -506,7 +504,7 @@
             </a>
           </div>
           <div>
-            <label for="filter" class="field-label drops-out mb-1.5 block">Filter</label>
+            <label for="filter" class="field-label mb-1.5 block">Filter</label>
             <input
               id="filter"
               bind:value={filter}
@@ -549,7 +547,7 @@
                              text-left transition-colors hover:bg-[var(--omr-dropout-faint)]"
                     >
                       <span
-                        class="drops-out w-6 shrink-0 font-mono text-[0.6875rem] tabular-nums
+                        class="w-6 shrink-0 font-mono text-[0.6875rem] tabular-nums
                                text-[var(--omr-dropout-ink)]">{row.no}</span
                       >
                       <span class="min-w-0 flex-1 truncate font-mono text-[0.875rem]">{row.name}</span>

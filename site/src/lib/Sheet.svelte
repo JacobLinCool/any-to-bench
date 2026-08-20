@@ -4,7 +4,7 @@
   /* Card stock lifted off the scanner bed: the one elevation in this world.
    * Registration marks sit at the true corners of the readable area and the
    * timing track runs the left edge — the clock a scanner counts rows by. Both
-   * are printed in graphite, so both survive scanner view. */
+   * are printed in graphite, the ink the lamp does return. */
   type Props = {
     children: Snippet
     track?: boolean

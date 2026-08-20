@@ -1,10 +1,9 @@
 /** The world's ink, handed to ECharts.
  *
  * ECharts cannot read CSS custom properties, so the tokens are resolved once at
- * runtime and registered as a theme. Two palettes, not one: under the scanner
- * lamp the drop-out ink is gone, so the furniture — axes, grid, ring lines,
- * axis names — resolves to transparent and the chart is left showing nothing
- * but the marks. That is the same test the rest of the page passes.
+ * runtime. Pre-printed furniture — axes, grid, ring lines, axis names — takes
+ * the drop-out ink; the data takes graphite. Same hierarchy as the rest of the
+ * page, expressed in the one place Tailwind cannot reach.
  */
 
 export type Palette = {
@@ -38,7 +37,7 @@ const FALLBACK: Palette = {
   cinnabar: '#d8382a',
 }
 
-export function palette(scanning = false): Palette {
+export function palette(): Palette {
   let resolved = FALLBACK
   if (typeof document !== 'undefined') {
     const style = getComputedStyle(document.documentElement)
@@ -53,8 +52,7 @@ export function palette(scanning = false): Palette {
       cinnabar: read(TOKENS.cinnabar, FALLBACK.cinnabar),
     }
   }
-  if (!scanning) return resolved
-  return { ...resolved, dropout: 'transparent', dropoutInk: 'transparent', dropoutSoft: 'transparent' }
+  return resolved
 }
 
 export const MONO =

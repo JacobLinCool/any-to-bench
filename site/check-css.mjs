@@ -21,8 +21,6 @@ const REQUIRED = [
   'ruled',
   'field-label',
   'han',
-  'scanning',
-  'drops-out',
 ]
 
 const css = readdirSync(DIR)

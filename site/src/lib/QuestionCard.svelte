@@ -36,14 +36,14 @@
       <div class="font-mono text-2xl leading-none font-semibold tabular-nums sm:text-3xl">
         {question.number ?? question.id}
       </div>
-      <div class="drops-out mt-2 font-mono text-[0.6875rem] text-[var(--omr-graphite-soft)]">
+      <div class="mt-2 font-mono text-[0.6875rem] text-[var(--omr-graphite-soft)]">
         {question.points}
         {question.points === 1 ? 'pt' : 'pts'}
       </div>
     </div>
 
     <div class="min-w-0 flex-1">
-      <div class="drops-out mb-3 flex flex-wrap items-center gap-x-3 gap-y-1">
+      <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1">
         <span class="field-label">{TYPE_LABEL[question.type]}</span>
         {#if rule}
           <span class="text-[var(--omr-dropout)]" aria-hidden="true">·</span>
@@ -61,7 +61,7 @@
                 <Mark filled={revealed && !!correctIds?.has(option.id)} size="sm" />
               </span>
               <span
-                class="drops-out shrink-0 pt-0.5 font-mono text-xs text-[var(--omr-graphite-soft)]"
+                class="shrink-0 pt-0.5 font-mono text-xs text-[var(--omr-graphite-soft)]"
                 aria-hidden="true">{option.id}</span
               >
               <span class="han min-w-0 flex-1 text-[0.9375rem]" {lang}>
@@ -98,7 +98,7 @@
       {#if question.matching}
         <div class="mt-5 grid gap-6 sm:grid-cols-2">
           <div>
-            <span class="field-label drops-out mb-2 block">Left</span>
+            <span class="field-label mb-2 block">Left</span>
             <ul class="space-y-1.5">
               {#each question.matching.left as item (item.id)}
                 <li class="flex gap-2.5 text-[0.9375rem]">
@@ -118,7 +118,7 @@
             </ul>
           </div>
           <div>
-            <span class="field-label drops-out mb-2 block">Right</span>
+            <span class="field-label mb-2 block">Right</span>
             <ul class="space-y-1.5">
               {#each question.matching.right as item (item.id)}
                 <li class="flex gap-2.5 text-[0.9375rem]">

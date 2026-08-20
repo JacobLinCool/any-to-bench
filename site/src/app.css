@@ -187,26 +187,12 @@ textarea {
   background-size: 28px 28px;
 }
 
-/* Scanner view: the drop-out ink vanishes, exactly as it does under the lamp.
- * A real state, not a filter — the class is set on <html>. */
-.scanning {
-  --omr-dropout: transparent;
-  --omr-dropout-ink: transparent;
-  --omr-dropout-soft: transparent;
-  --omr-dropout-faint: transparent;
-  --omr-rule: transparent;
-}
-.scanning .drops-out {
-  visibility: hidden;
-}
-
 .field-label {
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  /* Pre-printed, so it is the drop-out ink — the OWN-WORLD claim has to be
-     legible before the visitor touches the toggle, not only after. */
+  /* Pre-printed furniture, so it is the drop-out ink. */
   color: var(--omr-dropout-ink);
 }
 

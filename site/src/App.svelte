@@ -2,10 +2,8 @@
   import { ArrowRight, Github, Package } from '@lucide/svelte'
   import CopyLine from './lib/CopyLine.svelte'
   import Mark from './lib/Mark.svelte'
-  import ScannerToggle from './lib/ScannerToggle.svelte'
   import Sheet from './lib/Sheet.svelte'
   import { renderInline, renderMarkdown } from './lib/render'
-  import { scanner } from './lib/scanner.svelte'
 
   const BASE = import.meta.env.BASE_URL
 
@@ -63,7 +61,7 @@
     <!-- ── The card issued to the visitor ────────────────────────────────── -->
     <Sheet class="px-6 pt-8 pb-6 sm:px-12 sm:pt-12 sm:pb-8 lg:px-16">
       <div
-        class="drops-out mb-10 flex flex-wrap gap-x-10 gap-y-4 border-b
+        class="mb-10 flex flex-wrap gap-x-10 gap-y-4 border-b
                border-[var(--omr-dropout-soft)] pb-5 sm:mb-14"
       >
         <div>
@@ -105,7 +103,7 @@
           <li class="bg-[var(--omr-stock)] px-5 py-5">
             <div class="flex items-center gap-3">
               <span
-                class="drops-out font-mono text-[0.6875rem] text-[var(--omr-graphite-soft)]"
+                class="font-mono text-[0.6875rem] text-[var(--omr-graphite-soft)]"
                 aria-hidden="true">{step.n}</span
               >
               <Mark filled size="sm" />
@@ -153,19 +151,18 @@
           >
             What a machine actually reads
           </h2>
-          <ScannerToggle />
         </div>
 
         <p class="mt-5 max-w-[68ch] leading-relaxed text-[var(--omr-graphite-soft)]">
           Below is question 1 of the 115 GSAT mathematics A paper, exactly as its bundle stores it.
-          Turn on scanner view: the pre-printed structure drops away and what remains is the part a
-          grader is allowed to depend on.
+          On the left is everything a human reader needs; on the right is the part a grader is
+          allowed to depend on.
         </p>
 
         <div class="mt-10 grid gap-px bg-[var(--omr-dropout-soft)] lg:grid-cols-[1.15fr_1fr]">
           <!-- as printed: the specimen sits on the measuring ground -->
           <div class="ruled min-w-0 bg-[var(--omr-stock)] p-6 sm:p-8">
-            <span class="field-label drops-out mb-5 block">As issued</span>
+            <span class="field-label mb-5 block">As issued</span>
             <div class="flex gap-4">
               <span
                 class="shrink-0 pt-0.5 font-mono text-2xl font-semibold tabular-nums
@@ -180,7 +177,7 @@
                     <li class="flex items-center gap-3">
                       <Mark filled={!sealed && option.id === DEMO.correct} size="sm" />
                       <span
-                        class="drops-out font-mono text-xs text-[var(--omr-graphite-soft)]"
+                        class="font-mono text-xs text-[var(--omr-graphite-soft)]"
                         aria-hidden="true">{option.id}</span
                       >
                       <span class="han text-[0.9375rem]" lang="zh-TW"
@@ -214,7 +211,7 @@
 
           <!-- what survives -->
           <div class="min-w-0 bg-[var(--omr-stock)] p-6 sm:p-8">
-            <span class="field-label drops-out mb-5 block">What the machine reads</span>
+            <span class="field-label mb-5 block">What the machine reads</span>
             <div class="space-y-6">
               <div class="min-w-0">
                 <p class="mb-2 font-mono text-xs text-[var(--omr-graphite-soft)]">
@@ -231,13 +228,8 @@
                          font-mono text-[0.75rem] leading-relaxed">{GRADES_AS}</pre>
               </div>
               <p class="text-sm leading-relaxed text-[var(--omr-graphite-soft)]">
-                {#if scanner.on}
-                  This is all that is left, and it is enough: the score is a pure function of the
-                  answer sheet.
-                {:else}
-                  Everything to the left is scaffolding for a human reader. This is the contract a
-                  grader runs on.
-                {/if}
+                Everything to the left is scaffolding for a human reader. This is the contract a
+                grader runs on.
               </p>
             </div>
           </div>

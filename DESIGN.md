@@ -165,8 +165,8 @@ is given — the grid, the rules, the field captions, the option letters — is 
 a cyan the scanner's lamp does not return, so it exists only for the human. Everything that
 counts is graphite: the filled square, the question number, the words of the paper itself.
 The product does the same thing to an exam, and the interface argues by being the thing it
-describes. A visitor can prove the claim in one click: scanner view is a real document state
-that zeroes the drop-out ink and leaves the marks standing alone.
+describes: what a grader is allowed to depend on is drawn in the ink that counts, and
+everything that only helps a human read is drawn in the ink that does not.
 
 Density is high and unapologetically clerical. Content sits on cool card stock lifted off a
 near-black bed by the single shadow in the whole system; the stock never rounds, never
@@ -240,9 +240,9 @@ refused.
 ### Named Rules
 
 **The Drop-Out Rule.** Anything pre-printed — grids, rules, field captions, option letters,
-stub numbers, ordinal markers — is drawn in a drop-out token and carries `.drops-out` when
-it is an element rather than a border. Anything a score depends on is graphite. If you
-cannot say which side a new element is on, it does not belong on the card.
+stub numbers, ordinal markers — is drawn in a drop-out token. Anything a score depends on
+is graphite. If you cannot say which side a new element is on, it does not belong on the
+card.
 
 **The Two-Ink Rule.** Every accent has a fill tier and a reading tier, and they are not
 interchangeable. Cyan fills with `dropout`, reads with `dropout-ink`. Cinnabar fills with
@@ -281,7 +281,7 @@ prose is the primary reading material, not a fallback.
   to 1.125rem; supporting copy inside panels steps down to 0.9375rem.
 - **Label** (600, 0.6875rem, +0.14em, uppercase): The `field-label` — a printed field
   caption. It names what a value *is*: Form, Reads, Graded by rule, Official key, and every
-  table column head. It is set in drop-out ink, so it disappears under the scanner lamp.
+  table column head. It is set in drop-out ink, the pre-printed tier.
 - **Mono** (400/600, 0.6875–1.875rem, tabular): Question numbers, stub numbers, point
   values, bundle names, dataset ids, commands, and JSON. Question numbers are the loud end
   of this ramp (1.5rem rising to 1.875rem), semibold, and graphite.
@@ -372,9 +372,10 @@ The card itself, and the only container in the system. Stock ground, graphite te
 radius, the one shadow. It draws its own registration marks — four 14×3px graphite ticks
 inset 14px from each corner, marking the true edges of the readable area — and, unless
 suppressed, a timing track down the left edge (3px wide, 6px-on/8px-off, inset 7px, 70%
-opacity), the clock a scanner counts rows by. Both are printed in graphite, so both survive
-scanner view. Compact sheets used as toolbars or rails turn the track off; sheets holding a
-paper keep it. Padding is set per instance from the sheet spacing steps.
+opacity), the clock a scanner counts rows by. Both are printed in graphite, the ink that
+counts. Compact sheets used as toolbars or rails turn the track off; sheets holding a paper
+keep it. Padding is set per instance from the sheet spacing steps — and it must clear the
+registration marks, which occupy the first 28px of each corner.
 
 ### The Mark (signature component)
 
@@ -395,9 +396,6 @@ rather than in utility classes, deliberately (see the Do's).
   nothing; hovered, it fills cinnabar with white text; broken, it inverts to a graphite
   fill with stock text. This is the only three-state control in the system and the only
   non-primary use of cinnabar.
-- **State toggle:** Scanner view. Off, a graphite label inside a 26%-graphite hairline;
-  hovered, a 7% graphite wash; on, a solid graphite fill with stock text. `aria-pressed`
-  carries the state.
 - **Solid:** The viewer's submit button. Graphite fill, stock text, joined to its input with
   a shared border (`border-l-0`); hover flips the fill to cinnabar because submitting is a
   commit.
@@ -445,7 +443,7 @@ button on its right edge that swaps its icon and label to a check and "Copied" f
 ### Do:
 
 - **Do** keep the world's furniture (`.sheet`, `.registered`, `.registered-marks`,
-  `.timing-track`, `.ruled`, `.field-label`, `.han`, `.scanning`, `.drops-out`) as plain
+  `.timing-track`, `.ruled`, `.field-label`, `.han`) as plain
   global CSS in `app.css`, and let components own their own geometry in component `<style>`.
   Tailwind emits `@utility` rules only where its scanner sees the name used, and it has
   silently dropped this world's classes twice — once because an unanchored `lib/` rule in
@@ -454,12 +452,11 @@ button on its right edge that swaps its icon and label to a check and "Copied" f
 - **Do** keep `check-css.mjs` in the build (`pnpm build` runs it after `vite build`) and add
   any new world class to its `REQUIRED` list. A design that vanishes without an error is the
   failure this guards against.
-- **Do** implement a view like scanner view as a document state — a class on `<html>` that
-  re-points the drop-out custom properties to `transparent` — so every layer, including
-  anything portalled out of the tree, changes together.
-- **Do** mark every pre-printed element with `.drops-out` so it disappears under the lamp,
-  and check a new screen by turning scanner view on: what remains must be exactly what a
-  grader is allowed to depend on.
+- **Do** implement any global state change as a document state — a class on `<html>` that
+  re-points custom properties — so every layer, including anything portalled out of the
+  tree, changes together.
+- **Do** check a new screen by asking of every element which ink it is in: what is drawn in
+  graphite must be exactly what a grader is allowed to depend on.
 - **Do** put load-bearing numbers in the mono face with tabular figures.
 - **Do** let untrusted bundle content wrap (`.han`) and let unshrinkable content scroll in
   its own box.
@@ -476,8 +473,8 @@ button on its right edge that swaps its icon and label to a check and "Copied" f
   not a commit, a seal, or a refusal, it is graphite.
 - **Don't** set text in a fill-tier ink (`dropout`, `cinnabar`) where it has to be read; the
   `-ink` tier exists because those two fail contrast on stock.
-- **Don't** implement scanner view — or any state change — as a CSS `filter`,
-  `mix-blend-mode`, or opacity fade over the whole page.
+- **Don't** implement a state change as a CSS `filter`, `mix-blend-mode`, or opacity fade
+  over the whole page.
 - **Don't** put content directly on the scanner bed. The bed carries the footer's issuing
   block and nothing else; words are read on stock.
 - **Don't** use uppercase letterspaced type as a kicker or eyebrow above a headline. It is a

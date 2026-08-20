@@ -1,12 +1,11 @@
 <script lang="ts">
   import { untrack } from 'svelte'
-  import { ArrowLeft, ExternalLink, Loader, Search, TriangleAlert } from '@lucide/svelte'
+  import { ArrowLeft, ChevronRight, ExternalLink, Loader, Search, TriangleAlert } from '@lucide/svelte'
   import EChart from './lib/EChart.svelte'
-  import ScannerToggle from './lib/ScannerToggle.svelte'
+  import Mark from './lib/Mark.svelte'
   import Sheet from './lib/Sheet.svelte'
   import { buildParetoOption, buildRadarOption } from './lib/charts/options'
   import { MAX_SERIES } from './lib/charts/theme'
-  import { scanner } from './lib/scanner.svelte'
   import {
     DEFAULT_RESULTS_REPO,
     HubError,
@@ -20,6 +19,7 @@
     byModel,
     droppedByFilter,
     effortLabel,
+    effortRank,
     axisNames,
     examGroups,
     groupByExam,
@@ -56,6 +56,28 @@
   let ticket = 0
 
   const groups = $derived(index ? examGroups(index.papers) : [])
+
+  /* The rail lists configurations the way the chart draws them: one block per
+   * model, its efforts in dial order. Sixteen flat rows is a wall of text that
+   * happens to be sorted; four blocks of four is the shape of the experiment. */
+  const entryGroups = $derived.by(() => {
+    const byName = new Map<string, ResultsIndex['entries']>()
+    for (const entry of index?.entries ?? []) {
+      const list = byName.get(entry.model) ?? []
+      list.push(entry)
+      byName.set(entry.model, list)
+    }
+    return [...byName.entries()]
+      .map(([model, entries]) => ({
+        model,
+        entries: entries.sort((a, b) => effortRank(a.effort) - effortRank(b.effort)),
+      }))
+      .sort((a, b) => a.model.localeCompare(b.model))
+  })
+
+  // Both lists are long enough to bury the controls above them, so both fold.
+  let papersOpen = $state(true)
+  let entriesOpen = $state(true)
   const allPapers = $derived((index?.papers ?? []).map((p) => p.subset))
   const dropped = $derived(
     index
@@ -92,7 +114,7 @@
   const radarScores = $derived(radarGrouped ? groupByExam(radarShown, groups) : radarShown)
   const radarSubsets = $derived(radarGrouped ? groups.map((g) => g.exam) : activePapers)
   const radarAxisNames = $derived(axisNames(radarSubsets))
-  const chartOpts = $derived({ cost, average, origin, scanning: scanner.on })
+  const chartOpts = $derived({ cost, average, origin })
   const paretoOption = $derived(buildParetoOption(ranked, chartOpts))
   const radarOption = $derived(buildRadarOption(radarScores, radarSubsets, chartOpts))
 
@@ -240,6 +262,18 @@
     writeUrl()
   }
 
+  function toggleEntryGroup(model: string) {
+    const group = entryGroups.find((g) => g.model === model)
+    if (!group) return
+    const ids = group.entries.map((e) => e.entry_id)
+    const whole = ids.every((id) => entrySel.includes(id))
+    const set = new Set(entrySel)
+    ids.forEach((id) => (whole ? set.delete(id) : set.add(id)))
+    entrySel = [...set]
+    writeUrl()
+    void fetchSelected()
+  }
+
   function toggleEntry(id: string) {
     entrySel = entrySel.includes(id) ? entrySel.filter((e) => e !== id) : [...entrySel, id]
     writeUrl()
@@ -334,7 +368,6 @@
         </div>
         {#if index}
           <div class="flex items-center gap-3">
-            <ScannerToggle />
             <a
               href={repoUrl(repo)}
               target="_blank"
@@ -405,10 +438,20 @@
         </button>
       </Sheet>
     {:else}
+      <!-- `min-w-0` on both columns: a grid item's default `min-width: auto`
+           refuses to shrink below its content, and the board table is 44rem
+           wide by design. Without it that table sets the page's width and the
+           whole document scrolls sideways on a phone — the `overflow-x-auto`
+           around it never gets the chance to do its job. -->
       <div class="grid gap-6 lg:grid-cols-[17rem_1fr]">
         <!-- ── What the marks are counted over ───────────────────────────── -->
-        <aside class="space-y-6 lg:sticky lg:top-6 lg:self-start">
-          <Sheet track={false} class="px-4 py-5">
+        <!-- Padding clears the registration marks: they occupy the first 28px of
+             the corner, and a field label set inside that lands underneath one. -->
+        <aside
+          class="min-w-0 space-y-6 lg:sticky lg:top-6 lg:-mx-5 lg:max-h-[calc(100vh-3rem)] lg:self-start
+                 lg:overflow-y-auto lg:overscroll-contain lg:px-5 lg:pb-6"
+        >
+          <Sheet track={false} class="px-5 pt-8 pb-6">
             <p class="field-label">Counted</p>
             <div class="mt-3 grid grid-cols-2 gap-px bg-[var(--omr-dropout-soft)]">
               {#each [['all', 'Every question'], ['det', 'Rule-graded only']] as [value, label] (value)}
@@ -468,44 +511,131 @@
             </div>
           </Sheet>
 
-          <Sheet track={false} class="px-4 py-5">
-            <div class="flex items-baseline justify-between">
-              <p class="field-label">Papers</p>
-              <p class="font-mono text-xs text-[var(--omr-graphite-soft)]">
+          <!-- ── Which papers ─────────────────────────────────────────────── -->
+          <Sheet track={false} class="px-5 pt-8 pb-6">
+            <button
+              type="button"
+              onclick={() => (papersOpen = !papersOpen)}
+              aria-expanded={papersOpen}
+              aria-controls="papers-list"
+              class="flex w-full items-center gap-2 text-left"
+            >
+              <ChevronRight
+                size={13}
+                strokeWidth={2.5}
+                class="shrink-0 text-[var(--omr-dropout-ink)] transition-transform"
+                style={papersOpen ? 'transform: rotate(90deg)' : ''}
+                aria-hidden="true"
+              />
+              <span class="field-label flex-1">Papers</span>
+              <span class="font-mono text-xs text-[var(--omr-graphite-soft)]">
                 {activePapers.length}/{allPapers.length}
-              </p>
-            </div>
-            {#each groups as group (group.exam)}
-              <div class="mt-4">
-                <button
-                  type="button"
-                  onclick={() => toggleGroup(group.exam)}
-                  class="field-label hover:text-[var(--omr-graphite)]"
-                >
-                  {group.exam} ({group.subsets.length})
-                </button>
-                <ul class="mt-1.5 space-y-0.5">
-                  {#each group.subsets as subset (subset)}
-                    <li>
-                      <button
-                        type="button"
-                        onclick={() => togglePaper(subset)}
-                        aria-pressed={paperSel.includes(subset)}
-                        class="w-full text-left font-mono text-xs transition-colors"
-                        class:picked={paperSel.includes(subset)}
-                        class:unpicked={!paperSel.includes(subset)}
-                      >
-                        {shortSubject(subset)}
-                      </button>
-                    </li>
-                  {/each}
-                </ul>
+              </span>
+            </button>
+            {#if papersOpen}
+              <div id="papers-list">
+                {#each groups as group (group.exam)}
+                  <div class="mt-4">
+                    <button
+                      type="button"
+                      onclick={() => toggleGroup(group.exam)}
+                      class="flex w-full items-baseline gap-2 text-left
+                             hover:text-[var(--omr-cinnabar-ink)]"
+                      title="Select or clear every {group.exam} paper"
+                    >
+                      <span class="field-label flex-1">{group.exam}</span>
+                      <span class="font-mono text-[0.6875rem] text-[var(--omr-graphite-soft)]">
+                        {group.subsets.filter((s) => paperSel.includes(s)).length}/{group.subsets
+                          .length}
+                      </span>
+                    </button>
+                    <ul class="mt-1.5 space-y-1">
+                      {#each group.subsets as subset (subset)}
+                        <li>
+                          <button
+                            type="button"
+                            onclick={() => togglePaper(subset)}
+                            aria-pressed={paperSel.includes(subset)}
+                            class="row"
+                            class:picked={paperSel.includes(subset)}
+                          >
+                            <Mark size="sm" filled={paperSel.includes(subset)} />
+                            <span class="font-mono text-xs">{shortSubject(subset)}</span>
+                          </button>
+                        </li>
+                      {/each}
+                    </ul>
+                  </div>
+                {/each}
               </div>
-            {/each}
+            {/if}
+          </Sheet>
+
+          <!-- ── Which configurations ─────────────────────────────────────── -->
+          <Sheet track={false} class="px-5 pt-8 pb-6">
+            <button
+              type="button"
+              onclick={() => (entriesOpen = !entriesOpen)}
+              aria-expanded={entriesOpen}
+              aria-controls="entries-list"
+              class="flex w-full items-center gap-2 text-left"
+            >
+              <ChevronRight
+                size={13}
+                strokeWidth={2.5}
+                class="shrink-0 text-[var(--omr-dropout-ink)] transition-transform"
+                style={entriesOpen ? 'transform: rotate(90deg)' : ''}
+                aria-hidden="true"
+              />
+              <span class="field-label flex-1">Configurations</span>
+              <span class="font-mono text-xs text-[var(--omr-graphite-soft)]">
+                {entrySel.length}/{index.entries.length}
+              </span>
+            </button>
+            {#if entriesOpen}
+              <div id="entries-list">
+                {#each entryGroups as group (group.model)}
+                  <div class="mt-4">
+                    <button
+                      type="button"
+                      onclick={() => toggleEntryGroup(group.model)}
+                      class="flex w-full items-baseline gap-2 text-left
+                             hover:text-[var(--omr-cinnabar-ink)]"
+                      title="Select or clear every {group.model} run"
+                    >
+                      <span
+                        class="min-w-0 flex-1 truncate font-mono text-[0.6875rem] font-semibold
+                               text-[var(--omr-dropout-ink)]">{group.model}</span
+                      >
+                      <span class="font-mono text-[0.6875rem] text-[var(--omr-graphite-soft)]">
+                        {group.entries.filter((e) => entrySel.includes(e.entry_id))
+                          .length}/{group.entries.length}
+                      </span>
+                    </button>
+                    <ul class="mt-1.5 space-y-1">
+                      {#each group.entries as entry (entry.entry_id)}
+                        <li>
+                          <button
+                            type="button"
+                            onclick={() => toggleEntry(entry.entry_id)}
+                            aria-pressed={entrySel.includes(entry.entry_id)}
+                            class="row"
+                            class:picked={entrySel.includes(entry.entry_id)}
+                          >
+                            <Mark size="sm" filled={entrySel.includes(entry.entry_id)} />
+                            <span class="font-mono text-xs">{effortLabel(entry.effort)}</span>
+                          </button>
+                        </li>
+                      {/each}
+                    </ul>
+                  </div>
+                {/each}
+              </div>
+            {/if}
           </Sheet>
         </aside>
 
-        <div class="space-y-6">
+        <div class="min-w-0 space-y-6">
           <!-- ── The board ─────────────────────────────────────────────── -->
           <Sheet class="px-6 py-7 sm:px-10">
             <div class="flex flex-wrap items-baseline justify-between gap-3">
@@ -522,6 +652,22 @@
                 </p>
               {/if}
             </div>
+
+            {#if excluded.length}
+              <p class="mt-4 max-w-[70ch] text-sm leading-relaxed text-[var(--omr-graphite-soft)]">
+                {excluded.length} selected configuration{excluded.length === 1 ? '' : 's'} did not
+                sit every chosen paper, so {excluded.length === 1 ? 'it is' : 'they are'} left out of
+                the ranking rather than scored on a shorter exam.
+                <button
+                  type="button"
+                  onclick={narrowToCommon}
+                  class="underline decoration-[var(--omr-dropout-ink)] underline-offset-4
+                         hover:text-[var(--omr-graphite)]"
+                >
+                  Narrow the papers to the common set
+                </button>.
+              </p>
+            {/if}
 
             {#if dropped.length}
               <p class="mt-4 max-w-[70ch] text-sm leading-relaxed text-[var(--omr-graphite-soft)]">
@@ -740,46 +886,6 @@
             {/if}
           </Sheet>
 
-          <!-- ── Which configurations are being compared ───────────────── -->
-          <Sheet track={false} class="px-6 py-6 sm:px-10">
-            <p class="field-label">Configurations</p>
-            <ul class="mt-3 grid gap-x-8 gap-y-1 sm:grid-cols-2">
-              {#each index.entries as entry (entry.entry_id)}
-                <li>
-                  <button
-                    type="button"
-                    onclick={() => toggleEntry(entry.entry_id)}
-                    aria-pressed={entrySel.includes(entry.entry_id)}
-                    class="w-full text-left font-mono text-xs transition-colors"
-                    class:picked={entrySel.includes(entry.entry_id)}
-                    class:unpicked={!entrySel.includes(entry.entry_id)}
-                  >
-                    {entry.model} · {effortLabel(entry.effort)}
-                  </button>
-                </li>
-              {/each}
-            </ul>
-            {#if excluded.length}
-              <p class="mt-4 max-w-[70ch] text-sm leading-relaxed text-[var(--omr-graphite-soft)]">
-                {excluded.length} selected configuration{excluded.length === 1 ? '' : 's'} did not
-                sit every chosen paper, so {excluded.length === 1 ? 'it is' : 'they are'} left out of
-                the ranking rather than scored on a shorter exam.
-                <button
-                  type="button"
-                  onclick={narrowToCommon}
-                  class="underline decoration-[var(--omr-dropout-ink)] underline-offset-4
-                         hover:text-[var(--omr-graphite)]"
-                >
-                  Narrow the papers to the common set
-                </button>.
-              </p>
-            {/if}
-            {#if families.length}
-              <p class="mt-3 font-mono text-xs text-[var(--omr-graphite-soft)]">
-                {families.map((f) => `${f.model} ×${f.scores.length}`).join('   ')}
-              </p>
-            {/if}
-          </Sheet>
         </div>
       </div>
     {/if}
@@ -787,17 +893,23 @@
 </div>
 
 <style>
-  /* The picked/unpicked pair is this page's mark: a chosen row is graphite on
-     stock, an unchosen one is drop-out furniture that the scanner ignores. */
-  .picked {
+  /* Selection is a filled square, not a font weight. Reading a list by boldness
+     means holding the unselected rows in your head to have something to compare
+     against; a mark is either filled or it is not, and a whole column of them
+     answers "what is on?" without reading a single word. */
+  .row {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: left;
+    color: var(--omr-graphite-soft);
+    transition: color 150ms ease-out;
+  }
+  .row.picked {
     color: var(--omr-graphite);
-    font-weight: 600;
   }
-  .unpicked {
-    color: var(--omr-dropout-ink);
-  }
-  .picked:hover,
-  .unpicked:hover {
+  .row:hover {
     color: var(--omr-cinnabar-ink);
   }
   .on {

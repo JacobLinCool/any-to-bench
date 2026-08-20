@@ -2,8 +2,7 @@
   /* The atom of this world. Taiwanese answer cards are filled squares, not
    * bubbles — the printed instruction reads 用 2B 鉛筆塗滿方格，但不超出格外
    * ("fill the square with a 2B pencil, but not outside it"). The empty square is
-   * pre-printed in the drop-out ink; the graphite fill is what the machine reads,
-   * so it is the one thing that survives scanner view.
+   * pre-printed in the drop-out ink; the graphite fill is what the machine reads.
    *
    * Geometry lives in this component's own CSS rather than in utility classes.
    * Every mark once rendered 0×0 because an unanchored `lib/` in .gitignore hid
