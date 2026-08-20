@@ -101,6 +101,14 @@ def solve(
         ),
     ] = DEFAULT_MODEL,
     effort: EffortOption = None,
+    concurrency: Annotated[
+        int,
+        typer.Option(
+            min=1,
+            help="Questions to solve at once. Wall time only — same answers, same order — "
+            "but solve_secs stops being a per-question latency. Ignored by codex:/claude:",
+        ),
+    ] = 1,
     text_only: Annotated[
         bool,
         typer.Option(
@@ -124,6 +132,7 @@ def solve(
         effort=effort,
         capabilities=parse_capabilities(text_only),
         skipped=skipped,
+        concurrency=concurrency,
     )
     errors = bundle.validate_answer_sheet(sheet, allow_missing=skipped)
     write_json(output, sheet)
@@ -226,6 +235,14 @@ def bench(
             min=1, help="Runs per taker model; >1 reports mean ± std instead of one sample"
         ),
     ] = 1,
+    concurrency: Annotated[
+        int,
+        typer.Option(
+            min=1,
+            help="Questions to solve at once. Wall time only — same answers, same order — "
+            "but solve_secs stops being a per-question latency. Ignored by codex:/claude:",
+        ),
+    ] = 1,
 ) -> None:
     """Benchmark multiple taker models on one bundle and compare the results."""
     from any_to_bench.bench import BENCH_FILE, format_table, run_bench
@@ -240,6 +257,7 @@ def bench(
         effort=effort,
         text_only_models=text_only_model or None,
         repeat=repeat,
+        concurrency=concurrency,
     )
     typer.echo(format_table(report))
     typer.echo(f"Bench report written to {output / BENCH_FILE}")

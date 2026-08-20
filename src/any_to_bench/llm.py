@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import os
+import threading
 from pathlib import Path
 from typing import Any, Literal
 
@@ -80,9 +81,24 @@ DEFAULT_GOOGLE_CLOUD_LOCATION = "global"
 
 def _google_cloud_provider(project: str, location: str) -> Any:
     """Seam: constructing this resolves Application Default Credentials."""
+    from google.genai.types import HttpRetryOptions
     from pydantic_ai.providers.google_cloud import GoogleCloudProvider
 
-    return GoogleCloudProvider(project=project, location=location)
+    return GoogleCloudProvider(
+        project=project,
+        location=location,
+        # A benchmark fires one request per question and can run them
+        # concurrently, so it meets per-minute limits as a matter of course.
+        # Without this a single 429 fails a whole paper's row; with it the SDK
+        # backs off and the run costs a little wall time instead.
+        retry_options=HttpRetryOptions(
+            attempts=5,
+            initial_delay=2.0,
+            max_delay=60.0,
+            exp_base=2.0,
+            http_status_codes=[429, 500, 502, 503, 504],
+        ),
+    )
 
 
 def resolve_model(model: str) -> Any:
@@ -148,10 +164,16 @@ def build_agent[T: BaseModel](
 
 
 class UsageTracker:
-    """Accumulates pydantic-ai RunUsage across calls, grouped by phase."""
+    """Accumulates pydantic-ai RunUsage across calls, grouped by phase.
+
+    Thread-safe by construction rather than by convention: solving a paper can
+    fan its questions out across threads, and read-modify-write on a shared dict
+    is exactly the accounting that goes quietly wrong under one.
+    """
 
     def __init__(self) -> None:
         self._phases: dict[str, PhaseUsage] = {}
+        self._lock = threading.Lock()
 
     def add(self, phase: str, run_usage: Any) -> None:
         """Record one run's usage. Accepts any object shaped like RunUsage."""
@@ -164,8 +186,9 @@ class UsageTracker:
             cache_read_tokens=getattr(run_usage, "cache_read_tokens", 0) or 0,
             cache_write_tokens=getattr(run_usage, "cache_write_tokens", 0) or 0,
         )
-        current = self._phases.get(phase, PhaseUsage())
-        self._phases[phase] = current.merged(increment)
+        with self._lock:
+            current = self._phases.get(phase, PhaseUsage())
+            self._phases[phase] = current.merged(increment)
 
     def summary(self) -> UsageSummary | None:
         """The accumulated usage, or None if no calls were recorded."""

@@ -7,6 +7,8 @@ canonical AnswerValue shapes afterwards.
 
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
+
 import jsonschema
 from pydantic import BaseModel, Field
 
@@ -149,6 +151,7 @@ def run_solve(
     *,
     capabilities: frozenset[Modality] | None = None,
     skipped: list[str] | None = None,
+    concurrency: int = 1,
 ) -> AnswerSheet:
     """Solve every leaf question the taker is equipped to attempt.
 
@@ -157,6 +160,13 @@ def run_solve(
     more are appended to `skipped` and left out of the sheet entirely, rather
     than answered badly or allowed to error the whole run — an out-parameter
     list, matching how warnings are already threaded through grading.
+
+    concurrency > 1 solves that many questions at once. Questions are
+    independent — each builds its own agent and shares nothing but the usage
+    tracker — so this is wall time only: the same answers in the same order,
+    because results are collected in document order rather than as they land.
+    It does change `solve_secs`, which stops being a per-question latency and
+    becomes a throughput figure, so it is opt-in and the default stays 1.
     """
     if parse_agentic_model(model) is not None:
         # Agentic takers read assets as files from their workspace, never as
@@ -165,8 +175,9 @@ def run_solve(
 
         return agentic_solve(bundle, model, effort=effort)
     tracker = UsageTracker()
-    answers: dict[str, AnswerValue] = {}
     requirements = exam_modalities(bundle.exam) if capabilities is not None else {}
+
+    pending: list[tuple[str, list[Part]]] = []
     for section in bundle.exam.sections:
         for top in section.questions:
             for leaf in top.iter_leaves():
@@ -177,8 +188,23 @@ def run_solve(
                             skipped.append(leaf.id)
                         continue
                 context = leaf_context(top, leaf.id)
-                parts = render_question_parts(bundle, leaf, section, context)
-                answers[leaf.id] = solve_question(bundle, leaf, parts, model, tracker, effort)
+                pending.append((leaf.id, render_question_parts(bundle, leaf, section, context)))
+
+    leaves = {q.id: q for s in bundle.exam.sections for t in s.questions for q in t.iter_leaves()}
+
+    def solve(item: tuple[str, list[Part]]) -> AnswerValue:
+        qid, parts = item
+        return solve_question(bundle, leaves[qid], parts, model, tracker, effort)
+
+    if concurrency > 1 and len(pending) > 1:
+        with ThreadPoolExecutor(max_workers=concurrency) as pool:
+            solved = list(pool.map(solve, pending))
+    else:
+        solved = [solve(item) for item in pending]
+
+    answers: dict[str, AnswerValue] = {
+        qid: answer for (qid, _), answer in zip(pending, solved, strict=True)
+    }
     return AnswerSheet(
         exam_id=bundle.exam.exam_id,
         taker=model,

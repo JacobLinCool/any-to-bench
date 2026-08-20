@@ -83,3 +83,64 @@ def test_question_parts_include_images_and_context(tiny_bundle, monkeypatch):
     text_parts = [p for p in by_type[SolveText].calls[0] if isinstance(p, str)]
     assert any("photosynthesis" in p for p in text_parts)
     assert any("Context for question" in p for p in text_parts)
+
+
+def test_concurrency_changes_nothing_but_wall_time(tiny_bundle, monkeypatch):
+    """Same answers, same order, same usage — a thread pool is not a semantic change.
+
+    Order matters beyond tidiness: the answer sheet is written to disk and
+    published as a benchmark artifact, so questions resolving out of order would
+    make two runs of the same taker differ byte-for-byte for no reason.
+    """
+    monkeypatch.setattr(runner_module, "build_agent", fake_build_agent(PERFECT_OUTPUTS))
+    serial = run_solve(tiny_bundle, model="test:solver")
+    monkeypatch.setattr(runner_module, "build_agent", fake_build_agent(PERFECT_OUTPUTS))
+    parallel = run_solve(tiny_bundle, model="test:solver", concurrency=4)
+
+    assert list(parallel.answers) == list(serial.answers)
+    assert parallel.model_dump(mode="json", exclude={"usage"}) == serial.model_dump(
+        mode="json", exclude={"usage"}
+    )
+    assert parallel.usage is not None and serial.usage is not None
+    assert parallel.usage.total == serial.usage.total
+
+
+def test_concurrent_usage_is_not_lost_to_a_race(tiny_bundle, monkeypatch):
+    """The tracker is read-modify-write on a shared dict; without its lock a
+    concurrent solve silently under-reports what the taker spent.
+
+    The window is widened deliberately. Under CPython the real one is a couple
+    of bytecodes wide and the GIL hides the bug almost every time — which is
+    exactly why it would ship. Sleeping inside `merged` forces the interleave
+    that a slower machine, a bigger paper, or a free-threaded build would find
+    on its own; the test fails without the lock and passes with it.
+    """
+    import threading
+    import time
+
+    from any_to_bench.schemas.usage import PhaseUsage
+
+    real_merged = PhaseUsage.merged
+
+    def slow_merged(self, other):
+        time.sleep(0.005)
+        return real_merged(self, other)
+
+    monkeypatch.setattr(PhaseUsage, "merged", slow_merged)
+
+    barrier = threading.Barrier(8, timeout=5)
+
+    def at_the_same_moment(output):
+        def answer(parts):
+            barrier.wait()  # every worker enters tracker.add together
+            return output
+
+        return answer
+
+    outputs = {k: at_the_same_moment(v) for k, v in PERFECT_OUTPUTS.items()}
+    monkeypatch.setattr(runner_module, "build_agent", fake_build_agent(outputs))
+    sheet = run_solve(tiny_bundle, model="test:solver", concurrency=8)
+
+    assert sheet.usage is not None
+    assert sheet.usage.total.requests == 8
+    assert sheet.usage.total.input_tokens == 800

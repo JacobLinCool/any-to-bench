@@ -40,6 +40,7 @@ def run_bench(
     effort: Effort | str | None = None,
     text_only_models: list[str] | None = None,
     repeat: int = 1,
+    concurrency: int = 1,
 ) -> BenchReport:
     """Solve + grade the bundle with every model; write per-model artifacts and
     an incrementally-updated bench.json into out_dir. One failing model never
@@ -50,7 +51,10 @@ def run_bench(
     so a subset score is never mistaken for a full-exam one.
 
     repeat runs each taker that many times. A single run gives a score with
-    unknown noise, which is the whole difficulty in reading a one-shot matrix."""
+    unknown noise, which is the whole difficulty in reading a one-shot matrix.
+
+    concurrency solves that many questions at once per taker. It does not touch
+    agentic takers, which run one CLI over the whole paper."""
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     effective_judges = list(judge_models or bundle.grading.judge.models)
@@ -110,6 +114,7 @@ def run_bench(
                 judge_models=judge_models,
                 effort=effort,
                 deterministic_total=deterministic_total,
+                concurrency=concurrency,
             )
 
     covered = {row.covered_max for row in report.rows if row.status == "ok"}
@@ -136,6 +141,7 @@ def _run_one(
     judge_models: list[str] | None,
     effort: Effort | str | None,
     deterministic_total: int,
+    concurrency: int = 1,
 ) -> None:
     """Solve + grade one taker once, flushing at every exit so a kill leaves usable state."""
     row = BenchRow(model=model, slug=_unique_slug(model, used_slugs), run_index=run_index)
@@ -144,7 +150,14 @@ def _run_one(
 
     start = time.monotonic()
     try:
-        sheet = run_solve(bundle, model, effort=effort, capabilities=capabilities, skipped=skipped)
+        sheet = run_solve(
+            bundle,
+            model,
+            effort=effort,
+            capabilities=capabilities,
+            skipped=skipped,
+            concurrency=concurrency,
+        )
     except Exception as e:  # noqa: BLE001 — one broken model must not sink the matrix
         row.status, row.error = "solve_error", str(e)
         _flush(report, out_dir)

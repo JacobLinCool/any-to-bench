@@ -49,6 +49,24 @@ API keys come from the environment or `.env` (`OPENAI_API_KEY`, `GOOGLE_API_KEY`
 `claude:*`). The CLI loads `.env` automatically; real environment variables take
 precedence.
 
+## Solving in parallel
+
+`solve` and `bench` take `--concurrency N`, which solves N questions at once.
+Questions are independent, so this is wall time only — the same answers in the
+same order, because results are collected in document order rather than as they
+land. Measured on `gsat-115-math-a` (20 questions) with
+`google-cloud:gemini-3.7-flash` at low effort: 234s serial, 45s at `8`, 29s at
+`16`.
+
+Two things it does change. `solve_secs` stops being a per-question latency and
+becomes a throughput figure, so runs at different concurrencies are not
+time-comparable and `results publish --note` should say which was used. And a
+benchmark meets per-minute rate limits as a matter of course: the Vertex
+provider retries 429 and 5xx with exponential backoff so one throttled request
+costs wall time instead of a whole paper's row.
+
+`codex:`/`claude:` takers ignore the flag — one CLI already runs the whole paper.
+
 ## Reasoning effort
 
 `ingest`, `solve`, and `grade` accept `--effort minimal|low|medium|high|xhigh|max`:
