@@ -98,23 +98,24 @@ a2b grade bundle answers.json -o report.json
 ## Published results
 
 [**JacobLinCool/taiwan-exams-results**](https://huggingface.co/datasets/JacobLinCool/taiwan-exams-results)
-holds the first scores against that corpus: ten taker configurations —
+holds the first scores against that corpus: twelve taker configurations —
 `codex:gpt-5.6-luna` and `claude:claude-sonnet-5` at low, medium, high and xhigh,
-plus `codex:gpt-5.6-sol` and `claude:claude-opus-5` at low — over all 21 papers of
-the 115 year, 1,748 points apiece.
+plus `codex:gpt-5.6-sol` and `claude:claude-opus-5` at low and medium — over all
+21 papers of the 115 year, 1,748 points apiece.
 
-| Configuration | Score | Rule-graded | Solve output tokens |
-|---|---|---|---|
-| `codex:gpt-5.6-luna` xhigh | 98.1% | 98.2% | 343k |
-| `codex:gpt-5.6-luna` high | 95.6% | 95.3% | 257k |
-| `claude:claude-opus-5` low | 95.6% | 96.0% | 183k |
-| `codex:gpt-5.6-sol` low | 95.0% | 95.2% | 102k |
-| `claude:claude-sonnet-5` xhigh | 94.3% | 94.8% | 1,385k |
-| `codex:gpt-5.6-luna` low | 78.8% | 80.0% | 99k |
+| Configuration | Score | Rule-graded | Solve output tokens | |
+|---|---|---|---|---|
+| `codex:gpt-5.6-sol` medium | 99.1% | 99.2% | 150k | frontier |
+| `codex:gpt-5.6-luna` xhigh | 98.1% | 98.2% | 343k | |
+| `claude:claude-opus-5` medium | 96.6% | 97.3% | 298k | |
+| `codex:gpt-5.6-sol` low | 95.0% | 95.2% | 102k | frontier |
+| `claude:claude-sonnet-5` xhigh | 94.3% | 94.8% | 1,385k | |
+| `codex:gpt-5.6-luna` low | 78.8% | 80.0% | 99k | frontier |
 
-Six of the ten; the dataset card ranks all of them. Effort is not the whole
-story — `codex:gpt-5.6-sol` at low effort lands within 0.6 points of
-`codex:gpt-5.6-luna` at high for 40% of the output tokens.
+Six of the twelve; the dataset card ranks all of them. Effort is not the whole
+story, and neither is spending: `codex:gpt-5.6-sol` at medium effort outscores
+every other configuration on 44% of the output tokens the runner-up spends, and
+three rows are all that survive on the cost/score frontier.
 
 Rule-graded points are scored by program, so that column compares across any two
 rows; judged points depend on the judge model, which is named per entry. One run

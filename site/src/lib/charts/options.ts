@@ -51,59 +51,44 @@ export function buildParetoOption(scores: EntryScore[], opts: ChartOptions) {
   const min = scoreFloor(usable, origin)
   const families = byModel(usable)
 
-  const series: Record<string, unknown>[] = families.map((family, i) => {
-    // A model that sat a single effort has no polyline for a name to trail off,
-    // and two labels on one point is one too many: fold the model name into the
-    // point label and skip the end label entirely. Fewer labels is what actually
-    // keeps a crowded band readable — models cluster within a point or two of
-    // each other up here, and every label placed is one more thing to dodge.
-    const lone = family.scores.length === 1
-    return {
-      type: 'line',
-      name: family.model,
-      data: family.scores.map((s) => ({
-        value: [s.cost, s.score],
-        name: `${family.model} · ${effortLabel(s.entry.effort)}`,
-      })),
-      symbol: 'rect',
-      symbolSize: [10, 7],
-      itemStyle: { color: p.graphite, borderRadius: 0 },
-      lineStyle: { color: p.graphiteSoft, width: 1, type: DASH[i % DASH.length] },
-      label: {
-        show: true,
-        position: 'top',
-        distance: 8,
-        // Only the ends of the line are named. Effort is ordered along the
-        // polyline, so labelling both ends says which way it runs; labelling
-        // every point just fills the band where the models actually compete
-        // with text that then has to dodge itself.
-        formatter: (item: { dataIndex: number; data: { name: string } }) => {
-          if (lone) return item.data.name
-          const ends = item.dataIndex === 0 || item.dataIndex === family.scores.length - 1
-          return ends ? (item.data.name.split(' · ')[1] ?? '') : ''
-        },
-        color: lone ? p.graphite : p.graphiteSoft,
-        fontFamily: MONO,
-        fontSize: lone ? 11 : 9,
-        fontWeight: lone ? 600 : 'normal',
+  /* Model names live in the legend, not on the points. Written on the chart
+   * they read better — right up until two models score alike, which is the
+   * normal case up here: a name is drawn rightward from its last point and
+   * lands on whatever else is scoring 95%. Nudging them apart, folding them
+   * into the point label, and labelling only the line ends each bought one
+   * more configuration before colliding again. A legend does not degrade as
+   * entries accumulate, and it is what the radar on this page already uses.
+   * Identity is still on screen and still not behind a pointer. */
+  const series: Record<string, unknown>[] = families.map((family, i) => ({
+    type: 'line',
+    name: family.model,
+    data: family.scores.map((s) => ({
+      value: [s.cost, s.score],
+      name: `${family.model} · ${effortLabel(s.entry.effort)}`,
+    })),
+    symbol: 'rect',
+    symbolSize: [10, 7],
+    itemStyle: { color: p.graphite, borderRadius: 0 },
+    lineStyle: { color: p.graphiteSoft, width: 1, type: DASH[i % DASH.length] },
+    label: {
+      show: true,
+      position: 'top',
+      distance: 8,
+      // Only the ends of the line are named: effort is ordered along it, so the
+      // two ends say which way it runs, and the exact value of every point is a
+      // row in the table under the chart.
+      formatter: (item: { dataIndex: number; data: { name: string } }) => {
+        const ends = item.dataIndex === 0 || item.dataIndex === family.scores.length - 1
+        return ends ? (item.data.name.split(' · ')[1] ?? '') : ''
       },
-      // Identity belongs on the chart, not behind a pointer.
-      endLabel: {
-        show: !lone,
-        distance: 9,
-        formatter: family.model,
-        color: p.graphite,
-        fontFamily: MONO,
-        fontSize: 11,
-        fontWeight: 600,
-      },
-      emphasis: { focus: 'series', lineStyle: { color: p.graphite, width: 2 } },
-      // Nudge the survivors apart rather than drop one: an unlabelled point is a
-      // point nobody can identify, and hiding is what ECharts does by default.
-      labelLayout: { moveOverlap: 'shiftY', hideOverlap: false },
-      z: 3,
-    }
-  })
+      color: p.graphiteSoft,
+      fontFamily: MONO,
+      fontSize: 9,
+    },
+    emphasis: { focus: 'series', lineStyle: { color: p.graphite, width: 2 } },
+    labelLayout: { moveOverlap: 'shiftY', hideOverlap: false },
+    z: 3,
+  }))
 
   // The frontier is a boundary, so it gets the world's boundary weight: 2px graphite.
   const front = usable
@@ -159,7 +144,24 @@ export function buildParetoOption(scores: EntryScore[], opts: ChartOptions) {
 
   return {
     ...base(p),
-    grid: { left: 58, right: 132, top: 24, bottom: 52 },
+    grid: { left: 58, right: 40, top: 24, bottom: 52 + 18 * families.length },
+    legend: {
+      bottom: 0,
+      orient: 'vertical',
+      left: 'center',
+      itemGap: 6,
+      textStyle: { color: p.graphiteSoft, fontFamily: MONO, fontSize: 11 },
+      // A key, not a control: the frontier is computed from every entry on the
+      // chart, so letting the legend hide one would leave a boundary drawn
+      // through points nobody can see. Filtering belongs to the picker, which
+      // recomputes the whole thing.
+      selectedMode: false,
+      // Wide enough that the rule either side of the symbol is legible — the
+      // rule is the only thing telling two models apart in a one-ink world.
+      itemWidth: 38,
+      itemHeight: 8,
+      data: families.map((family) => family.model),
+    },
     xAxis: {
       ...AXIS(p),
       type: opts.cost === 'output' ? 'log' : 'value',
