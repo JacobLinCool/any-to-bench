@@ -98,27 +98,27 @@ a2b grade bundle answers.json -o report.json
 ## Published results
 
 [**JacobLinCool/taiwan-exams-results**](https://huggingface.co/datasets/JacobLinCool/taiwan-exams-results)
-holds the first scores against that corpus: fourteen taker configurations —
-`codex:gpt-5.6-luna` and `claude:claude-sonnet-5` at low, medium, high and xhigh,
-plus `codex:gpt-5.6-sol` and `claude:claude-opus-5` at low, medium and high —
-over all 21 papers of the 115 year, 1,748 points apiece.
+holds the first scores against that corpus: sixteen taker configurations — four
+models (`codex:gpt-5.6-sol`, `codex:gpt-5.6-luna`, `claude:claude-opus-5`,
+`claude:claude-sonnet-5`) at each of low, medium, high and xhigh — over all 21
+papers of the 115 year, 1,748 points apiece.
 
 | Configuration | Score | Rule-graded | Solve output tokens | |
 |---|---|---|---|---|
+| `codex:gpt-5.6-sol` xhigh | 99.4% | 99.2% | 211k | frontier |
 | `codex:gpt-5.6-sol` medium | 99.1% | 99.2% | 150k | frontier |
-| `codex:gpt-5.6-sol` high | 98.9% | 99.0% | 180k | |
 | `codex:gpt-5.6-luna` xhigh | 98.1% | 98.2% | 343k | |
 | `claude:claude-opus-5` high | 96.8% | 97.4% | 471k | |
 | `codex:gpt-5.6-sol` low | 95.0% | 95.2% | 102k | frontier |
 | `claude:claude-sonnet-5` xhigh | 94.3% | 94.8% | 1,385k | |
 | `codex:gpt-5.6-luna` low | 78.8% | 80.0% | 99k | frontier |
 
-Seven of the fourteen; the dataset card ranks all of them. Effort is not the
-whole story, and neither is spending. `codex:gpt-5.6-sol` at medium effort
-outscores every other configuration on 44% of the output tokens the runner-up
-spends; turning its dial up to high cost 20% more tokens and scored 0.2 points
-lower, a difference one run cannot resolve. Only three rows survive on the
-cost/score frontier.
+Seven of the sixteen; the dataset card ranks all of them. Effort is not the
+whole story, and neither is spending: four rows are all that survive on the
+cost/score frontier, and `codex:gpt-5.6-sol` holds three of them. Its dial
+barely moves the rule-graded column — 99.2%, 99.0%, 99.2% at medium, high and
+xhigh — so what separates its top three rows is the judged half, and that half
+is only as good as the judge model named in the entry.
 
 Rule-graded points are scored by program, so that column compares across any two
 rows; judged points depend on the judge model, which is named per entry. One run
