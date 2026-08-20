@@ -24,8 +24,14 @@ a2b solve bundle --model google-cloud:gemini-3.7-flash -o answers.json
 
 A service-account key names its own project, so that is all it takes. Set
 `GOOGLE_CLOUD_PROJECT` to bill a different project (or when using `gcloud` ADC
-rather than a key file), and `GOOGLE_CLOUD_LOCATION` to pick a region —
-`us-central1` otherwise, which carries the most models.
+rather than a key file).
+
+`GOOGLE_CLOUD_LOCATION` picks the region, and defaults to `global` rather than
+pydantic-ai's `us-central1`. That region carries the most models by count, but
+count is the wrong axis here: on a real project every current Gemini —
+`gemini-3.5-flash`, `3.6-flash`, `3.7-flash` — answered 404 in `us-central1` and
+resolved on `global`, where new models land first. A wrong region fails loudly
+with a 404 naming it, so set the variable if the model you want is regional.
 
 **`GOOGLE_API_KEY` is not an alternative here.** Left to provider inference, a
 `google-cloud:` model with an API key in the environment quietly runs on Vertex AI

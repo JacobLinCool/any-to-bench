@@ -70,13 +70,19 @@ def _service_account_project(path: str | None) -> str | None:
     return project if isinstance(project, str) and project else None
 
 
-def _google_cloud_provider(project: str) -> Any:
+# pydantic-ai defaults to us-central1, which carries the most models by count.
+# That is the wrong axis for a benchmark harness: on a real project every current
+# Gemini — 3.5, 3.6 and 3.7 flash — answered 404 there and resolved on `global`,
+# where new models land first. GOOGLE_CLOUD_LOCATION still overrides, and a wrong
+# region fails loudly with a 404 naming it.
+DEFAULT_GOOGLE_CLOUD_LOCATION = "global"
+
+
+def _google_cloud_provider(project: str, location: str) -> Any:
     """Seam: constructing this resolves Application Default Credentials."""
     from pydantic_ai.providers.google_cloud import GoogleCloudProvider
 
-    # Location is left to the provider, which reads GOOGLE_CLOUD_LOCATION and
-    # otherwise picks the region carrying the most models.
-    return GoogleCloudProvider(project=project)
+    return GoogleCloudProvider(project=project, location=location)
 
 
 def resolve_model(model: str) -> Any:
@@ -102,9 +108,11 @@ def resolve_model(model: str) -> Any:
             "service-account JSON key (it names its own project), or set GOOGLE_CLOUD_PROJECT"
         )
 
+    location = os.getenv("GOOGLE_CLOUD_LOCATION") or DEFAULT_GOOGLE_CLOUD_LOCATION
+
     from pydantic_ai.models.google import GoogleModel
 
-    return GoogleModel(model_name, provider=_google_cloud_provider(project))
+    return GoogleModel(model_name, provider=_google_cloud_provider(project, location))
 
 
 def build_agent[T: BaseModel](

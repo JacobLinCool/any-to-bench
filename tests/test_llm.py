@@ -97,8 +97,9 @@ class TestUsageTracker:
 class Provider:
     """Stands in for GoogleCloudProvider, whose construction resolves ADC."""
 
-    def __init__(self, project: str) -> None:
+    def __init__(self, project: str, location: str) -> None:
         self.project = project
+        self.location = location
 
 
 class TestVertexModel:
@@ -107,15 +108,23 @@ class TestVertexModel:
 
     @pytest.fixture(autouse=True)
     def _seam(self, monkeypatch):
-        self.calls: list[str] = []
+        self.calls: list[tuple[str, str]] = []
 
-        def provider(project: str):
-            self.calls.append(project)
-            return Provider(project)
+        def provider(project: str, location: str):
+            self.calls.append((project, location))
+            return Provider(project, location)
 
         monkeypatch.setattr(llm, "_google_cloud_provider", provider)
-        for name in ("GOOGLE_CLOUD_PROJECT", "GOOGLE_APPLICATION_CREDENTIALS"):
+        for name in (
+            "GOOGLE_CLOUD_PROJECT",
+            "GOOGLE_APPLICATION_CREDENTIALS",
+            "GOOGLE_CLOUD_LOCATION",
+        ):
             monkeypatch.delenv(name, raising=False)
+
+    @property
+    def projects(self) -> list[str]:
+        return [project for project, _ in self.calls]
 
     def _key_file(self, tmp_path, **extra):
         path = tmp_path / "sa.json"
@@ -132,8 +141,19 @@ class TestVertexModel:
             "GOOGLE_APPLICATION_CREDENTIALS", self._key_file(tmp_path, project_id="from-key")
         )
         model = llm.resolve_model("google-cloud:gemini-3.7-flash")
-        assert self.calls == ["from-key"]
+        assert self.projects == ["from-key"]
         assert model.model_name == "gemini-3.7-flash"
+
+    def test_location_defaults_to_global_and_the_env_overrides(self, tmp_path, monkeypatch):
+        """`global` is where new Gemini models land; pydantic-ai's own default,
+        us-central1, 404s for every current one on a real project."""
+        monkeypatch.setenv("GOOGLE_CLOUD_PROJECT", "p")
+        llm.resolve_model("google-cloud:gemini-3.7-flash")
+        assert self.calls == [("p", "global")]
+
+        monkeypatch.setenv("GOOGLE_CLOUD_LOCATION", "us-east5")
+        llm.resolve_model("google-cloud:gemini-3.7-flash")
+        assert self.calls[-1] == ("p", "us-east5")
 
     def test_explicit_project_wins_over_the_key_file(self, tmp_path, monkeypatch):
         """The key's project is the default, not the only choice: quota can be
@@ -143,7 +163,7 @@ class TestVertexModel:
         )
         monkeypatch.setenv("GOOGLE_CLOUD_PROJECT", "explicit")
         llm.resolve_model("google-cloud:gemini-3.7-flash")
-        assert self.calls == ["explicit"]
+        assert self.projects == ["explicit"]
 
     def test_refuses_before_touching_credentials(self):
         """An API key must never stand in for Google Cloud credentials.
@@ -187,7 +207,7 @@ class TestVertexModel:
         agent = build_agent(
             "google-cloud:gemini-3.7-flash", Out, "instructions", effort=Effort.high
         )
-        assert self.calls == ["p"]
+        assert self.projects == ["p"]
         assert agent.model.model_name == "gemini-3.7-flash"
 
 
@@ -196,10 +216,8 @@ class TestVertexAuthPath:
 
     Constructing GoogleCloudProvider is offline — google-genai resolves
     credentials lazily at request time — so the auth route it picked is
-    readable without a network call, and the endpoint says which route it was.
+    readable without a network call.
     """
-
-    EXPRESS = "https://aiplatform.googleapis.com/"
 
     def test_an_api_key_cannot_stand_in_for_a_service_account(self, tmp_path, monkeypatch):
         key = tmp_path / "sa.json"
@@ -211,10 +229,11 @@ class TestVertexAuthPath:
 
         model = llm.resolve_model("google-cloud:gemini-3.7-flash")
 
-        # A regional endpoint, not the Express Mode one an API key would buy.
-        assert model.client._api_client.project == "real-project"
-        assert model.client._api_client.api_key is None
+        # The project is what shuts the API-key path off, so both halves matter.
+        # Note the endpoint cannot be the discriminator: Vertex's `global`
+        # location and Express Mode share aiplatform.googleapis.com.
+        client = model.client._api_client
+        assert client.project == "real-project"
+        assert client.location == "global"
+        assert client.api_key is None
         assert llm.GOOGLE_CLOUD in model.system
-        base_url = model.client._api_client._http_options.base_url
-        assert base_url != self.EXPRESS
-        assert "aiplatform.googleapis.com" in base_url
