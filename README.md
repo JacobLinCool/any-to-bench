@@ -105,10 +105,10 @@ all 21 papers of the 115 year, 1,748 points apiece — four agentic models
 (`codex:gpt-5.6-sol`, `codex:gpt-5.6-luna`, `claude:claude-opus-5`,
 `claude:claude-sonnet-5`) at each of low, medium, high and xhigh, plus
 `google-cloud:gemini-3.7-flash` through Vertex AI at low, medium and high.
-Thirteen of them also sat the 40 papers of the 115 統測 — `codex:gpt-5.6-luna`,
+Fourteen of them also sat the 40 papers of the 115 統測 — `codex:gpt-5.6-luna`,
 `claude:claude-opus-5` and `claude:claude-sonnet-5` at all four efforts,
-`codex:gpt-5.6-sol` at low — so those thirteen rows cover 61 papers and 5,748
-points.
+`codex:gpt-5.6-sol` at low and medium — so those fourteen rows cover 61 papers
+and 5,748 points.
 
 Over the 21 papers every configuration sat:
 
@@ -137,11 +137,11 @@ points of range against 19.3), because 37 of the 40 papers are multiple choice
 throughout and a low-effort reader already does well on them. The three dials
 differ by an order of magnitude in slope: luna covers 13.4 points, `claude:
 claude-sonnet-5` 2.1 (93.8% → 95.9%), `claude:claude-opus-5` 0.9 (97.3% →
-98.2%) — opus starts where luna finishes. The top two are a tie one point apart
-out of 4,000 (luna xhigh 3927.5, opus xhigh 3926.5) at 2.4× the output tokens,
-and `codex:gpt-5.6-sol` low reaches 97.1% on 173k, above every sonnet
-configuration including its xhigh, which spends 15× that. Five of the thirteen
-survive on the cost/score frontier.
+98.2%) — opus starts where luna finishes. But `codex:gpt-5.6-sol` medium ends
+the argument: 3993/4000 (99.8%), three wrong out of 1,835 rule-graded questions,
+36 of 40 papers with nothing lost, on 269k output tokens — half of what luna's
+xhigh spends to finish 1.6 points behind. It collapses the frontier to three
+points; the other eleven configurations all spend more for less.
 
 `google-cloud:gemini-3.7-flash` is the first taker here that is a plain API
 model rather than a coding agent, and the difference shows in a way worth
