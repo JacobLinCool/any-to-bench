@@ -136,6 +136,28 @@ export function effortLabel(effort: string | null): string {
   return effort ?? 'provider default'
 }
 
+/** What to print for each model, with the harness prefix dropped where it can be.
+ *
+ * `codex:gpt-5.6-sol` reads as `gpt-5.6-sol`, and on a board where nothing else
+ * claims that name the prefix is noise in every label, legend and axis. It
+ * stops being noise the moment two harnesses run the same weights — a coding
+ * agent and a plain API call are different takers — so a shared bare name
+ * sends every claimant back to its full id rather than printing two rows that
+ * read alike. Callers keep the full id for titles and tooltips.
+ */
+export function modelNames(models: Iterable<string>): Map<string, string> {
+  const claims = new Map<string, Set<string>>()
+  for (const model of models) {
+    const bare = model.slice(model.indexOf(':') + 1)
+    claims.set(bare, (claims.get(bare) ?? new Set()).add(model))
+  }
+  const names = new Map<string, string>()
+  for (const [bare, owners] of claims) {
+    for (const model of owners) names.set(model, owners.size > 1 ? model : bare)
+  }
+  return names
+}
+
 export function entryLabel(entry: {
   model: string
   effort: string | null

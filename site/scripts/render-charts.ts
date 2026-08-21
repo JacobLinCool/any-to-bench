@@ -16,6 +16,7 @@ import {
   droppedByFilter,
   examGroups,
   groupByExam,
+  modelNames,
   scoreEntry,
   type ResultsEntry,
   type ResultsIndex,
@@ -57,10 +58,12 @@ const scores = index.entries
   .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
 
 const groups = examGroups(index.papers.filter((p) => papers.includes(p.subset)))
+// Same names the page prints, computed over the whole board for the same reason.
+const names = modelNames(index.entries.map((e) => e.model))
 mkdirSync(outDir, { recursive: true })
 
 const figures: [string, string][] = [
-  ['results-pareto.svg', renderToSvg(buildParetoOption(scores, { cost: 'output', average: 'micro' }), 900, 520)],
+  ['results-pareto.svg', renderToSvg(buildParetoOption(scores, { cost: 'output', average: 'micro', names }), 900, 520)],
   [
     // Four outlines is what rule alone can keep apart; the leaders, per paper.
     'results-radar.svg',
@@ -68,6 +71,7 @@ const figures: [string, string][] = [
       buildRadarOption(scores.slice(0, MAX_SERIES), papers, {
         cost: 'output',
         average: 'micro',
+        names,
       }),
       820,
       680,
@@ -79,7 +83,7 @@ const figures: [string, string][] = [
       buildRadarOption(
         groupByExam(scores.slice(0, MAX_SERIES), groups),
         groups.map((g) => g.exam),
-        { cost: 'output', average: 'micro' },
+        { cost: 'output', average: 'micro', names },
       ),
       760,
       600,

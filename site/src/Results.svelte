@@ -25,6 +25,7 @@
     axisNames,
     examGroups,
     groupByExam,
+    modelNames,
     paretoFrontier,
     scoreEntry,
     shortSubject,
@@ -58,6 +59,11 @@
   let ticket = 0
 
   const groups = $derived(index ? examGroups(index.papers) : [])
+
+  /* Computed over the whole board rather than the current selection, so a
+   * label never changes because of what happens to be ticked. */
+  const names = $derived(modelNames((index?.entries ?? []).map((e) => e.model)))
+  const modelName = $derived((model: string) => names.get(model) ?? model)
 
   /* The rail lists configurations the way the chart draws them: one block per
    * model, its efforts in dial order. Sixteen flat rows is a wall of text that
@@ -116,7 +122,7 @@
   const radarScores = $derived(radarGrouped ? groupByExam(radarShown, groups) : radarShown)
   const radarSubsets = $derived(radarGrouped ? groups.map((g) => g.exam) : activePapers)
   const radarAxisNames = $derived(axisNames(radarSubsets))
-  const chartOpts = $derived({ cost, average, origin })
+  const chartOpts = $derived({ cost, average, origin, names })
   const paretoOption = $derived(buildParetoOption(ranked, chartOpts))
   /* Past four outlines one radar is a ball of wool, so the chart changes kind
    * rather than degrading: a wall of small multiples, one panel per
@@ -692,7 +698,7 @@
                     >
                       <span
                         class="min-w-0 flex-1 truncate font-mono text-[0.6875rem] font-semibold
-                               text-[var(--omr-dropout-ink)]">{group.model}</span
+                               text-[var(--omr-dropout-ink)]">{modelName(group.model)}</span
                       >
                       <span class="font-mono text-[0.6875rem] text-[var(--omr-graphite-soft)]">
                         {group.entries.filter((e) => entrySel.includes(e.entry_id))
@@ -790,8 +796,12 @@
                       <td class="py-3 pr-3 font-mono text-sm tabular-nums">
                         {String(i + 1).padStart(2, '0')}
                       </td>
-                      <th scope="row" class="py-3 pr-4 font-mono text-sm font-normal">
-                        {row.entry.model}
+                      <th
+                        scope="row"
+                        class="py-3 pr-4 font-mono text-sm font-normal"
+                        title={row.entry.model}
+                      >
+                        {modelName(row.entry.model)}
                       </th>
                       <td class="py-3 pr-4 text-sm text-[var(--omr-graphite-soft)]">
                         {effortLabel(row.entry.effort)}
@@ -873,7 +883,7 @@
                       {#each ranked as row (row.entry.entry_id)}
                         <tr class="border-b border-[var(--omr-dropout-soft)]">
                           <th scope="row" class="py-2 pr-4 font-mono text-xs font-normal">
-                            {row.entry.model} · {effortLabel(row.entry.effort)}
+                            {modelName(row.entry.model)} · {effortLabel(row.entry.effort)}
                           </th>
                           <td class="py-2 pr-4 text-right font-mono text-xs tabular-nums">
                             {fmtPct(row.score)}
@@ -948,7 +958,7 @@
                                text-[var(--omr-graphite)]"
                         title={entryLabel(row.entry)}
                       >
-                        {row.entry.model}
+                        {modelName(row.entry.model)}
                       </p>
                       <p
                         class="truncate text-center font-mono text-[0.6875rem]
@@ -987,7 +997,7 @@
                       {#each radarScores as row (row.entry.entry_id)}
                         <tr class="border-b border-[var(--omr-dropout-soft)]">
                           <th scope="row" class="py-2 pr-4 font-mono text-xs font-normal">
-                            {row.entry.model} · {effortLabel(row.entry.effort)}
+                            {modelName(row.entry.model)} · {effortLabel(row.entry.effort)}
                           </th>
                           {#each radarSubsets as subset (subset)}
                             <td class="py-2 pr-3 text-right font-mono text-xs tabular-nums">

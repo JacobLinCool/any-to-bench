@@ -22,6 +22,14 @@ export type ChartOptions = {
   average: Average
   /** A 0–100 axis on scores that all sit above 90 is a row of flat lines. */
   origin?: 'zoom' | 'zero'
+  /** From `modelNames` over the whole board, so every chart on a page agrees
+   * about which prefixes are droppable. Absent, models print their full id. */
+  names?: ReadonlyMap<string, string>
+}
+
+/** A model's display name — see `modelNames` for when the prefix survives. */
+function modelName(opts: ChartOptions, model: string): string {
+  return opts.names?.get(model) ?? model
 }
 
 function floor5(value: number): number {
@@ -67,10 +75,10 @@ export function buildParetoOption(scores: EntryScore[], opts: ChartOptions) {
     const rule = seriesRule(i)
     return {
       type: 'line',
-      name: family.model,
+      name: modelName(opts, family.model),
       data: family.scores.map((s) => ({
         value: [s.cost, s.score],
-        name: `${family.model} · ${effortLabel(s.entry.effort)}`,
+        name: `${modelName(opts, family.model)} · ${effortLabel(s.entry.effort)}`,
       })),
       symbol: rule.symbol,
       symbolSize: rule.symbol === 'rect' ? [10, 7] : 9,
@@ -169,7 +177,7 @@ export function buildParetoOption(scores: EntryScore[], opts: ChartOptions) {
       // rule is the only thing telling two models apart in a one-ink world.
       itemWidth: 38,
       itemHeight: 8,
-      data: families.map((family) => family.model),
+      data: families.map((family) => modelName(opts, family.model)),
     },
     xAxis: {
       ...AXIS(p),
@@ -248,7 +256,7 @@ export function buildRadarOption(
     symbol: 'rect',
     symbolSize: opts.solo ? [5, 4] : [7, 5],
     data: scores.map((s, i) => ({
-      name: `${s.entry.model} · ${effortLabel(s.entry.effort)}`,
+      name: `${modelName(opts, s.entry.model)} · ${effortLabel(s.entry.effort)}`,
       value: subsets.map(
         (subset) => s.papers.find((paper) => paper.subset === subset)?.percentage ?? null,
       ),
@@ -290,7 +298,7 @@ export function buildRadarOption(
       inactiveColor: p.dropoutInk,
       itemWidth: 20,
       itemHeight: 8,
-      data: scores.map((s) => `${s.entry.model} · ${effortLabel(s.entry.effort)}`),
+      data: scores.map((s) => `${modelName(opts, s.entry.model)} · ${effortLabel(s.entry.effort)}`),
     },
     tooltip: { ...base(p).tooltip, trigger: 'item' },
     series: [series],
