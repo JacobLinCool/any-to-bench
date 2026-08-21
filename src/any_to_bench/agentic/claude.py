@@ -75,6 +75,28 @@ def summarize_result(payload: dict[str, Any]) -> AgentUsage:
     return usage
 
 
+def _failure_detail(stdout: str) -> str:
+    """Why the CLI gave up, as far as stdout will say.
+
+    Under `--output-format json` the reason arrives on stdout and stderr stays
+    empty, so reporting only the exit code throws away the only evidence there
+    is — a refused session and a bad prompt look identical from the outside.
+    """
+    text = stdout.strip()
+    if not text:
+        return ""
+    try:
+        payload: Any = json.loads(text)
+    except json.JSONDecodeError:
+        return text[-2000:]
+    if isinstance(payload, dict):
+        for key in ("result", "error", "message"):
+            value = payload.get(key)
+            if value:
+                return str(value)[:2000]
+    return text[-2000:]
+
+
 def _parse_result(stdout: str) -> dict[str, Any]:
     """The single result object, whether stdout is one document or a JSON stream."""
     try:
@@ -169,9 +191,11 @@ def run_claude(
         raise AgenticError(f"failed to run claude: {e}") from e
 
     if proc.returncode != 0:
+        detail = _failure_detail(proc.stdout)
         stderr_tail = proc.stderr[-2000:].strip()
         raise AgenticError(
             f"claude exited with code {proc.returncode}"
+            + (f": {detail}" if detail else "")
             + (f"\nstderr: {stderr_tail}" if stderr_tail else "")
         )
 

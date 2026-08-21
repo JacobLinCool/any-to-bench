@@ -186,6 +186,23 @@ def test_run_claude_nonzero_exit_raises(tmp_path, monkeypatch):
         run_claude(_workspace(tmp_path), "task", "opus")
 
 
+def test_run_claude_nonzero_exit_keeps_what_stdout_said(tmp_path, monkeypatch):
+    """A refused session says why on stdout and nothing on stderr, so an error
+    built from the exit code alone is indistinguishable from a bad prompt."""
+    payload = json.dumps({"type": "result", "is_error": True, "result": "usage limit reached"})
+    _patch_subprocess(monkeypatch, [], returncode=1, stdout=payload, stderr="")
+
+    with pytest.raises(AgenticError, match="usage limit reached"):
+        run_claude(_workspace(tmp_path), "task", "opus")
+
+
+def test_run_claude_nonzero_exit_keeps_unparseable_stdout(tmp_path, monkeypatch):
+    _patch_subprocess(monkeypatch, [], returncode=1, stdout="not json at all", stderr="")
+
+    with pytest.raises(AgenticError, match="not json at all"):
+        run_claude(_workspace(tmp_path), "task", "opus")
+
+
 def test_run_claude_is_error_raises(tmp_path, monkeypatch):
     payload = json.dumps(
         {"type": "result", "subtype": "error_max_turns", "is_error": True, "result": "gave up"}

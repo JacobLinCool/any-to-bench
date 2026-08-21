@@ -105,9 +105,10 @@ all 21 papers of the 115 year, 1,748 points apiece — four agentic models
 (`codex:gpt-5.6-sol`, `codex:gpt-5.6-luna`, `claude:claude-opus-5`,
 `claude:claude-sonnet-5`) at each of low, medium, high and xhigh, plus
 `google-cloud:gemini-3.7-flash` through Vertex AI at low, medium and high.
-Six of them also sat the 40 papers of the 115 統測 — `codex:gpt-5.6-luna` at all
-four efforts, `codex:gpt-5.6-sol` and `claude:claude-opus-5` at low — so those
-six rows cover 61 papers and 5,748 points.
+Eleven of them also sat the 40 papers of the 115 統測 — `codex:gpt-5.6-luna` and
+`claude:claude-opus-5` at all four efforts, `claude:claude-sonnet-5` at low and
+medium, `codex:gpt-5.6-sol` at low — so those eleven rows cover 61 papers and
+5,748 points.
 
 Over the 21 papers every configuration sat:
 
@@ -133,10 +134,12 @@ On the 40 papers of the 統測 — 4,000 points, 1,844 questions, only 9 of them
 judged — `codex:gpt-5.6-luna` scores 84.8%, 91.9%, 96.4% and 98.2% at low,
 medium, high and xhigh. The dial is flatter there than on 會考/學測/分科 (13.4
 points of range against 19.3), because 37 of the 40 papers are multiple choice
-throughout and a low-effort reader already does well on them. The other two
-takers need no dial at all: `codex:gpt-5.6-sol` low scores 97.1% and
-`claude:claude-opus-5` low scores 97.3%, both above luna's high and at a third
-of the output tokens luna's xhigh spends to finish 1.1 points ahead.
+throughout and a low-effort reader already does well on them. Everyone else
+starts where luna finishes: `claude:claude-opus-5` moves 97.3% → 98.2% across
+its whole dial, and `codex:gpt-5.6-sol` low reaches 97.1% on 173k output tokens,
+above luna's high at 40% of its spend. The top two are a tie one point apart out
+of 4,000 — luna xhigh 3927.5, opus xhigh 3926.5 — with opus paying 2.4× the
+output tokens for it. Five of the eleven survive on the cost/score frontier.
 
 `google-cloud:gemini-3.7-flash` is the first taker here that is a plain API
 model rather than a coding agent, and the difference shows in a way worth
