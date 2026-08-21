@@ -120,14 +120,15 @@ Real, verifiable, and already public — nothing here needs inventing:
   apiece — four agentic models (`codex:gpt-5.6-sol`, `codex:gpt-5.6-luna`,
   `claude:claude-opus-5`, `claude:claude-sonnet-5`) at each of
   low/medium/high/xhigh, plus `google-cloud:gemini-3.7-flash` over Vertex AI at
-  low/medium/high. Eleven configurations additionally sat all 40 papers of the
+  low/medium/high. Thirteen configurations additionally sat all 40 papers of the
   115 統測 (4,000 points, 1,844 questions, only 9 of them judged):
-  `codex:gpt-5.6-luna` and `claude:claude-opus-5` at four efforts each,
-  `claude:claude-sonnet-5` at low and medium, `codex:gpt-5.6-sol` at low. The
-  top two are one point apart out of 4,000 (luna xhigh 3927.5, opus xhigh
-  3926.5) at a 2.4× difference in output tokens. Those eleven entries cover 61
-  papers and 5,748 points, so the board is no longer a like-for-like ranking —
-  the viewer defaults to the papers every configuration sat. Rule-graded and judged points are published separately, so
+  `codex:gpt-5.6-luna`, `claude:claude-opus-5` and `claude:claude-sonnet-5` at
+  four efforts each, `codex:gpt-5.6-sol` at low. The top two are one point apart
+  out of 4,000 (luna xhigh 3927.5, opus xhigh 3926.5) at a 2.4× difference in
+  output tokens, and only five of the thirteen survive on the cost/score
+  frontier. Those thirteen entries cover 61 papers and 5,748 points, so the
+  board is no longer a like-for-like ranking — the viewer defaults to the papers
+  every configuration sat. Rule-graded and judged points are published separately, so
   the program-scored half can be compared without trusting a judge. Cost and
   score do not move together: only four of the nineteen rows survive on the
   cost/score frontier, and the top scorer's rule-graded column is flat across
