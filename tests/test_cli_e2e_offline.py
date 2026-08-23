@@ -21,10 +21,20 @@ runner = CliRunner()
 
 
 def test_ingest_help_distinguishes_resources_from_exam_materials():
-    result = runner.invoke(app, ["ingest", "--help"])
-    assert result.exit_code == 0, result.output
-    assert "--resources" in result.output
-    assert "Public resource" in result.output and "corpus directory" in result.output
+    """Read off the declaration, not off the rendered table.
+
+    `--help` is a rich table that truncates below about seventy columns, so
+    asserting on its text tests the terminal it rendered in: it passed on a
+    developer's terminal and failed on CI, which renders narrower.
+    """
+    from typer.main import get_command
+
+    ingest = get_command(app).commands["ingest"]
+    flags = {flag for param in ingest.params for flag in getattr(param, "opts", [])}
+    assert "--resources" in flags
+
+    helps = " ".join(param.help or "" for param in ingest.params)
+    assert "Public resource" in helps and "corpus directory" in helps
 
 
 def test_validate_ok(tmp_path):
