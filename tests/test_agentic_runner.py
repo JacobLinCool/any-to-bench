@@ -1,6 +1,7 @@
 """Unit tests for the codex subprocess seam (no codex binary required)."""
 
 import json
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -145,6 +146,45 @@ def test_run_codex_resume_keeps_the_doors_shut(tmp_path, monkeypatch):
     assert "sandbox_workspace_write.network_access=false" in argv
     assert 'web_search="disabled"' in argv
     assert 'approval_policy="never"' in argv
+
+
+def test_run_codex_runs_out_of_a_private_home(tmp_path, monkeypatch):
+    """The operator's machine is not part of the exam. A session that reads
+    ~/.codex/AGENTS.md and the skills under ~/.agents makes a score depend on
+    whose laptop produced it."""
+    real_home = tmp_path / "real-codex"
+    real_home.mkdir()
+    (real_home / "auth.json").write_text('{"token": "secret"}')
+    (real_home / "AGENTS.md").write_text("operator instructions that must not travel")
+    monkeypatch.setenv("CODEX_HOME", str(real_home))
+
+    calls: list[dict] = []
+    _patch_subprocess(monkeypatch, calls)
+    workspace = tmp_path / "run" / "workspace"
+    workspace.mkdir(parents=True)
+
+    run_codex(workspace, "do the task", "gpt-test")
+
+    env = calls[0]["env"]
+    home = Path(env["CODEX_HOME"])
+    assert env["HOME"] == env["CODEX_HOME"]  # skills live under HOME, not CODEX_HOME
+    assert home.parent == workspace.parent
+    assert (home / "auth.json").read_text() == '{"token": "secret"}'
+    assert not (home / "AGENTS.md").exists()
+
+
+def test_run_codex_resume_keeps_the_same_home(tmp_path, monkeypatch):
+    """`codex exec resume` finds a session by looking under CODEX_HOME, so a
+    fresh home per invocation would lose the session the fix loop resumes."""
+    calls: list[dict] = []
+    _patch_subprocess(monkeypatch, calls)
+    workspace = tmp_path / "run" / "workspace"
+    workspace.mkdir(parents=True)
+
+    run_codex(workspace, "first", "gpt-test")
+    run_codex(workspace, "second", "gpt-test", resume_session_id="t-1")
+
+    assert calls[0]["env"]["CODEX_HOME"] == calls[1]["env"]["CODEX_HOME"]
 
 
 def test_run_codex_resume_argv(tmp_path, monkeypatch):

@@ -11,6 +11,7 @@ sibling for symmetry with claude.py, because the Codex tests patch this module's
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 from collections.abc import Callable
@@ -150,6 +151,29 @@ def _parse_jsonl(stdout: str) -> list[dict[str, Any]]:
     return events
 
 
+def _private_codex_home(workspace: Path) -> Path:
+    """A throwaway CODEX_HOME (and HOME) for one solve, holding only credentials.
+
+    The operator's own machine would otherwise sit inside the exam room. A codex
+    session loads `~/.codex/AGENTS.md`, `~/.codex/config.toml` and the skills
+    under `~/.agents/skills` — observed, in an audited run, as the model reading
+    a personal skill file and searching the disk for its notes. That makes a
+    score depend on whose laptop produced it.
+
+    Keyed on the run directory rather than the invocation: `codex exec resume`
+    finds a session by looking under CODEX_HOME, and the fix loop resumes.
+    """
+    home = workspace.parent / "codex-home"
+    if home.exists():
+        return home
+    home.mkdir(parents=True)
+    source = Path(os.environ.get("CODEX_HOME") or Path.home() / ".codex")
+    auth = source / "auth.json"
+    if auth.is_file():
+        shutil.copy2(auth, home / "auth.json")  # env-var credentials need no file
+    return home
+
+
 # Three settings, because closing any two of them leaves the third open. Verified
 # by probe, not by reading docs: with only the sandbox flag the model reaches the
 # network through its built-in search tool, and with only those two it asks for
@@ -212,6 +236,9 @@ def run_codex(
         argv += ["-c", f"model_reasoning_effort={level}"]
     argv += ["-o", str(last_message), "-"]  # "-": read the prompt from stdin
 
+    home = _private_codex_home(workspace)
+    env = {**os.environ, "HOME": str(home), "CODEX_HOME": str(home)}
+
     try:
         proc = subprocess.run(
             argv,
@@ -220,6 +247,7 @@ def run_codex(
             capture_output=True,
             text=True,
             timeout=timeout_s,
+            env=env,
         )
     except subprocess.TimeoutExpired as e:
         raise AgenticError(f"codex timed out after {timeout_s:.0f}s") from e
