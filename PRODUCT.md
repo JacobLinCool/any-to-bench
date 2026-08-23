@@ -123,14 +123,10 @@ Real, verifiable, and already public — nothing here needs inventing:
   low/medium/high. All sixteen agentic configurations additionally sat all 40
   papers of the 115 統測 (4,000 points, 1,844 questions, only 9 of them judged).
   `codex:gpt-5.6-sol` takes every point on the cost/score frontier but the
-  cheapest: 99.95% at xhigh, 1,834 of 1,835 rule-graded questions right on 393k
-  output tokens. Those sixteen entries cover 61 papers and 5,748 points, so the
+  cheapest, and scores 4000/4000 at xhigh — every rule-graded question and every
+  judged point — on 393k output tokens. Those sixteen entries cover 61 papers and 5,748 points, so the
   board is no longer a like-for-like ranking — the viewer defaults to the papers
-  every configuration sat.
-- **A known corpus defect:** question 19 of `tve-115-foreign-language-japanese-2`
-  has the star on the wrong blank, so all sixteen configurations answer the
-  question as printed in the bundle and are graded against the paper's answer.
-  Two points, unfixed; do not describe it as a model failure. Rule-graded and judged points are published separately, so
+  every configuration sat. Rule-graded and judged points are published separately, so
   the program-scored half can be compared without trusting a judge. Cost and
   score do not move together: only four of the nineteen rows survive on the
   cost/score frontier, and the top scorer's rule-graded column is flat across

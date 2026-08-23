@@ -136,17 +136,11 @@ throughout and a low-effort reader already does well on them. The dials differ
 by an order of magnitude in slope: luna covers 13.4 points, `claude:
 claude-sonnet-5` 2.1 (93.8% → 95.9%), `claude:claude-opus-5` 0.9 (97.3% →
 98.2%) — opus starts where luna finishes. `codex:gpt-5.6-sol` is done before its
-dial begins: 97.1% at low, 99.8% at medium, 99.95% at xhigh, which gets 1,834 of
-1,835 rule-graded questions right on 393k output tokens — less than luna's xhigh
-spends to finish 1.8 points behind. Every point on the cost/score frontier but
-the cheapest is a sol row; the other eleven configurations all spend more for
-less.
-
-The one question sol's xhigh misses is one all sixteen configurations miss, and
-they all pick the same wrong option: the bundle for 外語群日語類專業科目(二)
-marks the wrong blank in a word-order question, so every taker answers the
-question as printed and is graded against the paper's answer. It is a corpus
-defect worth two points, not a model failure.
+dial begins: 97.1% at low, 99.9% at medium, and 4000/4000 at xhigh — every one
+of the 1,835 rule-graded questions and all 80 judged points, on 393k output
+tokens, less than luna's xhigh spends to finish 1.8 points behind. Every point
+on the cost/score frontier but the cheapest is a sol row; the other eleven
+configurations all spend more for less.
 
 `google-cloud:gemini-3.7-flash` is the first taker here that is a plain API
 model rather than a coding agent, and the difference shows in a way worth
