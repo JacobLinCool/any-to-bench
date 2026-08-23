@@ -36,5 +36,14 @@ a multi-pass pipeline:
 
 The rendered source pages are kept under `assets/pages/` as provenance.
 
-For the agentic alternative (a `codex:` model string), see
+For the agentic alternative (a `codex:`, `claude:`, or `agy:` model string), see
 [Agentic mode](agentic-mode.md).
+
+## Public retrieval corpus
+
+`--resources ./corpus` snapshots one exam-wide public corpus into the output bundle.
+It is deliberately separate from positional ingest materials: no resource content is
+sent to the extraction model or interpreted as a question, answer key, or rubric.
+Every regular file is copied without Git/ignore filtering. Empty directories,
+symlinks, resource/output overlap, and unsafe paths are rejected. See the full
+[resource-backed retrieval contract](retrieval.md).

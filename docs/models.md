@@ -3,9 +3,9 @@
 ## Model strings
 
 Models are [pydantic-ai](https://ai.pydantic.dev) model strings — `openai:gpt-5.6-sol`,
-`openai:gpt-5.6-terra`, `google:gemini-3.7-flash`, etc. — plus the `codex:` and
-`claude:` prefixes for [agentic mode](agentic-mode.md) (e.g. `codex:gpt-5.6-sol`,
-`claude:opus`).
+`openai:gpt-5.6-terra`, `google:gemini-3.7-flash`, etc. — plus the `codex:`,
+`claude:`, and `agy:` prefixes for [agentic mode](agentic-mode.md) (e.g.
+`codex:gpt-5.6-sol`, `claude:opus`, `agy:gemini-3.7-flash-high`).
 
 Note `claude:` is the agentic prefix, distinct from pydantic-ai's own `anthropic:`
 provider prefix: `claude:opus` drives the Claude Code CLI over a workspace, while
@@ -46,8 +46,10 @@ from the taker model.
 API keys come from the environment or `.env` (`OPENAI_API_KEY`, `GOOGLE_API_KEY`;
 `GOOGLE_APPLICATION_CREDENTIALS` for `google-cloud:*`; `CODEX_API_KEY` or
 `codex login` state for `codex:*`; `ANTHROPIC_API_KEY` or `claude` login state for
-`claude:*`). The CLI loads `.env` automatically; real environment variables take
-precedence.
+`claude:*`; authenticated `agy` state, or its configured Gemini API-key provider, for
+`agy:*`). The CLI loads `.env` automatically; real environment variables take
+precedence. AGY additionally requires the fail-closed settings documented in
+[Agentic mode](agentic-mode.md#antigravity-safety-profile).
 
 ## Solving in parallel
 
@@ -65,7 +67,15 @@ benchmark meets per-minute rate limits as a matter of course: the Vertex
 provider retries 429 and 5xx with exponential backoff so one throttled request
 costs wall time instead of a whole paper's row.
 
-`codex:`/`claude:` takers ignore the flag — one CLI already runs the whole paper.
+Agentic takers ignore the flag — one CLI already runs the whole paper.
+
+## Retrieval resources
+
+For bundles ingested with `--resources`, direct provider models receive only three
+bounded, read-only tools over manifest-approved strict UTF-8 text. Binary files are
+never uploaded or converted. Agentic backends receive all original files in their
+sandboxed workspace. Both paths record their exact file/byte exposure; see
+[Resource-backed retrieval](retrieval.md).
 
 ## Reasoning effort
 
@@ -77,13 +87,14 @@ costs wall time instead of a whole paper's row.
 | Google (`google:`, `google-cloud:`) | `thinking_level` (`MINIMAL`/`LOW`/`MEDIUM`/`HIGH`; `xhigh` and `max` collapse to `HIGH`) |
 | codex | `model_reasoning_effort` (`max` collapses to `xhigh`) |
 | claude | `--effort` (`minimal` collapses to `low`) |
+| agy | `--effort` (`minimal` → `low`; `xhigh` and `max` → `high`) |
 
-The two agentic backends collapse at opposite ends — codex has no `max`, Claude Code
-has no `minimal` — so an `--effort` sweep is only strictly comparable in the
-`low`..`xhigh` range they share.
+Agentic CLIs expose different effort ranges: codex has no `max`, Claude Code has no
+`minimal`, and AGY exposes only `low` / `medium` / `high`. Compare sweeps using the
+effective backend level, not only the requested generic label.
 
 Without the flag, provider defaults apply (OpenAI: `medium`; Gemini: dynamic `HIGH`;
-codex and claude: their configured defaults).
+codex, claude, and agy: their configured defaults).
 
 ## Token usage
 

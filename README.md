@@ -39,6 +39,10 @@ cp .env.example .env   # fill in the API keys for the providers you use
 # 1. Ingest: any mix of PDFs and photos for ONE exam -> a bundle
 a2b ingest exam.pdf answer-key.jpg rubric.pdf -o out/bundle --model openai:gpt-5.6-sol
 
+# Add one public corpus shared by every question (not sent to the ingest model)
+a2b ingest questions.pdf answer-key.pdf --resources ./corpus \
+    -o out/retrieval-bundle --model codex:gpt-5.6-sol
+
 # 2. Check the bundle
 a2b validate out/bundle
 
@@ -47,7 +51,7 @@ a2b solve out/bundle --model google:gemini-3.7-flash -o out/answers.json
 
 # 4. Grade the answer sheet
 a2b grade out/bundle out/answers.json -o out/report.json
-# override judge model(s): --judge-model openai:gpt-5.6-sol --judge-model codex:gpt-5.6-sol
+# override judge model(s): --judge-model openai:gpt-5.6-sol --judge-model agy:gemini-3.7-flash-high
 
 # Or benchmark several models at once: solve + grade each, compare in one table
 a2b bench out/bundle -o out/bench \
@@ -64,10 +68,17 @@ a2b results publish out/bench user/my-results --source-repo user/my-exams
 `a2b` is a shorthand alias for `any-to-bench` — every command works with both. In a
 cloned repo without installing, prefix commands with `uv run` (e.g. `uv run a2b ...`).
 
-Ingest, solve, and judge models are independent. Use a `codex:` or `claude:` model
-string (e.g. `codex:gpt-5.6-sol`, `claude:opus`) to run a phase **agentically** via
-that CLI instead of direct LLM calls — same commands, same outputs. All commands accept `--effort` and
+Ingest, solve, and judge models are independent. Use a `codex:`, `claude:`, or `agy:`
+model string (e.g. `codex:gpt-5.6-sol`, `claude:opus`,
+`agy:gemini-3.7-flash-high`) to run a phase **agentically** via that CLI instead of
+direct LLM calls — same commands, same outputs. All commands accept `--effort` and
 report token usage.
+
+Existing document- or repository-based questions can be packaged as
+[resource-backed retrieval benchmarks](docs/retrieval.md). Agentic takers receive the
+complete original corpus; direct LLMs get bounded read-only search/list/read tools over
+strict UTF-8 text. Actual file/byte exposure and optional, score-neutral citation
+checks are retained through benchmark and publication.
 
 ## Example dataset
 
@@ -189,7 +200,7 @@ exactly once, so that grading needs almost none, forever.
 
 - [The exam bundle](docs/bundle.md) — output format, question model, validation
 - [How ingestion works](docs/ingestion.md) — the LLM-mode extraction pipeline
-- [Agentic mode](docs/agentic-mode.md) — `codex:`/`claude:` models, workspaces, the fix loop
+- [Agentic mode](docs/agentic-mode.md) — CLI backends, workspaces, and the fix loop
 - [Grading semantics](docs/grading.md) — deterministic rules and LLM judges
 - [Benchmarking](docs/bench.md) — the `bench` model matrix and its metrics
 - [Publishing](docs/publish.md) — sharing bundles as Hugging Face datasets
@@ -205,6 +216,6 @@ uv run ruff format .    # CI enforces this with --check
 ```
 
 The test suite fakes the LLM layer (`any_to_bench.llm.build_agent`) and the agentic
-subprocess layer (`any_to_bench.agentic.runner.run_codex` / `run_claude`), so the
-entire ingest → solve → grade pipeline runs end-to-end in every mode without network
-access or either CLI binary installed.
+subprocess layer (`run_codex` / `run_claude` / `run_agy`), so the entire ingest →
+solve → grade pipeline runs end-to-end in every mode without network access or any CLI
+binary installed.

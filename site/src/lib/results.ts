@@ -40,6 +40,20 @@ export type PaperResult = {
   grade_usage: PhaseUsage | null
   classification: 'rule-kind' | 'mode-fallback'
   warnings: string[]
+  retrieval?: RetrievalMetrics | null
+}
+
+export type RetrievalMetrics = {
+  total_files: number
+  total_bytes: number
+  exposed_files: number
+  exposed_bytes: number
+  citations_submitted: number
+  citation_valid_paths: number
+  citations_verified: number
+  citation_quote_mismatches: number
+  citation_missing_resources: number
+  citation_unverifiable_binary: number
 }
 
 export type PhaseUsage = {
@@ -81,6 +95,8 @@ export type PaperMeta = {
   judge_points: number
   questions: number
   judge_questions: number
+  resource_files?: number
+  resource_bytes?: number
 }
 
 export type IndexEntry = {
@@ -105,6 +121,16 @@ export type IndexEntry = {
   solve_secs: number
   grade_secs: number
   any_mode_fallback: boolean
+  resource_files?: number
+  resource_bytes?: number
+  resource_exposed_files?: number
+  resource_exposed_bytes?: number
+  citations_submitted?: number
+  citation_valid_paths?: number
+  citations_verified?: number
+  citation_quote_mismatches?: number
+  citation_missing_resources?: number
+  citation_unverifiable_binary?: number
   note: string | null
 }
 
@@ -229,6 +255,11 @@ export type EntryScore = {
   /** Sample standard deviation, only when every paper has the same replicate count ≥ 2. */
   spread: number | null
   runs: number
+  resourceFiles: number
+  resourceExposedFiles: number
+  citationsSubmitted: number
+  citationsVerified: number
+  citationsUnverifiable: number
 }
 
 function bucketsFor(paper: PaperResult, filter: GradeFilter): PointBucket[] {
@@ -292,6 +323,11 @@ export function scoreEntry(
    * dividing that by the rule-graded half alone would make the axis jump every
    * time someone changed what is being scored. */
   let attempted = 0
+  let resourceFiles = 0
+  let resourceExposedFiles = 0
+  let citationsSubmitted = 0
+  let citationsVerified = 0
+  let citationsUnverifiable = 0
   const perPaper: PaperScore[] = []
   const replicateCounts = new Set<number>()
   for (const paper of papers) {
@@ -313,6 +349,13 @@ export function scoreEntry(
       percentage: m > 0 ? (100 * a) / m : null,
     })
     replicateCounts.add(paper.ok_runs)
+    if (paper.retrieval) {
+      resourceFiles += paper.retrieval.total_files
+      resourceExposedFiles += paper.retrieval.exposed_files
+      citationsSubmitted += paper.retrieval.citations_submitted
+      citationsVerified += paper.retrieval.citations_verified
+      citationsUnverifiable += paper.retrieval.citation_unverifiable_binary
+    }
   }
 
   const micro = coveredMax > 0 ? (100 * awarded) / coveredMax : null
@@ -354,6 +397,11 @@ export function scoreEntry(
     papers: perPaper,
     spread,
     runs,
+    resourceFiles,
+    resourceExposedFiles,
+    citationsSubmitted,
+    citationsVerified,
+    citationsUnverifiable,
   }
 }
 

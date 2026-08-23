@@ -3,7 +3,7 @@
 ```bash
 a2b bench out/bundle -o out/bench \
     --model openai:gpt-5.6-terra --model google:gemini-3.7-flash \
-    --model codex:gpt-5.6-sol \
+    --model codex:gpt-5.6-sol --model agy:gemini-3.7-flash-high \
     --judge-model google:gemini-3.7-flash
 ```
 
@@ -58,6 +58,11 @@ distinguished by slug, and summaries group by model string.
   still graded; bad answers degrade to per-question errors).
 - **tokens / time** — solve + grade usage and wall time per model. Agentic-mode
   numbers are approximate (see [Agentic mode](agentic-mode.md)).
+- **resources / citations** — shown only for resource-backed bundles. Resources are
+  exposed/total files (full byte counts and mode remain in `bench.json`); citations
+  summarize verified text excerpts over submissions. Repeat summaries retain mean
+  file/byte coverage and citation path/text verification percentages. Citation
+  quality never changes the score.
 
 ## Takers that cannot see images
 
@@ -85,7 +90,7 @@ the model, so counting it wrong would measure the harness rather than the model.
 `covered_percentage` over the subset — the table shows the latter with `cov` beside it.
 
 Without the flag nothing changes: takers are assumed capable of everything, exactly as
-before. Agentic (`codex:`/`claude:`) takers are never gated — they open assets as files
+before. Agentic (`codex:`/`claude:`/`agy:`) takers are never gated — they open assets as files
 from their workspace rather than receiving inline bytes — and `bench` warns if you
 declare one text-only.
 

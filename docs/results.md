@@ -77,8 +77,8 @@ rows with a dagger.
   (a writing test), and some have no judged question. A filter that empties a
   paper removes it from the selection and says so; it never scores it 0%.
 - **Input tokens are not comparable across backends.** `codex:` counts cached
-  tokens inside `input_tokens`; `claude:` reports them only under
-  `cache_read_tokens`, leaving `input_tokens` near zero. Output tokens and wall
+  tokens inside `input_tokens`; `claude:` and `agy:` report cache reads separately
+  under `cache_read_tokens`. Output tokens and wall
   time mean the same thing for every taker, so those are what the leaderboard
   plots — each as a total over the selection and as a per-question figure. The
   per-question denominator is every question the taker was asked, judged half
@@ -89,6 +89,11 @@ rows with a dagger.
   and the leaderboard says so rather than drawing one.
 - **Wall time is not machine-independent.** `--note` records what the run shared
   the machine with, and the card prints it beside the entry.
+- **Retrieval exposure and citations.** Resource-backed paper rows retain total and
+  exposed file/byte counts plus all citation outcome counts. Per-question parquet
+  rows retain access mode/counts and citation checks. Ordinary entries carry zero or
+  null retrieval values, and the viewer hides its Resources/Citations columns unless
+  a selected paper is resource-backed. Citations remain score-neutral.
 
 ## The leaderboard page
 

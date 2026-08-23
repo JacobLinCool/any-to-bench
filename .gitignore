@@ -212,6 +212,9 @@ node_modules/
 # macOS
 .DS_Store
 
+# Internal editing constraints; never publish with reader-facing artifacts.
+*.shadow.md
+
 # arXiv submission bundles (rebuild with report/make-arxiv.sh)
 /research/**/*.tar.gz
 /research/**/arxiv-abstract.txt

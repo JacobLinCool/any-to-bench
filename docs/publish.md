@@ -15,7 +15,8 @@ user/my-exams (dataset repo)
 │   ├── test-00000-of-00001.parquet # per-question table, images embedded
 │   └── bundle/                     # the raw bundle, byte-faithful
 │       ├── exam.json / answer_schema.json / grading.json / manifest.json
-│       └── assets/**
+│       ├── assets/**
+│       └── resources/**                # optional public solver corpus
 └── english/
     ├── test-*.parquet
     └── bundle/...
@@ -38,6 +39,9 @@ thumbnails in the viewer.
   otherwise it lists the available names.
 - The raw `bundle/` files round-trip byte-faithfully; the parquet table is derived,
   never read back.
+- Arbitrarily nested `resources/` files round-trip with the rest of the bundle. The
+  card publishes total files/bytes and direct-text coverage and labels the entire
+  folder as public solver input.
 
 ## The dataset card
 
@@ -67,6 +71,8 @@ it on **every** upload to the repo or the line comes back.
   future training corpora (benchmark contamination). Use `--private` if that
   matters; the flag only takes effect when the repo is first created (flip
   visibility later in the repo settings on the Hub).
+- A resource-backed bundle publishes every file selected by `--resources`, including
+  hidden, ignored, answer-like, or secret files. No upload-time exclusion is applied.
 - The dataset viewer on **private** repos requires a PRO account or a Team/Enterprise
   organization; public repos get the viewer for free.
 

@@ -110,6 +110,11 @@
   const frontier = $derived(new Set(paretoFrontier(ranked).map((s) => s.entry.entry_id)))
   const families = $derived(byModel(ranked))
   const repeated = $derived(ranked.some((s) => s.runs >= 2))
+  const resourceBacked = $derived(
+    (index?.papers ?? []).some(
+      (paper) => activePapers.includes(paper.subset) && (paper.resource_files ?? 0) > 0,
+    ),
+  )
 
   /* A radar reads by outline, and outlines can only be told apart by rule —
    * four of them, since this world has one ink for data. So the chart carries
@@ -787,6 +792,10 @@
                       {average === 'micro' ? 'By points' : 'By paper'}
                     </th>
                     <th scope="col" class="field-label pb-2 text-right">{COST_LABEL[cost]}</th>
+                    {#if resourceBacked}
+                      <th scope="col" class="field-label pb-2 text-right">Resources</th>
+                      <th scope="col" class="field-label pb-2 text-right">Citations</th>
+                    {/if}
                     <th scope="col" class="field-label pb-2 text-right">Frontier</th>
                   </tr>
                 </thead>
@@ -819,6 +828,20 @@
                       <td class="py-3 pr-4 text-right font-mono text-sm tabular-nums">
                         {fmtCost(row.cost)}
                       </td>
+                      {#if resourceBacked}
+                        <td class="py-3 pr-4 text-right font-mono text-sm tabular-nums">
+                          {row.resourceFiles ? `${row.resourceExposedFiles}/${row.resourceFiles}` : '—'}
+                        </td>
+                        <td class="py-3 pr-4 text-right font-mono text-sm tabular-nums">
+                          {row.citationsSubmitted
+                            ? `${row.citationsVerified}v/${row.citationsSubmitted}${
+                                row.citationsUnverifiable
+                                  ? ` · ${row.citationsUnverifiable} binary`
+                                  : ''
+                              }`
+                            : '—'}
+                        </td>
+                      {/if}
                       <td class="py-3 text-right font-mono text-sm">
                         {frontier.has(row.entry.entry_id) ? '●' : ''}
                       </td>

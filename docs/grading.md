@@ -43,8 +43,8 @@ Post-processing keeps judges honest:
   scores are **snapped** to the nearest level and the total is recomputed. Missing or
   unknown criteria are warned about.
 - Holistic verdicts (no rubric) are clamped to `[min_points, max_points]`.
-- Multiple judges (repeat `--judge-model`, any mix of providers and `codex:`/`claude:`
-  agentic judges) aggregate by `mean` / `median` / `min` / `max`; all raw verdicts are
+- Multiple judges (repeat `--judge-model`, any mix of providers and agentic CLI
+  judges) aggregate by `mean` / `median` / `min` / `max`; all raw verdicts are
   kept in the report, positionally matched to `detail.judge_models` — which lists the
   judges that actually scored, while `detail.requested_judge_models` records what was
   asked for.
@@ -54,7 +54,7 @@ Post-processing keeps judges honest:
 **For serious benchmarks, use judge models different from the taker.** Self-judging
 has a measurable optimism bias (in our GSAT test, a model judging its own English
 essay awarded itself full marks). `--judge-model` is repeatable and accepts any mix of
-providers and `codex:`/`claude:` agentic judges; `bench` warns when a taker also
+providers and `codex:`/`claude:`/`agy:` agentic judges; `bench` warns when a taker also
 appears in the judge list.
 
 ## Judge agreement
@@ -74,3 +74,12 @@ records `detail.agreement` (`spread`, `stdev`, `normalized_spread`, `unanimous`)
 fewer than two judges produced verdicts, and warns when only one judge is configured.
 A score built on unanimous judges and one built on judges who split half the questions
 should not be read the same way.
+
+## Optional retrieval citations
+
+Resource-backed answer sheets may attach exact path/excerpt citations to any answer.
+Grading checks public paths and exact newline-normalized text substrings
+programmatically, producing `verified`, `quote_mismatch`, `missing_resource`, or
+`unverifiable_binary`. It never sends citations to an LLM judge, and valid, invalid,
+or absent citations never change question mode or score. Empty-denominator citation
+percentages are `null`; see [Resource-backed retrieval](retrieval.md#citation-checks).

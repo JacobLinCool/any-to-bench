@@ -9,6 +9,7 @@ directory — the unit that `validate`, `solve`, and `grade` operate on.
 | `answer_schema.json` | A strict JSON Schema an answer sheet must satisfy — hand it to any LLM harness |
 | `grading.json` | How to grade each question: deterministic rules or LLM-judge rubrics |
 | `assets/` | Rendered source pages and cropped question/solution figures |
+| `resources/` | Optional byte-faithful public corpus shared by every question |
 | `manifest.json` | Source hashes, ingest model, warnings, token usage |
 
 ## Question model
@@ -34,6 +35,10 @@ answer sheet can be graded mechanically. `solve` output is validated against it,
 `validate` checks it is fresh (regenerating it from the exam must yield the same
 schema).
 
+Resource-backed bundles additionally allow optional per-answer `citations` and
+harness-written `resource_access`. Their manifest records every resource path, hash,
+size, and text/binary classification. See [Resource-backed retrieval](retrieval.md).
+
 ## Validation
 
 `any-to-bench validate <bundle>` checks the whole contract: files parse, every leaf
@@ -41,3 +46,5 @@ question has a grading entry and vice versa, rule kinds fit question types (open
 questions must use a judge rule; fixed-answer types may fall back to one when no key
 was found), option/blank/pair ids referenced by rules exist on the questions, all
 referenced asset files exist, and the answer schema is fresh and itself valid.
+For a resource-backed bundle it also verifies the exact `resources/` file set,
+safe paths, hashes, sizes, text classifications, and absence of symlinks.
