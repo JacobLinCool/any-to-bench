@@ -105,10 +105,8 @@ all 21 papers of the 115 year, 1,748 points apiece — four agentic models
 (`codex:gpt-5.6-sol`, `codex:gpt-5.6-luna`, `claude:claude-opus-5`,
 `claude:claude-sonnet-5`) at each of low, medium, high and xhigh, plus
 `google-cloud:gemini-3.7-flash` through Vertex AI at low, medium and high.
-Fourteen of them also sat the 40 papers of the 115 統測 — `codex:gpt-5.6-luna`,
-`claude:claude-opus-5` and `claude:claude-sonnet-5` at all four efforts,
-`codex:gpt-5.6-sol` at low and medium — so those fourteen rows cover 61 papers
-and 5,748 points.
+Sixteen of them also sat the 40 papers of the 115 統測 — all four agentic models
+at all four efforts — so those sixteen rows cover 61 papers and 5,748 points.
 
 Over the 21 papers every configuration sat:
 
@@ -134,14 +132,21 @@ On the 40 papers of the 統測 — 4,000 points, 1,844 questions, only 9 of them
 judged — `codex:gpt-5.6-luna` scores 84.8%, 91.9%, 96.4% and 98.2% at low,
 medium, high and xhigh. The dial is flatter there than on 會考/學測/分科 (13.4
 points of range against 19.3), because 37 of the 40 papers are multiple choice
-throughout and a low-effort reader already does well on them. The three dials
-differ by an order of magnitude in slope: luna covers 13.4 points, `claude:
+throughout and a low-effort reader already does well on them. The dials differ
+by an order of magnitude in slope: luna covers 13.4 points, `claude:
 claude-sonnet-5` 2.1 (93.8% → 95.9%), `claude:claude-opus-5` 0.9 (97.3% →
-98.2%) — opus starts where luna finishes. But `codex:gpt-5.6-sol` medium ends
-the argument: 3993/4000 (99.8%), three wrong out of 1,835 rule-graded questions,
-36 of 40 papers with nothing lost, on 269k output tokens — half of what luna's
-xhigh spends to finish 1.6 points behind. It collapses the frontier to three
-points; the other eleven configurations all spend more for less.
+98.2%) — opus starts where luna finishes. `codex:gpt-5.6-sol` is done before its
+dial begins: 97.1% at low, 99.8% at medium, 99.95% at xhigh, which gets 1,834 of
+1,835 rule-graded questions right on 393k output tokens — less than luna's xhigh
+spends to finish 1.8 points behind. Every point on the cost/score frontier but
+the cheapest is a sol row; the other eleven configurations all spend more for
+less.
+
+The one question sol's xhigh misses is one all sixteen configurations miss, and
+they all pick the same wrong option: the bundle for 外語群日語類專業科目(二)
+marks the wrong blank in a word-order question, so every taker answers the
+question as printed and is graded against the paper's answer. It is a corpus
+defect worth two points, not a model failure.
 
 `google-cloud:gemini-3.7-flash` is the first taker here that is a plain API
 model rather than a coding agent, and the difference shows in a way worth

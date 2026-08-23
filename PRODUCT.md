@@ -120,16 +120,17 @@ Real, verifiable, and already public — nothing here needs inventing:
   apiece — four agentic models (`codex:gpt-5.6-sol`, `codex:gpt-5.6-luna`,
   `claude:claude-opus-5`, `claude:claude-sonnet-5`) at each of
   low/medium/high/xhigh, plus `google-cloud:gemini-3.7-flash` over Vertex AI at
-  low/medium/high. Fourteen configurations additionally sat all 40 papers of the
-  115 統測 (4,000 points, 1,844 questions, only 9 of them judged):
-  `codex:gpt-5.6-luna`, `claude:claude-opus-5` and `claude:claude-sonnet-5` at
-  four efforts each, `codex:gpt-5.6-sol` at low and medium. `codex:gpt-5.6-sol`
-  medium scores 3993/4000 (99.8%) on 269k output tokens — three wrong out of
-  1,835 rule-graded questions, and half the spend of the next-best row — which
-  collapses the cost/score frontier to three points out of fourteen. Those
-  fourteen entries cover 61 papers and 5,748 points, so the board is no longer a
-  like-for-like ranking — the viewer defaults to the papers every configuration
-  sat. Rule-graded and judged points are published separately, so
+  low/medium/high. All sixteen agentic configurations additionally sat all 40
+  papers of the 115 統測 (4,000 points, 1,844 questions, only 9 of them judged).
+  `codex:gpt-5.6-sol` takes every point on the cost/score frontier but the
+  cheapest: 99.95% at xhigh, 1,834 of 1,835 rule-graded questions right on 393k
+  output tokens. Those sixteen entries cover 61 papers and 5,748 points, so the
+  board is no longer a like-for-like ranking — the viewer defaults to the papers
+  every configuration sat.
+- **A known corpus defect:** question 19 of `tve-115-foreign-language-japanese-2`
+  has the star on the wrong blank, so all sixteen configurations answer the
+  question as printed in the bundle and are graded against the paper's answer.
+  Two points, unfixed; do not describe it as a model failure. Rule-graded and judged points are published separately, so
   the program-scored half can be compared without trusting a judge. Cost and
   score do not move together: only four of the nineteen rows survive on the
   cost/score frontier, and the top scorer's rule-graded column is flat across
