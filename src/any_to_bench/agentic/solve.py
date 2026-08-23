@@ -10,11 +10,13 @@ from any_to_bench.agentic.workspace import (
     cleanup_workspace,
     collect_exam_assets,
     copy_assets,
+    copy_resources,
     new_workspace,
     write_agents_md,
 )
 from any_to_bench.bundle import ExamBundle
 from any_to_bench.llm import UsageTracker
+from any_to_bench.resources import resource_access, validate_resource_tree
 from any_to_bench.schemas.answers import AnswerSheet
 from any_to_bench.schemas.usage import Effort
 from any_to_bench.util import read_json, write_json
@@ -36,13 +38,23 @@ def agentic_solve(
     # (grading, manifest, provenance pages) would leak the answer key.
     write_json(workspace / "exam" / "exam.json", bundle.exam)
     copy_assets(bundle.root, collect_exam_assets(bundle.exam), workspace / "exam")
+    copy_resources(bundle.root, bundle.manifest.resources, workspace)
     write_json(workspace / "schemas" / "answer_schema.json", bundle.answer_schema)
     (workspace / "output").mkdir()
 
     parsed: AnswerSheet | None = None
 
+    def require_unchanged_resources() -> None:
+        if problems := validate_resource_tree(workspace, bundle.manifest.resources):
+            raise AgenticError(
+                "agent modified or corrupted public resources: " + "; ".join(problems[:5])
+            )
+
+    require_unchanged_resources()
+
     def oracle() -> list[str]:
         nonlocal parsed
+        require_unchanged_resources()
         path = workspace / "output" / "answers.json"
         if not path.exists():
             return ["missing file: output/answers.json"]
@@ -69,6 +81,10 @@ def agentic_solve(
             backend=agentic_model.backend,
         )
     except AgenticError as e:
+        try:
+            require_unchanged_resources()
+        except AgenticError as integrity_error:
+            raise AgenticError(f"{integrity_error} (workspace kept at {workspace})") from e
         raise AgenticError(f"{e} (workspace kept at {workspace})") from e
 
     if parsed is None:
@@ -76,6 +92,7 @@ def agentic_solve(
             f"agentic solve produced no parseable answers.json in {outcome.rounds_run} "
             f"round(s) (workspace kept at {workspace}): " + "; ".join(outcome.problems[:5])
         )
+    require_unchanged_resources()
     if not outcome.problems:
         cleanup_workspace(workspace)
     # Residual schema problems flow through the CLI's normal validate-and-exit-1
@@ -85,4 +102,9 @@ def agentic_solve(
         taker=model,
         answers=parsed.answers,
         usage=tracker.summary(),
+        resource_access=(
+            resource_access(bundle.manifest.resources, "all_files")
+            if bundle.has_resources
+            else None
+        ),
     )

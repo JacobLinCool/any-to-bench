@@ -10,7 +10,7 @@ import pydantic_ai.models
 import pytest
 from PIL import Image
 
-from any_to_bench.agentic.runner import CodexRunResult, CodexUsage
+from any_to_bench.agentic.types import AgentRunResult, AgentUsage
 from any_to_bench.bundle import BundleManifest, ExamBundle
 from any_to_bench.schemas.answers import (
     AnswerSheet,
@@ -297,8 +297,8 @@ def tiny_bundle(tmp_path: Path) -> ExamBundle:
     return build_tiny_bundle(tmp_path / "bundle")
 
 
-# Every FakeCodex call reports this usage, so tests can assert accumulation.
-FAKE_CODEX_USAGE = CodexUsage(
+# Every fake agentic call reports this usage, so tests can assert accumulation.
+FAKE_AGENTIC_USAGE = AgentUsage(
     requests=1,
     input_tokens=200,
     output_tokens=20,
@@ -311,7 +311,7 @@ FAKE_CODEX_USAGE = CodexUsage(
 class FakeAgenticRun:
     """Stands in for any agentic runner; each round runs a writer(workspace).
 
-    The signature mirrors run_codex/run_claude exactly, so one double serves
+    The signature mirrors every registered runner, so one double serves
     every backend. Rounds beyond the provided writers are no-ops (earlier files
     persist), so a single bad writer naturally exercises fix-loop exhaustion.
     """
@@ -328,7 +328,7 @@ class FakeAgenticRun:
         effort: Any = None,
         resume_session_id: str | None = None,
         timeout_s: float | None = None,
-    ) -> CodexRunResult:
+    ) -> AgentRunResult:
         self.calls.append(
             {
                 "workspace": workspace,
@@ -342,15 +342,12 @@ class FakeAgenticRun:
             writer = self._rounds.pop(0)
             if writer is not None:
                 writer(workspace)
-        return CodexRunResult(
-            session_id=f"sess-{len(self.calls)}",
+        return AgentRunResult(
+            session_id=resume_session_id or f"sess-{len(self.calls)}",
             final_message="done",
-            usage=FAKE_CODEX_USAGE,
+            usage=FAKE_AGENTIC_USAGE,
             events=[],
         )
-
-
-FakeCodex = FakeAgenticRun  # the name the codex-era tests already use
 
 
 # Every FakeAgent call reports this usage, so tests can assert accumulation.
@@ -392,7 +389,18 @@ def fake_build_agent(
         if by_model is not None and model in by_model:
             produce = by_model[model]
         else:
-            produce = outputs_by_type[output_type]
+            produce = outputs_by_type.get(output_type)
+            if produce is None:
+                for base_type, candidate in outputs_by_type.items():
+                    if issubclass(output_type, base_type):
+                        produce = (
+                            output_type.model_validate(candidate.model_dump())
+                            if hasattr(candidate, "model_dump")
+                            else candidate
+                        )
+                        break
+            if produce is None:
+                raise KeyError(output_type)
         agent = FakeAgent(produce)
         if calls is not None:
             calls.append((model, output_type, agent))

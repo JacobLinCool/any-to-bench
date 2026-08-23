@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import os
 import threading
+from collections.abc import Callable, Sequence
 from pathlib import Path
 from typing import Any, Literal
 
@@ -138,6 +139,7 @@ def build_agent[T: BaseModel](
     output_mode: OutputMode = "native",
     retries: int = 2,
     effort: Effort | str | None = None,
+    tools: Sequence[Callable[..., Any]] = (),
 ) -> Agent[None, T]:
     """Build an agent that returns a validated instance of output_type.
 
@@ -160,6 +162,7 @@ def build_agent[T: BaseModel](
         instructions=instructions,
         retries=retries,
         model_settings=resolve_model_settings(model, effort),
+        tools=tools,
     )
 
 

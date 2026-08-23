@@ -43,12 +43,22 @@ from any_to_bench.schemas.report import (
     JudgeVerdict,
     QuestionResult,
 )
+from any_to_bench.schemas.resources import (
+    Citation,
+    CitationCheck,
+    CitationSummary,
+    ResourceAccess,
+    ResourceFile,
+)
 
 __all__ = [
     "AnswerSheet",
     "AnswerValue",
     "Blank",
     "ChoiceRule",
+    "Citation",
+    "CitationCheck",
+    "CitationSummary",
     "ContentBlock",
     "CriterionScore",
     "DrawingAnswer",
@@ -73,6 +83,8 @@ __all__ = [
     "QuestionGrading",
     "QuestionResult",
     "QuestionType",
+    "ResourceAccess",
+    "ResourceFile",
     "RubricCriterion",
     "RubricLevel",
     "Section",

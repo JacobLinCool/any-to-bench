@@ -1,16 +1,11 @@
-"""Types shared by every agentic backend.
-
-A backend is one CLI coding agent (Codex, Claude Code) driven as a subprocess
-over a scratch workspace. The names here are deliberately backend-neutral;
-``agentic.runner`` keeps ``Codex*`` aliases for the original Codex-only API.
-"""
+"""Types shared by every agentic CLI backend."""
 
 from __future__ import annotations
 
 import os
 from collections.abc import Mapping
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Literal
 
 from any_to_bench.schemas.usage import Effort
 
@@ -80,6 +75,7 @@ class AgenticBackend:
     binary: str
     install_hint: str
     effort_map: Mapping[Effort, str]
+    usage_accounting: Literal["per_turn", "cumulative_session"]
 
 
 @dataclass(frozen=True)

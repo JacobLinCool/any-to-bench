@@ -1,12 +1,12 @@
-"""Offline agentic solve: FakeCodex plants answers.json; the fix loop validates."""
+"""Offline agentic solve: a fake runner plants answers.json for validation."""
 
 import pytest
 
 import any_to_bench.agentic.runner as runner_module
-from any_to_bench.agentic.runner import CodexError
+from any_to_bench.agentic.runner import AgenticError
 from any_to_bench.solve.runner import run_solve
 from any_to_bench.util import write_json
-from tests.conftest import FakeCodex, make_png
+from tests.conftest import FakeAgenticRun, make_png
 
 VALID_ANSWERS = {
     "exam_id": "tiny-exam",
@@ -28,7 +28,7 @@ def write_valid(workspace):
 
 
 def test_agentic_solve_happy_path(tiny_bundle, monkeypatch):
-    fake = FakeCodex([write_valid])
+    fake = FakeAgenticRun([write_valid])
     monkeypatch.setattr(runner_module, "run_codex", fake)
 
     sheet = run_solve(tiny_bundle, "codex:test")
@@ -56,7 +56,7 @@ def test_solve_workspace_has_no_answer_leaks(tiny_bundle, monkeypatch):
         )
         write_valid(workspace)
 
-    monkeypatch.setattr(runner_module, "run_codex", FakeCodex([snoop_and_write]))
+    monkeypatch.setattr(runner_module, "run_codex", FakeAgenticRun([snoop_and_write]))
     run_solve(tiny_bundle, "codex:test")
 
     files = seen["files"]
@@ -77,7 +77,7 @@ def test_solve_fix_loop_feeds_schema_errors_back(tiny_bundle, monkeypatch):
             "q1": {"type": "single_choice", "selected": "Z"},
         },
     }
-    fake = FakeCodex([lambda ws: write_json(ws / "output" / "answers.json", bad), write_valid])
+    fake = FakeAgenticRun([lambda ws: write_json(ws / "output" / "answers.json", bad), write_valid])
     monkeypatch.setattr(runner_module, "run_codex", fake)
 
     sheet = run_solve(tiny_bundle, "codex:test")
@@ -97,7 +97,7 @@ def test_solve_exhaustion_still_returns_parseable_sheet(tiny_bundle, monkeypatch
             "q1": {"type": "single_choice", "selected": "Z"},
         },
     }
-    fake = FakeCodex([lambda ws: write_json(ws / "output" / "answers.json", bad)])
+    fake = FakeAgenticRun([lambda ws: write_json(ws / "output" / "answers.json", bad)])
     monkeypatch.setattr(runner_module, "run_codex", fake)
 
     sheet = run_solve(tiny_bundle, "codex:test")
@@ -108,6 +108,6 @@ def test_solve_exhaustion_still_returns_parseable_sheet(tiny_bundle, monkeypatch
 
 
 def test_solve_unparseable_output_raises(tiny_bundle, monkeypatch):
-    monkeypatch.setattr(runner_module, "run_codex", FakeCodex([]))
-    with pytest.raises(CodexError, match="no parseable"):
+    monkeypatch.setattr(runner_module, "run_codex", FakeAgenticRun([]))
+    with pytest.raises(AgenticError, match="no parseable"):
         run_solve(tiny_bundle, "codex:test")

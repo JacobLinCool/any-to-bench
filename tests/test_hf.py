@@ -8,6 +8,8 @@ from typer.testing import CliRunner
 import any_to_bench.hf as hf_module
 from any_to_bench.cli import app
 from any_to_bench.hf import HubError, build_question_rows, download_bundle, upload_bundle
+from any_to_bench.resources import snapshot_resources
+from any_to_bench.schemas.answers import generate_answer_schema
 from tests.conftest import build_tiny_bundle
 
 runner = CliRunner()
@@ -142,6 +144,26 @@ def test_upload_generates_dataset_card(tiny_bundle, monkeypatch):
     assert "a2b download user/exams --name tiny -o bundle" in card.text
 
 
+def test_resource_bundle_card_discloses_public_corpus_and_direct_coverage(
+    tiny_bundle, tmp_path, monkeypatch
+):
+    corpus = tmp_path / "corpus"
+    corpus.mkdir()
+    (corpus / "readme.txt").write_text("text", encoding="utf-8")
+    (corpus / "paper.pdf").write_bytes(b"%PDF-1.4\nASCII\n")
+    tiny_bundle.manifest.resources = snapshot_resources(corpus, tiny_bundle.root)
+    tiny_bundle.answer_schema = generate_answer_schema(tiny_bundle.exam, allow_citations=True)
+    tiny_bundle.save()
+    seams = Seams(monkeypatch)
+
+    upload_bundle(tiny_bundle.root, "user/exams", name="retrieval")
+
+    card = seams.calls[-1][1]["card"]
+    assert "entire resource folder is public solver input" in card.text
+    assert "| Public resources | 2 files" in card.text
+    assert "| Direct-text coverage | 1/2 files" in card.text
+
+
 def test_card_update_is_idempotent_and_preserves_foreign_content(tiny_bundle):
     from huggingface_hub import DatasetCard
 
@@ -210,7 +232,10 @@ def test_download_single_bundle_auto_selects(tmp_path, monkeypatch):
 def test_download_round_trip_is_byte_identical(tmp_path, monkeypatch):
     source = build_tiny_bundle(tmp_path / "src")
 
+    seen = {}
+
     def snapshot(**kwargs):
+        seen.update(kwargs)
         dest = hf_module.Path(kwargs["local_dir"]) / "matha" / "bundle"
         shutil.copytree(source.root, dest)
         return kwargs["local_dir"]
@@ -219,6 +244,7 @@ def test_download_round_trip_is_byte_identical(tmp_path, monkeypatch):
     monkeypatch.setattr(hf_module, "_snapshot_download", snapshot)
     out = tmp_path / "dl"
     download_bundle("user/exams", out)
+    assert seen["allow_patterns"] == ["matha/bundle/**"]
     for path in sorted(source.root.rglob("*")):
         if path.is_file():
             rel = path.relative_to(source.root)

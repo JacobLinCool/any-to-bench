@@ -25,6 +25,7 @@ from any_to_bench.bundle import (
     validate_bundle,
 )
 from any_to_bench.llm import UsageTracker
+from any_to_bench.resources import snapshot_resources
 from any_to_bench.schemas.answers import generate_answer_schema
 from any_to_bench.schemas.exam import Exam
 from any_to_bench.schemas.grading import GradingSpec, JudgeRule
@@ -82,6 +83,8 @@ def agentic_ingest(
     model: str,
     full_page_figures: bool = False,
     effort: Effort | str | None = None,
+    *,
+    resources: Path | None = None,
 ) -> ExamBundle:
     agentic_model = parse_agentic(model)
     if agentic_model is None:
@@ -93,6 +96,7 @@ def agentic_ingest(
         warnings.append("agentic mode ignores --full-page-figures (the agent decides crops)")
     tracker = UsageTracker()
     sources = [SourceFile(path=str(p), sha256=sha256_file(p)) for p in inputs]
+    resource_files = snapshot_resources(resources, output_dir) if resources is not None else []
 
     workspace = new_workspace("ingest")
     write_agents_md(workspace, INGEST_AGENTS_MD)
@@ -145,13 +149,17 @@ def agentic_ingest(
         shutil.copytree(assets_src, output_dir / ASSETS_DIR, dirs_exist_ok=True)
 
     manifest = BundleManifest(
-        ingest_model=model, sources=sources, warnings=warnings, usage=tracker.summary()
+        ingest_model=model,
+        sources=sources,
+        resources=resource_files,
+        warnings=warnings,
+        usage=tracker.summary(),
     )
     bundle = ExamBundle(
         root=output_dir,
         exam=exam,
         grading=grading,
-        answer_schema=generate_answer_schema(exam),
+        answer_schema=generate_answer_schema(exam, allow_citations=bool(resource_files)),
         manifest=manifest,
     )
     bundle.save()

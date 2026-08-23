@@ -1,7 +1,7 @@
-"""Agentic backend dispatch, and the Codex CLI subprocess runner.
+"""Agentic backend dispatch, fix loop, and the Codex CLI subprocess runner.
 
 Everything that spawns an agentic CLI goes through a runner function that lives
-as a module global *here* (run_codex, run_claude), so tests can monkeypatch this
+as a module global *here* (run_codex, run_claude, run_agy), so tests can monkeypatch this
 module to stay fully offline, mirroring how llm.build_agent is the single seam
 for direct LLM calls. run_codex stays in this module rather than moving to a
 sibling for symmetry with claude.py, because the Codex tests patch this module's
@@ -17,9 +17,10 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-# run_claude is imported to exist as a module global here, not to be called by
-# name: _resolve_runner looks it up through globals(), which is also what lets
-# tests swap it out. Hence the noqa — it is used, just not lexically.
+# These runners are imported to exist as module globals here, not to be called by
+# name: _resolve_runner looks them up through globals(), which is also what lets
+# tests swap them out. Hence the noqa — they are used, just not lexically.
+from any_to_bench.agentic.agy import AGY_EFFORT, run_agy  # noqa: F401
 from any_to_bench.agentic.claude import CLAUDE_EFFORT, run_claude  # noqa: F401
 from any_to_bench.agentic.types import (
     AgenticBackend,
@@ -51,6 +52,7 @@ CODEX = AgenticBackend(
     binary="codex",
     install_hint="npm install -g @openai/codex",
     effort_map=_CODEX_EFFORT,
+    usage_accounting="per_turn",
 )
 CLAUDE = AgenticBackend(
     name="claude",
@@ -59,22 +61,26 @@ CLAUDE = AgenticBackend(
     binary="claude",
     install_hint="npm install -g @anthropic-ai/claude-code",
     effort_map=CLAUDE_EFFORT,
+    usage_accounting="per_turn",
 )
-BACKENDS: dict[str, AgenticBackend] = {b.prefix: b for b in (CODEX, CLAUDE)}
-
-AGENTIC_PREFIX = CODEX.prefix  # back-compat for the codex-only era
-
-# The original Codex-only names, kept as aliases (the same class objects, not
-# subclasses) so `except CodexError` still catches a Claude failure.
-CodexError = AgenticError
-CodexUsage = AgentUsage
-CodexRunResult = AgentRunResult
+AGY = AgenticBackend(
+    name="agy",
+    prefix="agy:",
+    runner_name="run_agy",
+    binary="agy",
+    install_hint="https://antigravity.google/docs/cli/install/",
+    effort_map=AGY_EFFORT,
+    usage_accounting="cumulative_session",
+)
+BACKENDS: dict[str, AgenticBackend] = {b.prefix: b for b in (CODEX, CLAUDE, AGY)}
 
 
 def parse_agentic(model: str) -> AgenticModel | None:
-    """'claude:opus' -> (CLAUDE, 'opus'); None for direct-LLM model strings."""
+    """Parse a registered CLI prefix; return None for direct-LLM model strings."""
     for prefix, backend in BACKENDS.items():
-        if model.startswith(prefix) and len(model) > len(prefix):
+        if model.startswith(prefix) and not model[len(prefix) :].strip():
+            raise ValueError(f"agentic model {prefix!r} requires a non-empty CLI model name")
+        if model.startswith(prefix):
             return AgenticModel(backend=backend, cli_model=model[len(prefix) :])
     return None
 
@@ -102,14 +108,14 @@ def codex_effort(effort: Effort | str | None) -> str | None:
     return CODEX.effort_map[Effort(effort)]
 
 
-def summarize_events(events: list[dict[str, Any]]) -> tuple[str | None, CodexUsage]:
+def summarize_events(events: list[dict[str, Any]]) -> tuple[str | None, AgentUsage]:
     """Extract the session id and total token usage from a --json event stream.
 
     Scans tolerantly (any event bearing a thread id / usage object counts) so
     minor codex CLI upgrades don't zero out accounting.
     """
     session_id: str | None = None
-    usage = CodexUsage()
+    usage = AgentUsage()
     for event in events:
         if session_id is None:
             candidate = event.get("thread_id") or (event.get("thread") or {}).get("id")
@@ -144,6 +150,27 @@ def _parse_jsonl(stdout: str) -> list[dict[str, Any]]:
     return events
 
 
+# Three settings, because closing any two of them leaves the third open. Verified
+# by probe, not by reading docs: with only the sandbox flag the model reaches the
+# network through its built-in search tool, and with only those two it asks for
+# escalated permissions and — under an `on-request` approval policy — gets them.
+#
+# The stake is the whole benchmark. Every paper in these corpora has its official
+# answer key published online, so a solver that can search is sitting an open-book
+# exam against the marking scheme.
+HERMETIC_CONFIG = [
+    # No network from the shell: curl and friends fail to resolve.
+    "-c",
+    "sandbox_workspace_write.network_access=false",
+    # No server-side search tool, which the sandbox cannot reach.
+    "-c",
+    'web_search="disabled"',
+    # No escalation out of either: the operator's own config may auto-approve.
+    "-c",
+    'approval_policy="never"',
+]
+
+
 def run_codex(
     workspace: Path,
     prompt: str,
@@ -151,7 +178,7 @@ def run_codex(
     effort: Effort | str | None = None,
     resume_session_id: str | None = None,
     timeout_s: float | None = None,
-) -> CodexRunResult:
+) -> AgentRunResult:
     """Run one codex exec (or exec resume) turn over the workspace.
 
     The initial run pins the working root and sandbox (-C, -s workspace-write);
@@ -160,7 +187,7 @@ def run_codex(
     """
     codex = shutil.which("codex")
     if codex is None:
-        raise CodexError(
+        raise AgenticError(
             "codex CLI not found on PATH; install it (npm install -g @openai/codex) "
             "or use a direct-LLM model string such as 'openai:gpt-5.6-sol'"
         )
@@ -179,6 +206,7 @@ def run_codex(
     argv += ["--json", "--color", "never", "--skip-git-repo-check", "-m", cli_model]
     if resume_session_id is None:
         argv += ["-C", str(workspace), "-s", "workspace-write"]
+    argv += HERMETIC_CONFIG
     level = codex_effort(effort)
     if level is not None:
         argv += ["-c", f"model_reasoning_effort={level}"]
@@ -194,9 +222,9 @@ def run_codex(
             timeout=timeout_s,
         )
     except subprocess.TimeoutExpired as e:
-        raise CodexError(f"codex timed out after {timeout_s:.0f}s") from e
+        raise AgenticError(f"codex timed out after {timeout_s:.0f}s") from e
     except OSError as e:
-        raise CodexError(f"failed to run codex: {e}") from e
+        raise AgenticError(f"failed to run codex: {e}") from e
 
     events = _parse_jsonl(proc.stdout)
     session_id, usage = summarize_events(events)
@@ -208,7 +236,7 @@ def run_codex(
             for e in failures[:3]
         )
         stderr_tail = proc.stderr[-2000:].strip()
-        raise CodexError(
+        raise AgenticError(
             f"codex exited with code {proc.returncode}"
             + (f": {detail}" if detail else "")
             + (f"\nstderr: {stderr_tail}" if stderr_tail else "")
@@ -217,9 +245,43 @@ def run_codex(
     final_message = (
         last_message.read_text(encoding="utf-8").strip() if last_message.exists() else ""
     )
-    return CodexRunResult(
+    return AgentRunResult(
         session_id=session_id, final_message=final_message, usage=usage, events=events
     )
+
+
+def _usage_delta(current: AgentUsage, previous: AgentUsage) -> AgentUsage:
+    """Return a cumulative-session increment, rejecting protocol regressions."""
+    values: dict[str, int] = {}
+    for field_name in (
+        "requests",
+        "input_tokens",
+        "output_tokens",
+        "cache_read_tokens",
+        "cache_write_tokens",
+    ):
+        current_value = getattr(current, field_name)
+        previous_value = getattr(previous, field_name)
+        if current_value < previous_value:
+            raise AgenticError(
+                f"cumulative agent usage regressed for {field_name}: "
+                f"{current_value} < {previous_value}"
+            )
+        values[field_name] = current_value - previous_value
+
+    details: dict[str, int] = {}
+    for key in current.details.keys() | previous.details.keys():
+        current_value = current.details.get(key, 0)
+        previous_value = previous.details.get(key, 0)
+        if current_value < previous_value:
+            raise AgenticError(
+                f"cumulative agent usage regressed for details.{key}: "
+                f"{current_value} < {previous_value}"
+            )
+        delta = current_value - previous_value
+        if delta:
+            details[key] = delta
+    return AgentUsage(**values, details=details)
 
 
 def run_fix_loop(
@@ -248,6 +310,7 @@ def run_fix_loop(
 
     run = _resolve_runner(backend)
     session_id: str | None = None
+    cumulative_usage: AgentUsage | None = None
     problems: list[str] = []
     round_counts: list[int] = []
     final_message = ""
@@ -255,16 +318,35 @@ def run_fix_loop(
     for round_no in range(1, max_rounds + 1):
         rounds_run = round_no
         prompt = task_prompt if round_no == 1 else format_problems(problems)
+        expected_session_id = session_id
         try:
             result = run(workspace, prompt, cli_model, effort=effort, resume_session_id=session_id)
         except AgenticError:
             if session_id is None:
                 raise
             session_id = None  # dead session; retry statelessly with full context
+            cumulative_usage = None
+            expected_session_id = None
             prompt = f"{task_prompt}\n\n{format_problems(problems)}"
             result = run(workspace, prompt, cli_model, effort=effort)
-        on_usage(result.usage)
-        session_id = session_id or result.session_id
+        if expected_session_id is not None and result.session_id != expected_session_id:
+            raise AgenticError(
+                f"agentic session changed during resume: expected {expected_session_id!r}, "
+                f"got {result.session_id!r}"
+            )
+        if backend.usage_accounting == "cumulative_session":
+            if result.session_id is None:
+                raise AgenticError(f"{backend.name} returned no session id for cumulative usage")
+            increment = (
+                result.usage
+                if cumulative_usage is None
+                else _usage_delta(result.usage, cumulative_usage)
+            )
+            on_usage(increment)
+            cumulative_usage = result.usage
+        else:
+            on_usage(result.usage)
+        session_id = result.session_id
         final_message = result.final_message
         problems = oracle()
         round_counts.append(len(problems))

@@ -1,14 +1,14 @@
-"""Offline agentic ingest: FakeCodex plants a bundle; the fix loop validates."""
+"""Offline agentic ingest: a fake runner plants a bundle for validation."""
 
 import pytest
 
 import any_to_bench.agentic.runner as runner_module
 from any_to_bench.agentic.ingest import _bundle_problems
-from any_to_bench.agentic.runner import CodexError
+from any_to_bench.agentic.runner import AgenticError
 from any_to_bench.bundle import validate_bundle
 from any_to_bench.ingest.pipeline import run_ingest
 from any_to_bench.util import sha256_file, write_json
-from tests.conftest import FakeCodex, build_tiny_exam, build_tiny_grading, make_png
+from tests.conftest import FakeAgenticRun, build_tiny_exam, build_tiny_grading, make_png
 
 
 def _write_bundle(workspace, with_grading=True, warnings_list=None):
@@ -38,7 +38,7 @@ def test_agentic_ingest_happy_path(tmp_path, monkeypatch):
         seen["agents_md"] = (workspace / "AGENTS.md").exists()
         _write_bundle(workspace, warnings_list=["points not printed for q3"])
 
-    fake = FakeCodex([writer])
+    fake = FakeAgenticRun([writer])
     monkeypatch.setattr(runner_module, "run_codex", fake)
 
     bundle = run_ingest([src], out, model="codex:test")
@@ -60,7 +60,7 @@ def test_agentic_ingest_happy_path(tmp_path, monkeypatch):
 def test_agentic_ingest_fix_loop(tmp_path, monkeypatch):
     src = _source(tmp_path)
     out = tmp_path / "out"
-    fake = FakeCodex(
+    fake = FakeAgenticRun(
         [
             lambda ws: _write_bundle(ws, with_grading=False),
             lambda ws: _write_bundle(ws),
@@ -79,17 +79,17 @@ def test_agentic_ingest_fix_loop(tmp_path, monkeypatch):
 
 def test_agentic_ingest_exhaustion_raises(tmp_path, monkeypatch):
     src = _source(tmp_path)
-    fake = FakeCodex([])  # never writes anything
+    fake = FakeAgenticRun([])  # never writes anything
     monkeypatch.setattr(runner_module, "run_codex", fake)
 
-    with pytest.raises(CodexError, match="workspace kept"):
+    with pytest.raises(AgenticError, match="workspace kept"):
         run_ingest([src], tmp_path / "out", model="codex:test")
     assert len(fake.calls) == 3
 
 
 def test_full_page_figures_is_noop_with_warning(tmp_path, monkeypatch):
     src = _source(tmp_path)
-    monkeypatch.setattr(runner_module, "run_codex", FakeCodex([_write_bundle]))
+    monkeypatch.setattr(runner_module, "run_codex", FakeAgenticRun([_write_bundle]))
 
     bundle = run_ingest([src], tmp_path / "out", model="codex:test", full_page_figures=True)
     assert any("full-page-figures" in w for w in bundle.manifest.warnings)

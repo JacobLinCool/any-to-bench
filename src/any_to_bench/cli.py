@@ -8,6 +8,7 @@ from typing import Annotated
 import typer
 from dotenv import load_dotenv
 
+from any_to_bench.schemas.resources import ResourceAccess
 from any_to_bench.schemas.usage import Effort, UsageSummary
 
 app = typer.Typer(
@@ -46,7 +47,7 @@ EffortOption = Annotated[
     Effort | None,
     typer.Option(
         help="Reasoning effort (OpenAI: reasoning.effort; Google: thinking_level; "
-        "codex: model_reasoning_effort; claude: --effort). Default: provider default."
+        "codex: model_reasoning_effort; claude:/agy: --effort). Default: provider default."
     ),
 ]
 
@@ -54,6 +55,20 @@ EffortOption = Annotated[
 def _echo_usage(usage: UsageSummary | None) -> None:
     if usage is not None:
         typer.echo(usage.format_line())
+
+
+def _echo_resource_access(access: ResourceAccess | None) -> None:
+    if access is None:
+        return
+    typer.echo(
+        f"Resources: {access.exposed_files}/{access.total_files} files, "
+        f"{access.exposed_bytes:,}/{access.total_bytes:,} bytes ({access.mode})"
+    )
+    if access.exposed_files < access.total_files:
+        typer.echo(
+            "  warning: binary resources were not exposed to this direct-LLM taker",
+            err=True,
+        )
 
 
 @app.command()
@@ -67,19 +82,33 @@ def ingest(
         str,
         typer.Option(
             help="Extraction model, e.g. openai:gpt-5.6-terra, or codex:gpt-5.6-sol / "
-            "claude:opus for agentic mode (runs that CLI)"
+            "claude:opus / agy:gemini-3.7-flash-high for agentic mode"
         ),
     ] = DEFAULT_MODEL,
     effort: EffortOption = None,
     full_page_figures: Annotated[
         bool, typer.Option(help="Attach full page images instead of cropping figures")
     ] = False,
+    resources: Annotated[
+        Path | None,
+        typer.Option(
+            exists=True,
+            file_okay=False,
+            readable=True,
+            help="Public resource corpus directory copied byte-for-byte into the bundle",
+        ),
+    ] = None,
 ) -> None:
     """Turn exam materials (papers, keys, solutions, rubrics) into an exam bundle."""
     from any_to_bench.ingest.pipeline import run_ingest
 
     bundle = run_ingest(
-        inputs, output, model=model, full_page_figures=full_page_figures, effort=effort
+        inputs,
+        output,
+        model=model,
+        full_page_figures=full_page_figures,
+        effort=effort,
+        resources=resources,
     )
     typer.echo(f"Bundle written to {bundle.root}")
     _echo_usage(bundle.manifest.usage)
@@ -97,7 +126,7 @@ def solve(
         str,
         typer.Option(
             help="Taker model, e.g. google:gemini-3.7-flash, or codex:gpt-5.6-sol / "
-            "claude:opus for agentic mode (runs that CLI)"
+            "claude:opus / agy:gemini-3.7-flash-high for agentic mode"
         ),
     ] = DEFAULT_MODEL,
     effort: EffortOption = None,
@@ -106,7 +135,7 @@ def solve(
         typer.Option(
             min=1,
             help="Questions to solve at once. Wall time only — same answers, same order — "
-            "but solve_secs stops being a per-question latency. Ignored by codex:/claude:",
+            "but solve_secs stops being a per-question latency. Ignored by agentic models",
         ),
     ] = 1,
     text_only: Annotated[
@@ -144,6 +173,7 @@ def solve(
             err=True,
         )
     _echo_usage(sheet.usage)
+    _echo_resource_access(sheet.resource_access)
     if errors:
         typer.echo("Answer sheet does NOT fully satisfy the answer schema:", err=True)
         for error in errors:
@@ -160,7 +190,7 @@ def grade(
         list[str] | None,
         typer.Option(
             help="Override judge model(s) from grading.json; repeatable. "
-            "codex:* and claude:* models judge agentically via that CLI"
+            "codex:*, claude:*, and agy:* models judge agentically via that CLI"
         ),
     ] = None,
     effort: EffortOption = None,
@@ -200,6 +230,16 @@ def grade(
             f"{report.skipped_count} question(s) skipped as beyond the taker's modalities"
         )
     _echo_usage(report.usage)
+    _echo_resource_access(report.resource_access)
+    if report.citations is not None:
+        citations = report.citations
+        typer.echo(
+            f"Citations: {citations.submitted} submitted, {citations.valid_paths} valid paths, "
+            f"{citations.verified} verified text excerpts, "
+            f"{citations.quote_mismatches} mismatches, "
+            f"{citations.missing_resources} missing, "
+            f"{citations.unverifiable_binary} binary-unverifiable"
+        )
     for warning in report.warnings:
         typer.echo(f"  warning: {warning}", err=True)
 
@@ -210,9 +250,7 @@ def bench(
     output: Annotated[Path, typer.Option("--output", "-o", help="Directory for bench artifacts")],
     model: Annotated[
         list[str],
-        typer.Option(
-            help="Taker model(s) to benchmark; repeatable (codex:*/claude:* run agentically)"
-        ),
+        typer.Option(help="Taker model(s); repeatable (codex:*/claude:*/agy:* run agentically)"),
     ],
     judge_model: Annotated[
         list[str] | None,
@@ -240,7 +278,7 @@ def bench(
         typer.Option(
             min=1,
             help="Questions to solve at once. Wall time only — same answers, same order — "
-            "but solve_secs stops being a per-question latency. Ignored by codex:/claude:",
+            "but solve_secs stops being a per-question latency. Ignored by agentic models",
         ),
     ] = 1,
 ) -> None:

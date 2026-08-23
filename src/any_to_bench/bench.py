@@ -13,8 +13,10 @@ from any_to_bench.agentic.runner import parse_agentic_model
 from any_to_bench.bundle import ExamBundle
 from any_to_bench.grade.aggregate import run_grade
 from any_to_bench.modality import parse_capabilities
+from any_to_bench.resources import resource_access
 from any_to_bench.schemas.bench import BenchModelSummary, BenchReport, BenchRow
 from any_to_bench.schemas.grading import JudgeRule
+from any_to_bench.schemas.resources import CitationSummary, ResourceAccess
 from any_to_bench.schemas.usage import Effort
 from any_to_bench.solve.runner import run_solve
 from any_to_bench.util import slugify, write_json
@@ -145,6 +147,9 @@ def _run_one(
 ) -> None:
     """Solve + grade one taker once, flushing at every exit so a kill leaves usable state."""
     row = BenchRow(model=model, slug=_unique_slug(model, used_slugs), run_index=run_index)
+    if bundle.has_resources:
+        access_mode = "all_files" if parse_agentic_model(model) is not None else "utf8_text_only"
+        row.resource_access = resource_access(bundle.manifest.resources, access_mode)
     report.rows.append(row)
     skipped: list[str] = []
 
@@ -185,6 +190,20 @@ def _run_one(
     row.report_path = f"{row.slug}-report.json"
     write_json(out_dir / row.report_path, grade_report)
     row.grade_usage = grade_report.usage
+    row.resource_access = grade_report.resource_access
+    row.citations = grade_report.citations
+    if (
+        row.resource_access is not None
+        and row.resource_access.exposed_files < row.resource_access.total_files
+    ):
+        warning = (
+            f"taker {model} accessed {row.resource_access.exposed_files}/"
+            f"{row.resource_access.total_files} resource files and "
+            f"{row.resource_access.exposed_bytes:,}/{row.resource_access.total_bytes:,} bytes "
+            f"({row.resource_access.mode}); binary resources were not exposed"
+        )
+        if warning not in report.warnings:
+            report.warnings.append(warning)
     row.awarded = grade_report.total_awarded
     row.max_points = grade_report.total_max
     row.percentage = grade_report.percentage
@@ -277,6 +296,45 @@ def summarize_models(rows: list[BenchRow], models: list[str]) -> list[BenchModel
                 output_tokens_mean=_mean(tokens_out) or 0.0,
                 input_tokens_total=sum(tokens_in),
                 output_tokens_total=sum(tokens_out),
+                resource_file_coverage_mean=_mean(
+                    [
+                        access.file_coverage
+                        for row in ok
+                        if (access := row.resource_access) is not None
+                        and access.file_coverage is not None
+                    ]
+                ),
+                resource_byte_coverage_mean=_mean(
+                    [
+                        access.byte_coverage
+                        for row in ok
+                        if (access := row.resource_access) is not None
+                        and access.byte_coverage is not None
+                    ]
+                ),
+                citations_submitted_mean=_mean(
+                    [
+                        float(citations.submitted)
+                        for row in ok
+                        if (citations := row.citations) is not None
+                    ]
+                ),
+                citation_path_valid_percentage_mean=_mean(
+                    [
+                        percentage
+                        for row in ok
+                        if (citations := row.citations) is not None
+                        and (percentage := citations.path_valid_percentage) is not None
+                    ]
+                ),
+                text_quote_verified_percentage_mean=_mean(
+                    [
+                        percentage
+                        for row in ok
+                        if (citations := row.citations) is not None
+                        and (percentage := citations.text_quote_verified_percentage) is not None
+                    ]
+                ),
             )
         )
     return summaries
@@ -299,14 +357,17 @@ def format_table(report: BenchReport) -> str:
     """
     if report.repeat > 1:
         return _format_summary_table(report)
+    resource_backed = any(row.resource_access is not None for row in report.rows)
     lines = [
         "| model | score | % | cov | det full | judge | judge Δ | schema err "
-        "| tokens in/out | time |",
-        "|---|---|---|---|---|---|---|---|---|---|",
+        + ("| resources | citations " if resource_backed else "")
+        + "| tokens in/out | time |",
+        "|---|---|---|---|---|---|---|---|" + ("---|---|" if resource_backed else "") + "---|---|",
     ]
     for row in report.rows:
         if row.status != "ok":
-            lines.append(f"| {row.model} | {row.status} |  |  |  |  |  |  |  |  |")
+            empty = " |  |" if resource_backed else ""
+            lines.append(f"| {row.model} | {row.status} |  |  |  |  |  |  |{empty}  |  |")
             continue
         tokens_in = tokens_out = 0
         for usage in (row.solve_usage, row.grade_usage):
@@ -323,7 +384,12 @@ def format_table(report: BenchReport) -> str:
             f"| {covered_max:g}/{row.max_points:g} "
             f"| {row.deterministic_full_credit}/{row.deterministic_total} "
             f"| {row.judge_count} | {_judge_delta(row)} | {row.schema_error_count} "
-            f"| {tokens_in:,} / {tokens_out:,} | {secs:.0f}s |"
+            + (
+                f"| {_format_access(row.resource_access)} | {_format_citations(row.citations)} "
+                if resource_backed
+                else ""
+            )
+            + f"| {tokens_in:,} / {tokens_out:,} | {secs:.0f}s |"
         )
     return "\n".join(lines)
 
@@ -339,13 +405,20 @@ def _pm(mean: float | None, std: float | None, suffix: str = "") -> str:
 
 def _format_summary_table(report: BenchReport) -> str:
     """One row per model across repeats. Token and time figures are per run."""
+    resource_backed = any(row.resource_access is not None for row in report.rows)
     lines = [
-        "| model | runs | score | % | cov | det full | judge Δ | tokens in/out | time |",
-        "|---|---|---|---|---|---|---|---|---|",
+        "| model | runs | score | % | cov | det full | judge Δ "
+        + ("| resources | citations " if resource_backed else "")
+        + "| tokens in/out | time |",
+        "|---|---|---|---|---|---|---|" + ("---|---|" if resource_backed else "") + "---|---|",
     ]
     for summary in report.summaries:
         if not summary.ok_runs:
-            lines.append(f"| {summary.model} | 0/{summary.runs} | failed |  |  |  |  |  |  |")
+            resource_blanks = "  |  |" if resource_backed else ""
+            lines.append(
+                f"| {summary.model} | 0/{summary.runs} | failed |  |  |  |  |"
+                f"{resource_blanks}  |  |"
+            )
             continue
         max_points = summary.max_points or 0.0
         covered = summary.covered_max_mean if summary.covered_max_mean is not None else max_points
@@ -358,7 +431,13 @@ def _format_summary_table(report: BenchReport) -> str:
             f"| {_pm(summary.deterministic_full_credit_mean, None)}/"
             f"{report.rows[0].deterministic_total} "
             f"| {_pm(summary.judge_disagreements_mean, None)} "
-            f"| {summary.input_tokens_mean:,.0f} / {summary.output_tokens_mean:,.0f} "
+            + (
+                f"| {_format_coverage(summary.resource_file_coverage_mean)} "
+                f"| {_format_citation_summary(summary)} "
+                if resource_backed
+                else ""
+            )
+            + f"| {summary.input_tokens_mean:,.0f} / {summary.output_tokens_mean:,.0f} "
             f"| {secs:.0f}s |"
         )
     return "\n".join(lines)
@@ -369,3 +448,26 @@ def _judge_delta(row: BenchRow) -> str:
     if not row.multi_judge_questions:
         return "–"
     return f"{row.judge_disagreements}/{row.multi_judge_questions}"
+
+
+def _format_access(access: ResourceAccess | None) -> str:
+    if access is None:
+        return "–"
+    return f"{access.exposed_files}/{access.total_files}"
+
+
+def _format_citations(citations: CitationSummary | None) -> str:
+    if citations is None or not citations.submitted:
+        return "–"
+    return f"{citations.verified}v/{citations.submitted}"
+
+
+def _format_coverage(coverage: float | None) -> str:
+    return "–" if coverage is None else f"{100 * coverage:.1f}%"
+
+
+def _format_citation_summary(summary: BenchModelSummary) -> str:
+    if not summary.citations_submitted_mean:
+        return "–"
+    verified = summary.text_quote_verified_percentage_mean
+    return f"{verified:.1f}%" if verified is not None else "unverified"

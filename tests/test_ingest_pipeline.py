@@ -226,6 +226,38 @@ def test_ingest_builds_valid_bundle(exam_pdf, tmp_path, fake_agents):
     assert usage.total.reasoning_tokens == 21
 
 
+def test_ingest_snapshots_resources_without_sending_them_to_agents(exam_pdf, tmp_path, monkeypatch):
+    corpus = tmp_path / "corpus"
+    corpus.mkdir()
+    (corpus / "knowledge.txt").write_text("public evidence", encoding="utf-8")
+    calls = []
+    monkeypatch.setattr(
+        pipeline_module,
+        "build_agent",
+        fake_build_agent(
+            {
+                MaterialInventory: INVENTORY,
+                ExtractionChunk: EXTRACTION,
+                GradingExtraction: ANSWER_KEY,
+            },
+            calls=calls,
+        ),
+    )
+
+    bundle = run_ingest(
+        [exam_pdf], tmp_path / "resource-bundle", model="test:ingest", resources=corpus
+    )
+
+    assert validate_bundle(bundle.root) == []
+    assert [entry.path for entry in bundle.manifest.resources] == ["resources/knowledge.txt"]
+    assert all(
+        "public evidence" not in str(part)
+        for _, _, agent in calls
+        for invocation in agent.calls
+        for part in invocation
+    )
+
+
 def test_ingest_without_answer_key_falls_back_to_judge(exam_pdf, tmp_path, monkeypatch):
     inventory = INVENTORY.model_copy(
         update={

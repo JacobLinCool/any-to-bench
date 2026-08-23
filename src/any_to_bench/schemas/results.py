@@ -65,6 +65,21 @@ class PointBucket(BaseModel):
         return 100.0 * self.awarded / self.covered_max
 
 
+class RetrievalMetrics(BaseModel):
+    """Resource exposure and optional citation evidence, averaged per run."""
+
+    total_files: int = 0
+    total_bytes: int = 0
+    exposed_files: float = 0.0
+    exposed_bytes: float = 0.0
+    citations_submitted: float = 0.0
+    citation_valid_paths: float = 0.0
+    citations_verified: float = 0.0
+    citation_quote_mismatches: float = 0.0
+    citation_missing_resources: float = 0.0
+    citation_unverifiable_binary: float = 0.0
+
+
 class PaperResult(BaseModel):
     """One taker configuration's outcome on one paper, averaged over its runs."""
 
@@ -98,6 +113,7 @@ class PaperResult(BaseModel):
     )
     classification: Literal["rule-kind", "mode-fallback"] = "rule-kind"
     warnings: list[str] = Field(default_factory=list)
+    retrieval: RetrievalMetrics | None = None
 
     @property
     def awarded(self) -> float:
@@ -115,7 +131,10 @@ class TakerIdentity(BaseModel):
     effort: str | None = Field(
         default=None, description="None is 'provider default' — a configuration, not a level"
     )
-    agentic: bool = Field(default=False, description="codex:/claude: — token counts approximate")
+    agentic: bool = Field(
+        default=False,
+        description="codex:/claude:/agy: — token counts approximate",
+    )
     text_only: bool = False
     repeat: int = 1
 
@@ -149,6 +168,8 @@ class PaperMeta(BaseModel):
     judge_points: float = 0.0
     questions: int = 0
     judge_questions: int = 0
+    resource_files: int = 0
+    resource_bytes: int = 0
 
 
 class IndexEntry(BaseModel):
@@ -180,6 +201,16 @@ class IndexEntry(BaseModel):
     solve_secs: float = 0.0
     grade_secs: float = 0.0
     any_mode_fallback: bool = False
+    resource_files: int = 0
+    resource_bytes: int = 0
+    resource_exposed_files: float = 0.0
+    resource_exposed_bytes: float = 0.0
+    citations_submitted: float = 0.0
+    citation_valid_paths: float = 0.0
+    citations_verified: float = 0.0
+    citation_quote_mismatches: float = 0.0
+    citation_missing_resources: float = 0.0
+    citation_unverifiable_binary: float = 0.0
     note: str | None = None
 
 

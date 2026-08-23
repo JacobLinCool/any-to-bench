@@ -7,6 +7,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from any_to_bench.schemas.resources import CitationSummary, ResourceAccess
 from any_to_bench.schemas.usage import UsageSummary
 
 
@@ -56,6 +57,8 @@ class BenchRow(BaseModel):
     report_path: str | None = Field(default=None, description="Relative to the bench out dir")
     solve_secs: float | None = None
     grade_secs: float | None = None
+    resource_access: ResourceAccess | None = None
+    citations: CitationSummary | None = None
 
 
 class BenchModelSummary(BaseModel):
@@ -84,6 +87,11 @@ class BenchModelSummary(BaseModel):
     output_tokens_mean: float = 0.0
     input_tokens_total: int = 0
     output_tokens_total: int = 0
+    resource_file_coverage_mean: float | None = None
+    resource_byte_coverage_mean: float | None = None
+    citations_submitted_mean: float | None = None
+    citation_path_valid_percentage_mean: float | None = None
+    text_quote_verified_percentage_mean: float | None = None
 
 
 class BenchReport(BaseModel):

@@ -24,6 +24,7 @@ from any_to_bench.schemas.grading import (
     PerOptionRule,
     TrueFalseRule,
 )
+from any_to_bench.schemas.resources import ResourceFile
 from any_to_bench.schemas.usage import UsageSummary
 
 EXAM_FILE = "exam.json"
@@ -44,6 +45,7 @@ class BundleManifest(BaseModel):
     tool_version: str = Field(default_factory=_tool_version)
     ingest_model: str | None = None
     sources: list[SourceFile] = Field(default_factory=list)
+    resources: list[ResourceFile] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)
     usage: UsageSummary | None = None
 
@@ -88,6 +90,10 @@ class ExamBundle:
 
     def read_asset(self, asset: str) -> bytes:
         return self.asset_path(asset).read_bytes()
+
+    @property
+    def has_resources(self) -> bool:
+        return bool(self.manifest.resources)
 
     def validate_answer_sheet(
         self, sheet: AnswerSheet, allow_missing: Iterable[str] = ()
@@ -210,7 +216,11 @@ def validate_bundle(root: Path | str) -> list[str]:
                         check_blocks(f"question {cur.id} match item {item.id}", item.content)
                 stack.extend(cur.children)
 
-    expected_schema = generate_answer_schema(exam)
+    from any_to_bench.resources import validate_resource_tree
+
+    problems.extend(validate_resource_tree(root, bundle.manifest.resources))
+
+    expected_schema = generate_answer_schema(exam, allow_citations=bundle.has_resources)
     if bundle.answer_schema != expected_schema:
         problems.append("answer_schema.json is stale (does not match the exam); re-run ingest")
     try:

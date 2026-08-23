@@ -11,7 +11,9 @@ import pytest
 import any_to_bench.results as results_module
 from any_to_bench.grade.aggregate import run_grade
 from any_to_bench.modality import TEXT_ONLY
+from any_to_bench.resources import snapshot_resources
 from any_to_bench.results import ResultsError, publish_results
+from any_to_bench.schemas.answers import generate_answer_schema
 from any_to_bench.schemas.results import (
     ResultsIndex,
     classify_points,
@@ -186,6 +188,66 @@ def test_publish_happy_path(tiny_bundle, tmp_path, monkeypatch):
     index = seams.uploaded("results-index.json")
     assert [e["entry_id"] for e in index["entries"]] == ["test-solver-default"]
     assert index["entries"][0]["det_percentage"] == 100.0
+
+
+def test_publish_preserves_resource_exposure_and_citation_summary(
+    tiny_bundle, tmp_path, monkeypatch
+):
+    corpus = tmp_path / "corpus"
+    corpus.mkdir()
+    (corpus / "evidence.txt").write_text("the exact evidence", encoding="utf-8")
+    (corpus / "paper.pdf").write_bytes(b"%PDF-1.4\nASCII\n")
+    tiny_bundle.manifest.resources = snapshot_resources(corpus, tiny_bundle.root)
+    tiny_bundle.answer_schema = generate_answer_schema(tiny_bundle.exam, allow_citations=True)
+    tiny_bundle.save()
+    bench_dir = make_bench_dir(tiny_bundle, tmp_path / "bench", monkeypatch)
+
+    bench_path = bench_dir / "bench.json"
+    bench = json.loads(bench_path.read_text(encoding="utf-8"))
+    bench["rows"][0]["citations"] = {
+        "submitted": 3,
+        "valid_paths": 2,
+        "verified": 1,
+        "quote_mismatches": 0,
+        "missing_resources": 1,
+        "unverifiable_binary": 1,
+    }
+    bench_path.write_text(json.dumps(bench), encoding="utf-8")
+    report_path = bench_dir / bench["rows"][0]["report_path"]
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    report["results"]["q1"]["citation_checks"] = [
+        {
+            "question_id": "q1",
+            "citation_index": 0,
+            "path": "resources/evidence.txt",
+            "status": "verified",
+        }
+    ]
+    report_path.write_text(json.dumps(report), encoding="utf-8")
+    seams = Seams(monkeypatch, files=[f"{tiny_bundle.root.name}/bundle/exam.json"])
+
+    publish_results(
+        [bench_dir],
+        "user/results",
+        source_repo="user/exams",
+        bundles_root=tiny_bundle.root.parent,
+    )
+
+    entry = seams.uploaded("results-test-solver-default/entry.json")
+    retrieval = entry["papers"][0]["retrieval"]
+    assert retrieval["total_files"] == 2
+    assert retrieval["exposed_files"] == 1.0
+    assert retrieval["citations_submitted"] == 3.0
+    assert retrieval["citations_verified"] == 1.0
+    index = seams.uploaded("results-index.json")["entries"][0]
+    assert index["resource_files"] == 2
+    assert index["resource_exposed_files"] == 1.0
+    assert index["citation_unverifiable_binary"] == 1.0
+    dataset = seams.calls[0][1]["dataset"]
+    q1 = next(row for row in dataset if row["question_id"] == "q1")
+    assert q1["resource_access_mode"] == "utf8_text_only"
+    assert q1["citations_submitted"] == 1
+    assert q1["citations_verified"] == 1
 
 
 @pytest.mark.parametrize(

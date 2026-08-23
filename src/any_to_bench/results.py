@@ -48,6 +48,7 @@ from any_to_bench.schemas.results import (
     PointBucket,
     ResultsEntry,
     ResultsIndex,
+    RetrievalMetrics,
     RuleClass,
     TakerIdentity,
     classify_points,
@@ -251,6 +252,25 @@ def build_paper_result(runs: Sequence[LoadedRun]) -> PaperResult:
         det_samples.append(buckets["deterministic"].awarded)
 
     exam = first.bundle.exam if first.bundle else None
+    access = [r.row.resource_access for r in ok if r.row.resource_access is not None]
+    citations = [r.row.citations for r in ok if r.row.citations is not None]
+    retrieval = None
+    if access or citations:
+        exemplar = access[0] if access else None
+        retrieval = RetrievalMetrics(
+            total_files=exemplar.total_files if exemplar else 0,
+            total_bytes=exemplar.total_bytes if exemplar else 0,
+            exposed_files=_mean([float(item.exposed_files) for item in access]),
+            exposed_bytes=_mean([float(item.exposed_bytes) for item in access]),
+            citations_submitted=_mean([float(item.submitted) for item in citations]),
+            citation_valid_paths=_mean([float(item.valid_paths) for item in citations]),
+            citations_verified=_mean([float(item.verified) for item in citations]),
+            citation_quote_mismatches=_mean([float(item.quote_mismatches) for item in citations]),
+            citation_missing_resources=_mean([float(item.missing_resources) for item in citations]),
+            citation_unverifiable_binary=_mean(
+                [float(item.unverifiable_binary) for item in citations]
+            ),
+        )
     return PaperResult(
         subset=first.subset,
         exam_id=first.bench.exam_id,
@@ -278,6 +298,7 @@ def build_paper_result(runs: Sequence[LoadedRun]) -> PaperResult:
         grade_usage=_mean_usage([r.row.grade_usage for r in ok]),
         classification="mode-fallback" if first.classification == "mode-fallback" else "rule-kind",
         warnings=warnings,
+        retrieval=retrieval,
     )
 
 
@@ -356,6 +377,7 @@ def build_index_entry(entry: ResultsEntry) -> IndexEntry:
                 judges.append(model)
     solve = [p.solve_usage for p in papers]
     grade = [p.grade_usage for p in papers if p.grade_usage is not None]
+    retrieval = [p.retrieval for p in papers if p.retrieval is not None]
     return IndexEntry(
         entry_id=entry.entry_id,
         path=f"{entry_config_name(entry.entry_id)}/{ENTRY_FILE}",
@@ -383,6 +405,16 @@ def build_index_entry(entry: ResultsEntry) -> IndexEntry:
         solve_secs=round(sum(p.solve_secs or 0.0 for p in papers), 3),
         grade_secs=round(sum(p.grade_secs or 0.0 for p in papers), 3),
         any_mode_fallback=any(p.classification == "mode-fallback" for p in papers),
+        resource_files=sum(item.total_files for item in retrieval),
+        resource_bytes=sum(item.total_bytes for item in retrieval),
+        resource_exposed_files=sum(item.exposed_files for item in retrieval),
+        resource_exposed_bytes=sum(item.exposed_bytes for item in retrieval),
+        citations_submitted=sum(item.citations_submitted for item in retrieval),
+        citation_valid_paths=sum(item.citation_valid_paths for item in retrieval),
+        citations_verified=sum(item.citations_verified for item in retrieval),
+        citation_quote_mismatches=sum(item.citation_quote_mismatches for item in retrieval),
+        citation_missing_resources=sum(item.citation_missing_resources for item in retrieval),
+        citation_unverifiable_binary=sum(item.citation_unverifiable_binary for item in retrieval),
         note=entry.note,
     )
 
@@ -414,6 +446,12 @@ def build_paper_meta(entry: ResultsEntry, runs: Sequence[LoadedRun]) -> list[Pap
                 judge_points=paper.judge.max_points,
                 questions=questions,
                 judge_questions=judge_questions,
+                resource_files=len(bundle.manifest.resources) if bundle else 0,
+                resource_bytes=(
+                    sum(resource.size_bytes for resource in bundle.manifest.resources)
+                    if bundle
+                    else 0
+                ),
             )
         )
     return metas
@@ -468,6 +506,8 @@ def build_question_rows(entry: ResultsEntry, runs: Sequence[LoadedRun]) -> list[
             leaf = leaves.get(qid)
             detail = result.detail or {}
             agreement = detail.get("agreement") or {}
+            citation_statuses = [check.status for check in result.citation_checks]
+            access = run.grade.resource_access
             rows.append(
                 {
                     "entry_id": entry.entry_id,
@@ -487,6 +527,16 @@ def build_question_rows(entry: ResultsEntry, runs: Sequence[LoadedRun]) -> list[
                     "ratio": (result.awarded / result.max_points if result.max_points else None),
                     "judge_verdicts": len(result.judge_verdicts),
                     "judge_spread": agreement.get("spread"),
+                    "resource_access_mode": access.mode if access else "",
+                    "resource_total_files": access.total_files if access else 0,
+                    "resource_exposed_files": access.exposed_files if access else 0,
+                    "resource_total_bytes": access.total_bytes if access else 0,
+                    "resource_exposed_bytes": access.exposed_bytes if access else 0,
+                    "citations_submitted": len(citation_statuses),
+                    "citations_verified": citation_statuses.count("verified"),
+                    "citation_quote_mismatches": citation_statuses.count("quote_mismatch"),
+                    "citation_missing_resources": citation_statuses.count("missing_resource"),
+                    "citation_unverifiable_binary": citation_statuses.count("unverifiable_binary"),
                     "detail_json": json.dumps(detail, ensure_ascii=False, default=str),
                 }
             )
@@ -523,6 +573,9 @@ live side by side.
   and grade report behind those scores
 - the viewer table — one row per graded question
 
+Resource-backed runs also publish their actual file/byte exposure and deterministic
+citation checks. Citations are evidence metadata only and never change the score.
+
 Explore it as a leaderboard: [{SITE_URL}]({SITE_URL}?repo={repo_id})
 
 ```python
@@ -538,8 +591,8 @@ ds = load_dataset("{repo_id}", "results-<entry>", split="test")
 - **A score is one sample per paper** unless the entry's `repeat` is above 1. The
   run-to-run spread of a single sample is unknown.
 - **Input-token counts are not comparable across backends.** `codex:` reports
-  cached tokens inside `input_tokens`; `claude:` reports them only under
-  `cache_read_tokens`, leaving `input_tokens` near zero. Output tokens and wall
+  cached tokens inside `input_tokens`; `claude:` and `agy:` report cache reads
+  separately under `cache_read_tokens`. Output tokens and wall
   time are the measures that mean the same thing for every taker; the raw
   per-phase counts are published unaltered so you can judge for yourself.
 - **Token counts for agentic takers are approximate**, and wall time depends on
@@ -555,13 +608,15 @@ def format_board(index: ResultsIndex) -> str:
     Unlike hf.py's per-bundle sections, this block cannot be maintained one row
     at a time: a new entry changes everyone else's rank.
     """
+    resource_backed = any(entry.resource_files for entry in index.entries)
     lines = [
         _BOARD_START,
         "## Leaderboard",
         "",
         "| # | Model | Effort | Papers | Score | % | Rule-graded % "
-        "| Solve output tokens | Solve s |",
-        "|---|---|---|---|---|---|---|---|---|",
+        + ("| Resources | Citations " if resource_backed else "")
+        + "| Solve output tokens | Solve s |",
+        "|---|---|---|---|---|---|---|" + ("---|---|" if resource_backed else "") + "---|---|",
     ]
     for rank, entry in enumerate(index.entries, start=1):
         dagger = "†" if entry.any_mode_fallback else ""
@@ -570,7 +625,13 @@ def format_board(index: ResultsIndex) -> str:
         lines.append(
             f"| {rank} | `{entry.model}` | {entry.effort or 'default'} | {entry.ok_papers} "
             f"| {entry.awarded:g}/{entry.covered_max:g} | {pct}{dagger} | {det} "
-            f"| {entry.solve_output_tokens:,} "
+            + (
+                f"| {entry.resource_exposed_files:g}/{entry.resource_files} "
+                f"| {_format_index_citations(entry)} "
+                if resource_backed
+                else ""
+            )
+            + f"| {entry.solve_output_tokens:,} "
             f"| {entry.solve_secs:,.0f} |"
         )
     if len({tuple(sorted(e.papers)) for e in index.entries}) > 1:
@@ -591,6 +652,12 @@ def format_board(index: ResultsIndex) -> str:
         ]
     lines.append(_BOARD_END)
     return "\n".join(lines)
+
+
+def _format_index_citations(entry: IndexEntry) -> str:
+    if not entry.citations_submitted:
+        return "–"
+    return f"{entry.citations_verified:g}v/{entry.citations_submitted:g}"
 
 
 def _entry_block(entry: ResultsEntry, repo_id: str) -> str:
@@ -787,6 +854,16 @@ def _build_dataset(rows: list[dict[str, Any]]) -> Any:
             "ratio": datasets.Value("float64"),
             "judge_verdicts": datasets.Value("int32"),
             "judge_spread": datasets.Value("float64"),
+            "resource_access_mode": datasets.Value("string"),
+            "resource_total_files": datasets.Value("int32"),
+            "resource_exposed_files": datasets.Value("int32"),
+            "resource_total_bytes": datasets.Value("int64"),
+            "resource_exposed_bytes": datasets.Value("int64"),
+            "citations_submitted": datasets.Value("int32"),
+            "citations_verified": datasets.Value("int32"),
+            "citation_quote_mismatches": datasets.Value("int32"),
+            "citation_missing_resources": datasets.Value("int32"),
+            "citation_unverifiable_binary": datasets.Value("int32"),
             "detail_json": datasets.Value("string"),
         }
     )

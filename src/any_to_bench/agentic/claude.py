@@ -98,23 +98,15 @@ def _failure_detail(stdout: str) -> str:
 
 
 def _parse_result(stdout: str) -> dict[str, Any]:
-    """The single result object, whether stdout is one document or a JSON stream."""
+    """Parse the single object requested by ``--output-format json``."""
     try:
         parsed = json.loads(stdout)
-    except json.JSONDecodeError:
-        parsed = None
+    except json.JSONDecodeError as e:
+        raise AgenticError(
+            f"claude produced no parseable result object; stdout: {stdout[:500]!r}"
+        ) from e
     if isinstance(parsed, dict):
         return parsed
-    for line in reversed(stdout.splitlines()):
-        line = line.strip()
-        if not line.startswith("{"):
-            continue
-        try:
-            candidate = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        if isinstance(candidate, dict) and candidate.get("type") == "result":
-            return candidate
     raise AgenticError(f"claude produced no parseable result object; stdout: {stdout[:500]!r}")
 
 

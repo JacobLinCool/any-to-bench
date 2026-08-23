@@ -8,6 +8,7 @@ from any_to_bench.bundle import ExamBundle
 from any_to_bench.grade.deterministic import AnswerTypeMismatch, grade_deterministic
 from any_to_bench.llm import UsageTracker
 from any_to_bench.modality import Modality, ModalityRequirement, describe_missing, exam_modalities
+from any_to_bench.resources import resource_access
 from any_to_bench.schemas.answers import AnswerSheet
 from any_to_bench.schemas.grading import JudgeRule
 from any_to_bench.schemas.report import GradeReport, QuestionResult, SectionTotal
@@ -34,6 +35,13 @@ def run_grade(
 
     leaves = exam.leaf_map()
     results: dict[str, QuestionResult] = {}
+
+    citation_checks = {}
+    citation_summary = None
+    if bundle.has_resources:
+        from any_to_bench.grade.citations import check_citations
+
+        citation_checks, citation_summary = check_citations(bundle, sheet)
 
     judge_rules = {
         qid: qg
@@ -150,6 +158,9 @@ def run_grade(
         if qid not in grading.questions:
             warnings.append(f"answer for unknown question {qid} ignored")
 
+    for qid, result in results.items():
+        result.citation_checks = citation_checks.get(qid, [])
+
     section_totals: dict[str, SectionTotal] = {}
     for section in exam.sections:
         leaf_ids = [leaf.id for question in section.questions for leaf in question.iter_leaves()]
@@ -170,6 +181,9 @@ def run_grade(
             f"{len(skipped)} question(s) worth {skipped_points:g} point(s) were skipped as "
             "beyond the taker's declared modalities; the score covers the rest"
         )
+    reported_access = sheet.resource_access
+    if reported_access is None and bundle.has_resources:
+        reported_access = resource_access(bundle.manifest.resources, "unknown")
     return GradeReport(
         exam_id=exam.exam_id,
         taker=sheet.taker,
@@ -186,4 +200,6 @@ def run_grade(
         warnings=warnings,
         judge_agreement=summarize_judge_agreement(results, effective_judges),
         usage=tracker.summary(),
+        resource_access=reported_access,
+        citations=citation_summary,
     )

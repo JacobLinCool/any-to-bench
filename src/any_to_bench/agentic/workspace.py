@@ -15,6 +15,7 @@ from pathlib import Path
 
 from any_to_bench.schemas.content import ImageBlock
 from any_to_bench.schemas.exam import Exam, Question
+from any_to_bench.schemas.resources import ResourceFile
 
 
 def new_workspace(kind: str) -> Path:
@@ -85,3 +86,12 @@ def copy_assets(bundle_root: Path, assets: Iterable[str], dest_root: Path) -> No
         dest = dest_root / asset
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dest)
+
+
+def copy_resources(bundle_root: Path, resources: Iterable[ResourceFile], workspace: Path) -> None:
+    """Copy only manifest-declared public resources into a solver workspace."""
+    for resource in resources:
+        source = bundle_root / resource.path
+        destination = workspace / resource.path
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination)

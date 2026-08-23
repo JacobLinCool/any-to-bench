@@ -7,6 +7,11 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
+from any_to_bench.schemas.resources import (
+    CitationCheck,
+    CitationSummary,
+    ResourceAccess,
+)
 from any_to_bench.schemas.usage import UsageSummary
 
 
@@ -37,6 +42,9 @@ class QuestionResult(BaseModel):
     judge_verdicts: list[JudgeVerdict] = Field(
         default_factory=list,
         description="Raw verdicts, positionally matching detail['judge_models']",
+    )
+    citation_checks: list[CitationCheck] = Field(
+        default_factory=list, description="Deterministic checks; never changes awarded points"
     )
 
 
@@ -93,3 +101,5 @@ class GradeReport(BaseModel):
     usage: UsageSummary | None = Field(
         default=None, description="Token usage spent by LLM judges, if any"
     )
+    resource_access: ResourceAccess | None = None
+    citations: CitationSummary | None = None

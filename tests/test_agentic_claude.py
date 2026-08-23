@@ -62,12 +62,13 @@ def _flag(argv, name):
     return argv[argv.index(name) + 1]
 
 
-def test_parse_agentic_recognizes_both_backends():
+def test_parse_agentic_recognizes_registered_backends():
     assert parse_agentic("claude:opus").backend is CLAUDE
     assert parse_agentic("claude:opus").cli_model == "opus"
     assert parse_agentic("codex:gpt-test").backend is CODEX
     assert parse_agentic_model("claude:opus") == "opus"
-    assert parse_agentic("claude:") is None
+    with pytest.raises(ValueError, match="non-empty"):
+        parse_agentic("claude:")
     # pydantic-ai's Anthropic provider prefix must stay a direct-LLM string.
     assert parse_agentic("anthropic:claude-fable-5") is None
 
@@ -170,13 +171,12 @@ def test_run_claude_missing_contract_omits_system_prompt(tmp_path, monkeypatch):
     assert "--append-system-prompt" not in calls[0]["argv"]
 
 
-def test_run_claude_stream_json_fallback(tmp_path, monkeypatch):
+def test_run_claude_rejects_unrequested_stream_json(tmp_path, monkeypatch):
     stream = '{"type":"system"}\n' + RESULT_OK + "\n"
     _patch_subprocess(monkeypatch, [], stdout=stream)
 
-    result = run_claude(_workspace(tmp_path), "task", "opus")
-
-    assert result.final_message == "wrote the file"
+    with pytest.raises(AgenticError, match="no parseable result"):
+        run_claude(_workspace(tmp_path), "task", "opus")
 
 
 def test_run_claude_nonzero_exit_raises(tmp_path, monkeypatch):

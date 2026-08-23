@@ -158,7 +158,9 @@ exam: the viewer table shows one row per answerable question (figures embedded);
 the raw, byte-faithful bundle lives under `<subset>/bundle/` — `exam.json`
 (structured paper), `answer_schema.json` (strict JSON Schema an answer sheet must
 satisfy), `grading.json` (deterministic rules + judge rubrics), `manifest.json`
-(provenance), and `assets/` (figures).
+(provenance), `assets/` (figures), and, when present, `resources/` (the public
+solver corpus). The entire resource folder is public solver input; check it for
+secrets, answer material, and build artifacts before upload.
 
 ## Usage
 
@@ -219,6 +221,18 @@ def _bundle_block(name: str, bundle: ExamBundle, repo_id: str) -> str:
     lines.append(f"| Created | {manifest.created_at:%Y-%m-%d} |")
     if sources:
         lines.append(f"| Sources | {sources} |")
+    if manifest.resources:
+        resource_bytes = sum(resource.size_bytes for resource in manifest.resources)
+        text_resources = [resource for resource in manifest.resources if resource.text]
+        text_bytes = sum(resource.size_bytes for resource in text_resources)
+        byte_coverage = 100.0 * text_bytes / resource_bytes if resource_bytes else 0.0
+        lines.extend(
+            [
+                f"| Public resources | {len(manifest.resources)} files, {resource_bytes:,} bytes |",
+                f"| Direct-text coverage | {len(text_resources)}/{len(manifest.resources)} "
+                f"files, {byte_coverage:.1f}% of bytes |",
+            ]
+        )
     lines += [
         "",
         f"`a2b download {repo_id} --name {name} -o bundle`",
@@ -417,7 +431,7 @@ def download_bundle(repo_id: str, out_dir: Path, *, name: str | None = None) -> 
         _snapshot_download(
             repo_id=repo_id,
             repo_type="dataset",
-            allow_patterns=[f"{name}/bundle/*"],
+            allow_patterns=[f"{name}/bundle/**"],
             local_dir=str(tmp),
         )
         src = tmp / name / "bundle"

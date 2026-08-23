@@ -25,6 +25,7 @@ from any_to_bench.ingest.prompts import (
 )
 from any_to_bench.ingest.sources import SourcePage, prepare_sources
 from any_to_bench.llm import UsageTracker, build_agent
+from any_to_bench.resources import snapshot_resources
 from any_to_bench.schemas.answers import generate_answer_schema
 from any_to_bench.schemas.content import ContentBlock, TextBlock
 from any_to_bench.schemas.exam import (
@@ -563,14 +564,23 @@ def run_ingest(
     model: str,
     full_page_figures: bool = False,
     effort: Effort | str | None = None,
+    resources: Path | None = None,
 ) -> ExamBundle:
     if parse_agentic_model(model) is not None:
         from any_to_bench.agentic.ingest import agentic_ingest
 
-        return agentic_ingest(inputs, output_dir, model, full_page_figures, effort)
+        return agentic_ingest(
+            inputs,
+            output_dir,
+            model,
+            full_page_figures,
+            effort,
+            resources=resources,
+        )
     output_dir = Path(output_dir)
     warnings: list[str] = []
     tracker = UsageTracker()
+    resource_files = snapshot_resources(resources, output_dir) if resources is not None else []
 
     pages, sources = prepare_sources([Path(p) for p in inputs], output_dir)
 
@@ -675,13 +685,17 @@ def run_ingest(
 
     warnings.extend(resolver.warnings)
     manifest = BundleManifest(
-        ingest_model=model, sources=sources, warnings=warnings, usage=tracker.summary()
+        ingest_model=model,
+        sources=sources,
+        resources=resource_files,
+        warnings=warnings,
+        usage=tracker.summary(),
     )
     bundle = ExamBundle(
         root=output_dir,
         exam=exam,
         grading=grading,
-        answer_schema=generate_answer_schema(exam),
+        answer_schema=generate_answer_schema(exam, allow_citations=bool(resource_files)),
         manifest=manifest,
     )
     bundle.save()

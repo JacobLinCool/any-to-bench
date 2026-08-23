@@ -1,4 +1,4 @@
-"""Offline agentic judging: batch verdicts via FakeCodex, mixed with LLM judges."""
+"""Offline agentic judging: batch verdicts via a fake CLI runner."""
 
 import any_to_bench.agentic.runner as runner_module
 import any_to_bench.grade.judge as judge_module
@@ -7,12 +7,12 @@ from any_to_bench.agentic.judge import (
     build_judge_tasks,
     generate_verdicts_schema,
 )
-from any_to_bench.agentic.runner import CodexError
+from any_to_bench.agentic.runner import AgenticError
 from any_to_bench.grade.aggregate import run_grade
 from any_to_bench.llm import UsageTracker
 from any_to_bench.schemas.report import JudgeVerdict
 from any_to_bench.util import write_json
-from tests.conftest import FakeCodex, fake_build_agent, perfect_sheet
+from tests.conftest import FakeAgenticRun, fake_build_agent, perfect_sheet
 
 VALID_VERDICTS = {
     "verdicts": {
@@ -64,7 +64,7 @@ def test_build_judge_tasks(tiny_bundle):
 
 
 def test_agentic_judge_snaps_and_tracks_usage(tiny_bundle, monkeypatch):
-    fake = FakeCodex([write_verdicts(VALID_VERDICTS)])
+    fake = FakeAgenticRun([write_verdicts(VALID_VERDICTS)])
     monkeypatch.setattr(runner_module, "run_codex", fake)
     warnings: list[str] = []
     tracker = UsageTracker()
@@ -101,7 +101,7 @@ def test_agentic_judge_fix_loop_on_criterion_set(tiny_bundle, monkeypatch):
             },
         }
     }
-    fake = FakeCodex([write_verdicts(duplicated), write_verdicts(VALID_VERDICTS)])
+    fake = FakeAgenticRun([write_verdicts(duplicated), write_verdicts(VALID_VERDICTS)])
     monkeypatch.setattr(runner_module, "run_codex", fake)
 
     verdicts = agentic_judge(
@@ -120,7 +120,7 @@ def test_agentic_judge_fix_loop_on_criterion_set(tiny_bundle, monkeypatch):
 
 def test_agentic_judge_salvages_partial_verdicts(tiny_bundle, monkeypatch):
     partial = {"verdicts": {k: v for k, v in VALID_VERDICTS["verdicts"].items() if k != "q7"}}
-    fake = FakeCodex([write_verdicts(partial)])
+    fake = FakeAgenticRun([write_verdicts(partial)])
     monkeypatch.setattr(runner_module, "run_codex", fake)
     warnings: list[str] = []
 
@@ -145,7 +145,9 @@ def test_mixed_codex_and_llm_judges(tiny_bundle, monkeypatch):
             "q7": {"criteria": [], "total_points": 2.0, "overall_rationale": "full"},
         }
     }
-    monkeypatch.setattr(runner_module, "run_codex", FakeCodex([write_verdicts(codex_verdicts)]))
+    monkeypatch.setattr(
+        runner_module, "run_codex", FakeAgenticRun([write_verdicts(codex_verdicts)])
+    )
     llm_verdict = JudgeVerdict(criteria=[], total_points=1.0, overall_rationale="meh")
     monkeypatch.setattr(judge_module, "build_agent", fake_build_agent({JudgeVerdict: llm_verdict}))
 
@@ -163,7 +165,7 @@ def test_mixed_codex_and_llm_judges(tiny_bundle, monkeypatch):
 
 def test_failing_codex_judge_does_not_sink_run(tiny_bundle, monkeypatch):
     def broken(*args, **kwargs):
-        raise CodexError("codex down")
+        raise AgenticError("codex down")
 
     monkeypatch.setattr(runner_module, "run_codex", broken)
     llm_verdict = JudgeVerdict(criteria=[], total_points=1.0, overall_rationale="ok")
