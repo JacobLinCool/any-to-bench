@@ -11,6 +11,7 @@ import {
   byModel,
   costIsTokens,
   effortLabel,
+  fmtScore,
   type Average,
   type CostMetric,
   type EntryScore,
@@ -203,7 +204,7 @@ export function buildParetoOption(scores: EntryScore[], opts: ChartOptions) {
       formatter: (item: { data: { name?: string; value: number[] } }) => {
         const [x = 0, y = 0] = item.data.value ?? []
         const label = item.data.name ?? ''
-        return `${label}<br>${y.toFixed(1)}% · ${x.toLocaleString()} ${COST_LABEL[opts.cost]}`
+        return `${label}<br>${fmtScore(y)}% · ${x.toLocaleString()} ${COST_LABEL[opts.cost]}`
       },
     },
     series,
@@ -282,8 +283,28 @@ export function buildRadarOption(
     splitArea: { show: false },
   }
 
+  /* ECharts prints the raw value, and a paper marked out of nine arrives here as
+   * 44.44444444444444 — so the rows are written by hand to run through
+   * fmtScore. Naming them here also covers the solo panel, whose ring is too
+   * small to carry axis labels: the value still says which subject it is. */
+  const tooltip = {
+    ...base(p).tooltip,
+    trigger: 'item',
+    formatter: (item: { name: string; value: (number | null)[] }) => {
+      const rows = names.map((name, i) => {
+        const value = item.value?.[i]
+        const mark = value === null || value === undefined ? '–' : `${fmtScore(value)}%`
+        return (
+          '<div style="display:flex;gap:24px;justify-content:space-between">' +
+          `<span>${name}</span><span style="font-weight:600">${mark}</span></div>`
+        )
+      })
+      return `<div style="margin-bottom:4px">${item.name}</div>${rows.join('')}`
+    },
+  }
+
   if (opts.solo) {
-    return { ...base(p), radar, tooltip: { ...base(p).tooltip, trigger: 'item' }, series: [series] }
+    return { ...base(p), radar, tooltip, series: [series] }
   }
 
   return {
@@ -300,7 +321,7 @@ export function buildRadarOption(
       itemHeight: 8,
       data: scores.map((s) => `${modelName(opts, s.entry.model)} · ${effortLabel(s.entry.effort)}`),
     },
-    tooltip: { ...base(p).tooltip, trigger: 'item' },
+    tooltip,
     series: [series],
   }
 }

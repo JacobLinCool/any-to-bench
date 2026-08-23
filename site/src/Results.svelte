@@ -24,6 +24,7 @@
     entryLabel,
     axisNames,
     examGroups,
+    fmtScore,
     groupByExam,
     modelNames,
     paretoFrontier,
@@ -373,7 +374,12 @@
     void fetchSelected()
   })
 
-  const fmtPct = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`)
+  const fmtPct = (v: number | null) => (v === null ? '–' : `${fmtScore(v)}%`)
+  /* The leaderboard prints its scores as a right-aligned run of tabular
+     figures, and there a trimmed 95% knocks the decimal point out of line with
+     the 95.2% above it — so that one column keeps a fixed decimal. Everywhere a
+     score is read on its own, fmtScore still decides what it is worth showing. */
+  const fmtPctFixed = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`)
   const fmtNum = (v: number) => v.toLocaleString('en-US', { maximumFractionDigits: 0 })
   /* Cost spans four orders of magnitude across the four axes, so the precision
      is chosen per column rather than fixed — but from the column's largest
@@ -816,13 +822,13 @@
                         {effortLabel(row.entry.effort)}
                       </td>
                       <td class="py-3 pr-4 text-right font-mono text-sm tabular-nums">
-                        {row.awarded.toFixed(1)}/{row.coveredMax.toFixed(0)}
+                        {row.awarded.toFixed(1)}/{fmtScore(row.coveredMax)}
                       </td>
                       <td class="py-3 pr-4 text-right font-mono tabular-nums">
-                        {fmtPct(row.score)}{#if row.spread !== null}<span
+                        {fmtPctFixed(row.score)}{#if row.spread !== null}<span
                             class="text-[var(--omr-graphite-soft)]"
                           >
-                            ± {row.spread.toFixed(1)}</span
+                            ± {fmtScore(row.spread)}</span
                           >{/if}
                       </td>
                       <td class="py-3 pr-4 text-right font-mono text-sm tabular-nums">

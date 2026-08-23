@@ -504,3 +504,19 @@ export function axisNames(subsets: string[]): string[] {
     return exam && exam !== subset ? `${exam} ${name}` : name
   })
 }
+
+/** A mark, printed to the precision it has earned.
+ *
+ * Scores come out of a division — four questions of nine is
+ * 44.44444444444444 — and a raw float on the page is noise wearing the clothes
+ * of precision. What separates two numbers depends on how big they are: a tenth
+ * tells configurations apart up at 44, a hundredth is needed down at 4, and
+ * below a single point the third decimal is the last thing left to say. Digits
+ * that carry nothing are dropped, so a whole number stays whole: zero prints as
+ * `0`, and half a point as `0.5`.
+ */
+export function fmtScore(value: number): string {
+  const size = Math.abs(value)
+  const digits = size >= 10 ? 1 : size >= 1 ? 2 : 3
+  return String(Number(value.toFixed(digits)))
+}
